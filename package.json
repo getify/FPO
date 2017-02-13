@@ -1,0 +1,27 @@
+{
+	"name": "fpo",
+	"version": "0.0.1",
+	"description": "FP library with object-style parameters",
+	"main": "./lib/fpo.js",
+	"scripts": {
+		"test": "node tests/node-tests.js"
+	},
+	"devDependencies": {
+		"qunitjs": "~2.1.1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/getify/fpo.git"
+	},
+	"keywords": [
+		"fp",
+		"functional programming"
+	],
+	"bugs": {
+		"url": "https://github.com/getify/fpo/issues",
+		"email": "getify@gmail.com"
+	},
+	"homepage": "http://github.com/getify/fpo",
+	"author": "Kyle Simpson <getify@gmail.com>",
+	"license": "MIT"
+}
