@@ -1,4 +1,4 @@
-QUnit.test("core API",function t1(assert){
+QUnit.test("core API methods present",function t1(assert){
 	assert.expect( 35 );
 
 	assert.ok( typeof FPO.identity == "function", "identity()" );
@@ -38,7 +38,7 @@ QUnit.test("core API",function t1(assert){
 	assert.ok( typeof FPO.transducers.default == "function", "transducers.default()" );
 });
 
-QUnit.test("std API",function t2(assert){
+QUnit.test("std API methods present",function t2(assert){
 	assert.expect( 35 );
 
 	assert.ok( typeof FPO.std.identity == "function", "identity()" );
@@ -78,7 +78,7 @@ QUnit.test("std API",function t2(assert){
 	assert.ok( typeof FPO.std.transducers.default == "function", "transducers.default()" );
 });
 
-QUnit.test("API aliases",function t3(assert){
+QUnit.test("API aliases present",function t3(assert){
 	assert.expect( 11 );
 
 	assert.ok( FPO.always === FPO.constant && FPO.std.always === FPO.std.constant, "always -> constant" );
@@ -106,6 +106,8 @@ QUnit.test("identity()",function t4(assert){
 	v = FPO.identity()( {} )( {v: 3} );
 	assert.ok( v === 3, "core: v === 3" );
 
+	// **************************************
+
 	v = FPO.std.identity( 2 );
 	assert.ok( v === 2, "std: v === 2" );
 
@@ -116,8 +118,133 @@ QUnit.test("identity()",function t4(assert){
 	assert.ok( v === 3, "std: v === 3" );
 });
 
+QUnit.test("constant()",function t5(assert){
+	assert.expect( 6 );
+
+	var f = FPO.constant( {v: 2} );
+	assert.ok( f() === 2, "core: f() === 2" );
+
+	f = FPO.constant()( {} )( { v: undefined } );
+	assert.ok( f() === undefined, "core: f() === undefined" );
+
+	f = FPO.constant()( {} )( {v: 3} );
+	assert.ok( f() === 3, "core: f() === 3" );
+
+	// **************************************
+
+	f = FPO.std.constant( 2 );
+	assert.ok( f() === 2, "std: f() === 2" );
+
+	f = FPO.std.constant()( undefined );
+	assert.ok( f() === undefined, "std: f() === undefined" );
+
+	f = FPO.std.constant()( 3 );
+	assert.ok( f() === 3, "std: f() === 3" );
+});
+
+QUnit.test("pick()",function t6(assert){
+	assert.expect( 18 );
+
+	var obj = { x: 1, y: 2, z: 3, w: 4 };
+
+	var o = FPO.pick( {v: obj, props: ["x","z","x","f"]} );
+	assert.ok( o && typeof o == "object", "core: o is an object" );
+	assert.ok(
+		_hasProp( o, "x" ) && _hasProp( o, "z" ),
+		"core: o has 'x' and 'z' properties"
+	);
+	assert.ok(
+		!_hasProp( o, "y" ) && !_hasProp( o, "w" ) && !_hasProp( o, "f" ),
+		"core: o does not have 'y', 'w', or 'f' properties"
+	);
+	assert.ok( Object.keys( o ).length === 2, "core: o has just 2 properties" );
+	assert.ok( o.x === 1 && o.z === 3, "core: o.x === 1, o.z === 3" );
+
+	var p = FPO.pick()( {} )( {v: obj} )( {props: ["y"]} );
+	assert.ok( p && typeof p == "object", "core: p is an object" );
+	assert.ok( _hasProp( p, "y" ), "core: p has 'y' property" );
+	assert.ok( Object.keys( p ).length == 1, "core: p has only 1 property" );
+	assert.ok( p.y === 2, "core: p.y === 2" );
+
+
+	// **************************************
+
+	o = FPO.std.pick( ["x","z","x","f"], o );
+	assert.ok( o && typeof o == "object", "std: o is an object" );
+	assert.ok(
+		_hasProp( o, "x" ) && _hasProp( o, "z" ),
+		"std: o has 'x' and 'z' properties"
+	);
+	assert.ok(
+		!_hasProp( o, "y" ) && !_hasProp( o, "w" ) && !_hasProp( o, "f" ),
+		"std: o does not have 'y', 'w', or 'f' properties"
+	);
+	assert.ok( Object.keys( o ).length == 2, "std: o has only 2 properties" );
+	assert.ok( o.x === 1 && o.z === 3, "std: o.x === 1, o.z === 3" );
+
+	p = FPO.std.pick()( ["y"] )( obj );
+	assert.ok( p && typeof p == "object", "std: p is an object" );
+	assert.ok( _hasProp( p, "y" ), "std: p has 'y' property" );
+	assert.ok( Object.keys( p ).length == 1, "std: p has only 1 property" );
+	assert.ok( p.y === 2, "std: p.y === 2" );
+});
+
+QUnit.test("pickAll()",function t6(assert){
+	assert.expect( 18 );
+
+	var obj = { x: 1, y: 2, z: 3, w: 4 };
+
+	var o = FPO.pickAll( {v: obj, props: ["x","z","x","f"]} );
+	assert.ok( o && typeof o == "object", "core: o is an object" );
+	assert.ok(
+		_hasProp( o, "x" ) && _hasProp( o, "z" ) && _hasProp( o, "f" ),
+		"core: o has 'x', 'z', and 'f' properties"
+	);
+	assert.ok(
+		!_hasProp( o, "y" ) && !_hasProp( o, "w" ),
+		"core: o does not have 'y' and 'w' properties"
+	);
+	assert.ok( Object.keys( o ).length === 3, "core: o has just 3 properties" );
+	assert.ok( o.x === 1 && o.z === 3 && o.f === undefined, "core: o.x === 1, o.z === 3, o.f === undefined" );
+
+	var p = FPO.pickAll()( {} )( {v: obj} )( {props: ["y"]} );
+	assert.ok( p && typeof p == "object", "core: p is an object" );
+	assert.ok( _hasProp( p, "y" ), "core: p has 'y' property" );
+	assert.ok( Object.keys( p ).length == 1, "core: p has only 1 property" );
+	assert.ok( p.y === 2, "core: p.y === 2" );
+
+
+	// **************************************
+
+	o = FPO.std.pickAll( ["x","z","x","f"], o );
+	assert.ok( o && typeof o == "object", "std: o is an object" );
+	assert.ok(
+		_hasProp( o, "x" ) && _hasProp( o, "z" ) && _hasProp( o, "f" ),
+		"std: o has 'x', 'z', and 'f' properties"
+	);
+	assert.ok(
+		!_hasProp( o, "y" ) && !_hasProp( o, "w" ),
+		"std: o does not have 'y' and 'w' properties"
+	);
+	assert.ok( Object.keys( o ).length === 3, "std: o has just 3 properties" );
+	assert.ok( o.x === 1 && o.z === 3 && o.f === undefined, "std: o.x === 1, o.z === 3, o.f === undefined" );
+
+	p = FPO.std.pickAll()( ["y"] )( obj );
+	assert.ok( p && typeof p == "object", "std: p is an object" );
+	assert.ok( _hasProp( p, "y" ), "std: p has 'y' property" );
+	assert.ok( Object.keys( p ).length == 1, "std: p has only 1 property" );
+	assert.ok( p.y === 2, "std: p.y === 2" );
+});
 
 
 
 
 
+
+
+
+
+
+function _hasProp(obj,prop) {
+	return Object.hasOwnProperty.call( obj, prop );
+}
