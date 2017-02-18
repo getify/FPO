@@ -157,7 +157,7 @@ QUnit.test("pick()",function t6(assert){
 		!_hasProp( o, "y" ) && !_hasProp( o, "w" ) && !_hasProp( o, "f" ),
 		"core: o does not have 'y', 'w', or 'f' properties"
 	);
-	assert.ok( Object.keys( o ).length === 2, "core: o has just 2 properties" );
+	assert.ok( Object.keys( o ).length == 2, "core: o has only 2 properties" );
 	assert.ok( o.x === 1 && o.z === 3, "core: o.x === 1, o.z === 3" );
 
 	var p = FPO.pick()( {} )( {v: obj} )( {props: ["y"]} );
@@ -165,7 +165,6 @@ QUnit.test("pick()",function t6(assert){
 	assert.ok( _hasProp( p, "y" ), "core: p has 'y' property" );
 	assert.ok( Object.keys( p ).length == 1, "core: p has only 1 property" );
 	assert.ok( p.y === 2, "core: p.y === 2" );
-
 
 	// **************************************
 
@@ -204,7 +203,7 @@ QUnit.test("pickAll()",function t6(assert){
 		!_hasProp( o, "y" ) && !_hasProp( o, "w" ),
 		"core: o does not have 'y' and 'w' properties"
 	);
-	assert.ok( Object.keys( o ).length === 3, "core: o has just 3 properties" );
+	assert.ok( Object.keys( o ).length == 3, "core: o has only 3 properties" );
 	assert.ok( o.x === 1 && o.z === 3 && o.f === undefined, "core: o.x === 1, o.z === 3, o.f === undefined" );
 
 	var p = FPO.pickAll()( {} )( {v: obj} )( {props: ["y"]} );
@@ -212,7 +211,6 @@ QUnit.test("pickAll()",function t6(assert){
 	assert.ok( _hasProp( p, "y" ), "core: p has 'y' property" );
 	assert.ok( Object.keys( p ).length == 1, "core: p has only 1 property" );
 	assert.ok( p.y === 2, "core: p.y === 2" );
-
 
 	// **************************************
 
@@ -226,7 +224,7 @@ QUnit.test("pickAll()",function t6(assert){
 		!_hasProp( o, "y" ) && !_hasProp( o, "w" ),
 		"std: o does not have 'y' and 'w' properties"
 	);
-	assert.ok( Object.keys( o ).length === 3, "std: o has just 3 properties" );
+	assert.ok( Object.keys( o ).length == 3, "std: o has only 3 properties" );
 	assert.ok( o.x === 1 && o.z === 3 && o.f === undefined, "std: o.x === 1, o.z === 3, o.f === undefined" );
 
 	p = FPO.std.pickAll()( ["y"] )( obj );
@@ -236,9 +234,166 @@ QUnit.test("pickAll()",function t6(assert){
 	assert.ok( p.y === 2, "std: p.y === 2" );
 });
 
+QUnit.test("nAry()",function t7(assert){
+	assert.expect( 17 );
 
+	function foo(argsObj) { return argsObj; }
 
+	var f = FPO.nAry( {fn: foo, props: ["x","y","w"]} );
+	var r = f( {x: 1, y: 2, z: 3, w: 4} );
 
+	assert.ok( r && typeof r == "object", "core: r is an object" );
+	assert.ok(
+		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "w" ),
+		"core: r has 'x', 'y', and 'w' properties"
+	);
+	assert.ok( !_hasProp( r, "z" ),	"core: r does not have 'z' property" );
+	assert.ok( Object.keys( r ).length == 3, "core: r has only 3 properties" );
+	assert.ok( r.x === 1 && r.y === 2 && r.w === 4, "core: r.x === 1, r.y === 2, r.w === 4" );
+
+	f = FPO.nAry()( {} )( {fn: foo} )( {props: ["w","z"]} );
+	var p = f( {x: 1, y: 2, z: 3, w: 4} );
+	assert.ok( p && typeof p == "object", "core: p is an object" );
+	assert.ok(
+		_hasProp( p, "w" ) && _hasProp( p, "z" ),
+		"core: p has 'w' and 'z' properties"
+	);
+	assert.ok( Object.keys( p ).length == 2, "core: p has only 2 properties" );
+	assert.ok( p.z === 3 && p.w === 4, "core: p.z === 3 and p.w === 4" );
+
+	// **************************************
+
+	function bar(...args) { return args; }
+
+	f = FPO.std.nAry( bar, 3 );
+	r = f( 1, 2, 3, 4 );
+
+	assert.ok( r && Array.isArray( r ), "std: r is an array" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
+		"std: r has filled slots at indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "std: r has only 3 slots" );
+	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 3, "std: r is [1,2,3]" );
+
+	f = FPO.std.nAry()( bar )( 3 );
+	var p = f( 1, 2, 3, 4 );
+	assert.ok( p && Array.isArray( p ), "std: p is an array" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ) && _hasProp( p, "2" ),
+		"std: p has filled slots at indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( p ).length == 3 && p.length == 3, "std: p has only 3 slots" );
+	assert.ok( p[0] === 1 && p[1] === 2 && p[2] === 3, "std: p is [1,2,3]" );
+});
+
+QUnit.test("unary()",function t8(assert){
+	assert.expect( 18 );
+
+	function foo(argsObj) { return argsObj; }
+
+	var f = FPO.unary( {fn: foo, prop: "y"} );
+	var r = f( {x: 1, y: 2, z: 3, w: 4} );
+
+	assert.ok( r && typeof r == "object", "core: r is an object" );
+	assert.ok( _hasProp( r, "y" ), "core: r has 'y' property" );
+	assert.ok(
+		!_hasProp( r, "x" ) && !_hasProp( r, "z" ) && !_hasProp( r, "w" ),
+		"core: r does not have 'x', 'z' or 'w' properties"
+	);
+	assert.ok( Object.keys( r ).length == 1, "core: r has only 1 property" );
+	assert.ok( r.y === 2, "core: r.y === 2" );
+
+	f = FPO.unary()( {} )( {fn: foo} )( {prop: "w"} );
+	var p = f( {x: 1, y: 2, z: 3, w: 4} );
+	assert.ok( p && typeof p == "object", "core: p is an object" );
+	assert.ok( _hasProp( p, "w" ), "core: p has 'w' property" );
+	assert.ok(
+		!_hasProp( r, "x" ) && !_hasProp( r, "z" ) && !_hasProp( r, "w" ),
+		"core: p does not have 'x', 'z' or 'w' properties"
+	);
+	assert.ok( Object.keys( p ).length == 1, "core: p has only 1 property" );
+	assert.ok( p.w === 4, "core: p.w === 4" );
+
+	// **************************************
+
+	function bar(...args) { return args; }
+
+	f = FPO.std.unary( bar );
+	r = f( 1, 2, 3 );
+
+	assert.ok( r && Array.isArray( r ), "std: r is an array" );
+	assert.ok( _hasProp( r, "0" ), "std: r has a filled slot at index 0" );
+	assert.ok( Object.keys( r ).length == 1 && r.length == 1, "std: r has only 1 slots" );
+	assert.ok( r[0] === 1, "std: r is [1]" );
+
+	f = FPO.std.unary()( bar );
+	var p = f( 1, 2, 3 );
+	assert.ok( p && Array.isArray( p ), "std: p is an array" );
+	assert.ok( _hasProp( p, "0" ), "std: p has a filled slot at index 0" );
+	assert.ok( Object.keys( p ).length == 1 && p.length == 1, "std: p has only 1 slot" );
+	assert.ok( p[0] === 1, "std: p is [1]" );
+});
+
+QUnit.test("binary()",function t8(assert){
+	assert.expect( 18 );
+
+	function foo(argsObj) { return argsObj; }
+
+	var f = FPO.binary( {fn: foo, props: ["y","w"]} );
+	var r = f( {x: 1, y: 2, z: 3, w: 4} );
+
+	assert.ok( r && typeof r == "object", "core: r is an object" );
+	assert.ok(
+		_hasProp( r, "y" ) & _hasProp( r, "w" ),
+		"core: r has 'y' and 'w' properties"
+	);
+	assert.ok(
+		!_hasProp( r, "x" ) && !_hasProp( r, "z" ),
+		"core: r does not have 'x' or 'z' properties"
+	);
+	assert.ok( Object.keys( r ).length == 2, "core: r has only 2 properties" );
+	assert.ok( r.y === 2 && r.w === 4, "core: r.y === 2, r.w === 4" );
+
+	f = FPO.binary()( {} )( {fn: foo} )( {props: ["y","w"]} );
+	var p = f( {x: 1, y: 2, z: 3, w: 4} );
+	assert.ok( p && typeof p == "object", "core: p is an object" );
+	assert.ok(
+		_hasProp( p, "y" ) & _hasProp( p, "w" ),
+		"core: p has 'y' and 'w' properties"
+	);
+	assert.ok(
+		!_hasProp( r, "x" ) && !_hasProp( p, "z" ),
+		"core: p does not have 'x' or 'z' properties"
+	);
+	assert.ok( Object.keys( p ).length == 2, "core: p has only 2 properties" );
+	assert.ok( p.y === 2 && p.w === 4, "core: p.y === 2, p.w === 4" );
+
+	// **************************************
+
+	function bar(...args) { return args; }
+
+	f = FPO.std.binary( bar );
+	r = f( 1, 2, 3 );
+
+	assert.ok( r && Array.isArray( r ), "std: r is an array" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ),
+		"std: r has a filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( r ).length == 2 && r.length == 2, "std: r has only 2 slots" );
+	assert.ok( r[0] === 1 && r[1] === 2, "std: r is [1,2]" );
+
+	f = FPO.std.binary()( bar );
+	var p = f( 1, 2, 3 );
+	assert.ok( p && Array.isArray( p ), "std: p is an array" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ),
+		"std: p has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "std: p has only 2 slots" );
+	assert.ok( p[0] === 1 && p[1] === 2, "std: p is [1,2]" );
+});
 
 
 
