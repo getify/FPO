@@ -1247,6 +1247,232 @@ QUnit.test("filterOut()",function t23(assert){
 	assert.ok( Object.keys( u ).length == 0 && u.length == 0, "std: u has no slots" );
 });
 
+QUnit.test("map()",function t24(assert){
+	assert.expect( 38 );
+
+	function objCheckParams({ v, i, arr }) {
+		if (
+			arr === list &&
+			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			v === (i + 1) && arr[i] === v
+		) {
+			return true;
+		}
+		return false;
+	}
+	function objMul10({ v }) { return v * 10; }
+	var list = [1,2];
+
+	var r = FPO.map( {fn: objMul10, arr: list} );
+	assert.ok( r && Array.isArray( r ), "core: r is an array" );
+	assert.ok( r !== list, "core: r is not list" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ),
+		"core: r has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( r ).length == 2 && r.length == 2, "core: r has only 2 slots" );
+	assert.ok( r[0] === 10 && r[1] === 20, "core: r is [10,20]" );
+
+	var p = FPO.map()( {} )( {fn: objMul10} )()( {arr: list} );
+	assert.ok( p && Array.isArray( p ), "core: p is an array" );
+	assert.ok( p !== list, "core: p is not list" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ),
+		"core: p has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "core: p has only 2 slots" );
+	assert.ok( p[0] === 10 && p[1] === 20, "core: p is [10,20]" );
+
+	var q = FPO.map( {fn: objMul10, arr: undefined} );
+	assert.ok( q && Array.isArray( q ), "core: q is an array" );
+	assert.ok( Object.keys( q ).length == 0 && q.length == 0, "core: q has no slots" );
+
+	var t = FPO.map( {fn: objMul10, arr: []} );
+	assert.ok( t && Array.isArray( t ), "core: t is an array" );
+	assert.ok( Object.keys( t ).length == 0 && t.length == 0, "core: t has no slots" );
+
+	var s = FPO.map( {fn: objCheckParams, arr: list} );
+	assert.ok( s && Array.isArray( s ), "core: s is an array" );
+	assert.ok( s !== list, "core: s is not list" );
+	assert.ok(
+		_hasProp( s, "0" ) && _hasProp( s, "1" ),
+		"core: s has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( s ).length == 2 && s.length == 2, "core: s has only 2 slots" );
+	assert.ok( s[0] === true && s[1] === true, "core: s is [true,true]" );
+
+	// **************************************
+
+	function checkParams(v,i,arr) {
+		if (
+			arr === list &&
+			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			v === (i + 1) && arr[i] === v
+		) {
+			return true;
+		}
+		return false;
+	}
+	function mul10(v) { return v * 10; }
+
+	r = FPO.std.map( mul10, list );
+	assert.ok( r && Array.isArray( r ), "std: r is an array" );
+	assert.ok( r !== list, "std: r is not list" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ),
+		"std: r has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( r ).length == 2 && r.length == 2, "std: r has only 2 slots" );
+	assert.ok( r[0] === 10 && r[1] === 20, "std: r is [10,20]" );
+
+	p = FPO.std.map()( mul10 )()( list );
+	assert.ok( p && Array.isArray( p ), "std: p is an array" );
+	assert.ok( p !== list, "std: p is not list" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ),
+		"std: p has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "std: p has only 2 slots" );
+	assert.ok( p[0] === 10 && p[1] === 20, "std: p is [10,20]" );
+
+	q = FPO.std.map( mul10, undefined );
+	assert.ok( q && Array.isArray( q ), "std: q is an array" );
+	assert.ok( Object.keys( q ).length == 0 && q.length == 0, "std: q has no slots" );
+
+	t = FPO.std.map( mul10, [] );
+	assert.ok( t && Array.isArray( t ), "std: t is an array" );
+	assert.ok( Object.keys( t ).length == 0 && t.length == 0, "std: t has no slots" );
+
+	s = FPO.std.map( checkParams, list );
+	assert.ok( s && Array.isArray( s ), "std: s is an array" );
+	assert.ok( s !== list, "std: s is not list" );
+	assert.ok(
+		_hasProp( s, "0" ) && _hasProp( s, "1" ),
+		"std: s has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( s ).length == 2 && s.length == 2, "std: s has only 2 slots" );
+	assert.ok( s[0] === true && s[1] === true, "std: s is [true,true]" );
+});
+
+QUnit.test("flatMap()",function t25(assert){
+	assert.expect( 38 );
+
+	function objCheckParams({ v, i, arr }) {
+		if (
+			arr === list &&
+			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			v === (i + 1) && arr[i] === v
+		) {
+			return true;
+		}
+		return false;
+	}
+	function objMul10({ v }) {
+		if (v <= 1) {
+			return [v * 10,v * 100];
+		}
+		return v * 10;
+	}
+
+	var list = [1,2];
+
+	var r = FPO.flatMap( {fn: objMul10, arr: list} );
+	assert.ok( r && Array.isArray( r ), "core: r is an array" );
+	assert.ok( r !== list, "core: r is not list" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
+		"core: r has filled slots at indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "core: r has only 3 slots" );
+	assert.ok( r[0] === 10 && r[1] === 100 && r[2] === 20, "core: r is [10,100,20]" );
+
+	var p = FPO.flatMap()( {} )( {fn: objMul10} )()( {arr: list} );
+	assert.ok( p && Array.isArray( p ), "core: p is an array" );
+	assert.ok( p !== list, "core: p is not list" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ) && _hasProp( p, "2" ),
+		"core: p has filled slots at indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "core: p has only 3 slots" );
+	assert.ok( p[0] === 10 && p[1] === 100 && p[2] === 20, "core: p is [10,100,20]" );
+
+	var q = FPO.flatMap( {fn: objMul10, arr: undefined} );
+	assert.ok( q && Array.isArray( q ), "core: q is an array" );
+	assert.ok( Object.keys( q ).length == 0 && q.length == 0, "core: q has no slots" );
+
+	var t = FPO.flatMap( {fn: objMul10, arr: []} );
+	assert.ok( t && Array.isArray( t ), "core: t is an array" );
+	assert.ok( Object.keys( t ).length == 0 && t.length == 0, "core: t has no slots" );
+
+	var s = FPO.flatMap( {fn: objCheckParams, arr: list} );
+	assert.ok( s && Array.isArray( s ), "core: s is an array" );
+	assert.ok( s !== list, "core: s is not list" );
+	assert.ok(
+		_hasProp( s, "0" ) && _hasProp( s, "1" ),
+		"core: s has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( s ).length == 2 && s.length == 2, "core: s has only 2 slots" );
+	assert.ok( s[0] === true && s[1] === true, "core: s is [true,true]" );
+
+	// **************************************
+
+	function checkParams(v,i,arr) {
+		if (
+			arr === list &&
+			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			v === (i + 1) && arr[i] === v
+		) {
+			return true;
+		}
+		return false;
+	}
+	function mul10(v) {
+		if (v <= 1) {
+			return [v * 10,v * 100];
+		}
+		return v * 10;
+	}
+
+	r = FPO.std.flatMap( mul10, list );
+	assert.ok( r && Array.isArray( r ), "std: r is an array" );
+	assert.ok( r !== list, "std: r is not list" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
+		"std: r has filled slots at indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "std: r has only 3 slots" );
+	assert.ok( r[0] === 10 && r[1] === 100 && r[2] === 20, "std: r is [10,100,20]" );
+
+	p = FPO.std.flatMap()( mul10 )()( list );
+	assert.ok( p && Array.isArray( p ), "std: p is an array" );
+	assert.ok( p !== list, "std: p is not list" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ) && _hasProp( p, "2" ),
+		"std: p has filled slots at indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "std: p has only 3 slots" );
+	assert.ok( p[0] === 10 && p[1] === 100 && p[2] === 20, "std: p is [10,100,20]" );
+
+	q = FPO.std.flatMap( mul10, undefined );
+	assert.ok( q && Array.isArray( q ), "std: q is an array" );
+	assert.ok( Object.keys( q ).length == 0 && q.length == 0, "std: q has no slots" );
+
+	t = FPO.std.flatMap( mul10, [] );
+	assert.ok( t && Array.isArray( t ), "std: t is an array" );
+	assert.ok( Object.keys( t ).length == 0 && t.length == 0, "std: t has no slots" );
+
+	s = FPO.std.flatMap( checkParams, list );
+	assert.ok( s && Array.isArray( s ), "std: s is an array" );
+	assert.ok( s !== list, "std: s is not list" );
+	assert.ok(
+		_hasProp( s, "0" ) && _hasProp( s, "1" ),
+		"std: s has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( s ).length == 2 && s.length == 2, "std: s has only 2 slots" );
+	assert.ok( s[0] === true && s[1] === true, "std: s is [true,true]" );
+});
+
+
 
 
 
