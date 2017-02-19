@@ -1035,6 +1035,219 @@ QUnit.test("setProp()",function t21(assert){
 	assert.ok( t[""] === 10, "core: t[''] === 10" );
 });
 
+QUnit.test("filterIn()",function t22(assert){
+	assert.expect( 38 );
+
+	function objCheckParams({ v, i, arr }) {
+		if (
+			arr === list &&
+			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			v === (i + 1) && arr[i] === v
+		) {
+			return false;
+		}
+		return true;
+	}
+	function objIsEven({ v }) { return v % 2 == 0; }
+	function alwaysFalse() { return false; }
+	var list = [1,2,3,4,5];
+
+	var r = FPO.filterIn( {fn: objIsEven, arr: list} );
+	assert.ok( r && Array.isArray( r ), "core: r is an array" );
+	assert.ok( r !== list, "core: r is not list" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ),
+		"core: r has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( r ).length == 2 && r.length == 2, "core: r has only 2 slots" );
+	assert.ok( r[0] === 2 && r[1] === 4, "core: r is [2,4]" );
+
+	var p = FPO.filterIn()( {} )( {fn: objIsEven} )()( {arr: list} );
+	assert.ok( p && Array.isArray( p ), "core: p is an array" );
+	assert.ok( p !== list, "core: p is not list" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ),
+		"core: p has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "core: p has only 2 slots" );
+	assert.ok( p[0] === 2 && p[1] === 4, "core: p is [2,4]" );
+
+	var q = FPO.filterIn( {fn: alwaysFalse, arr: list} );
+	assert.ok( q && Array.isArray( q ), "core: q is an array" );
+	assert.ok( q !== list, "core: q is not list" );
+	assert.ok( Object.keys( q ).length == 0 && q.length == 0, "core: q has no slots" );
+
+	var t = FPO.filterIn( {fn: objIsEven, arr: undefined} );
+	assert.ok( t && Array.isArray( t ), "core: t is an array" );
+	assert.ok( Object.keys( t ).length == 0 && t.length == 0, "core: t has no slots" );
+
+	var s = FPO.filterIn( {fn: objIsEven, arr: []} );
+	assert.ok( s && Array.isArray( s ), "core: s is an array" );
+	assert.ok( Object.keys( s ).length == 0 && s.length == 0, "core: s has no slots" );
+
+	var u = FPO.filterIn( {fn: objCheckParams, arr: list} );
+	assert.ok( u && Array.isArray( u ), "core: u is an array" );
+	assert.ok( Object.keys( u ).length == 0 && u.length == 0, "core: u has no slots" );
+
+	// **************************************
+
+	function checkParams(v,i,arr) {
+		if (
+			arr === list &&
+			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			v === (i + 1) && arr[i] === v
+		) {
+			return false;
+		}
+		return true;
+	}
+	function isEven(v) { return v % 2 == 0; }
+
+	r = FPO.std.filterIn( isEven, list );
+	assert.ok( r && Array.isArray( r ), "std: r is an array" );
+	assert.ok( r !== list, "std: r is not list" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ),
+		"std: r has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( r ).length == 2 && r.length == 2, "std: r has only 2 slots" );
+	assert.ok( r[0] === 2 && r[1] === 4, "std: r is [2,4]" );
+
+	p = FPO.std.filterIn()( isEven )()( list );
+	assert.ok( p && Array.isArray( p ), "std: p is an array" );
+	assert.ok( p !== list, "std: p is not list" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ),
+		"std: p has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "std: p has only 2 slots" );
+	assert.ok( p[0] === 2 && p[1] === 4, "std: p is [2,4]" );
+
+	q = FPO.std.filterIn( alwaysFalse, list );
+	assert.ok( q && Array.isArray( q ), "std: q is an array" );
+	assert.ok( q !== list, "std: q is not list" );
+	assert.ok( Object.keys( q ).length == 0 && q.length == 0, "std: q has no slots" );
+
+	t = FPO.std.filterIn( isEven, undefined );
+	assert.ok( t && Array.isArray( t ), "std: t is an array" );
+	assert.ok( Object.keys( t ).length == 0 && t.length == 0, "std: t has no slots" );
+
+	s = FPO.std.filterIn( isEven, [] );
+	assert.ok( s && Array.isArray( s ), "std: s is an array" );
+	assert.ok( Object.keys( s ).length == 0 && s.length == 0, "std: s has no slots" );
+
+	u = FPO.std.filterIn( checkParams, list );
+	assert.ok( u && Array.isArray( u ), "std: u is an array" );
+	assert.ok( Object.keys( u ).length == 0 && u.length == 0, "std: u has no slots" );
+});
+
+QUnit.test("filterOut()",function t23(assert){
+	assert.expect( 38 );
+
+	function objCheckParams({ v, i, arr }) {
+		if (
+			arr === list &&
+			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			v === (i + 1) && arr[i] === v
+		) {
+			return true;
+		}
+		return false;
+	}
+	function objIsOdd({ v }) { return v % 2 == 1; }
+	function alwaysTrue() { return true; }
+	var list = [1,2,3,4,5];
+
+	var r = FPO.filterOut( {fn: objIsOdd, arr: list} );
+	assert.ok( r && Array.isArray( r ), "core: r is an array" );
+	assert.ok( r !== list, "core: r is not list" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ),
+		"core: r has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( r ).length == 2 && r.length == 2, "core: r has only 2 slots" );
+	assert.ok( r[0] === 2 && r[1] === 4, "core: r is [2,4]" );
+
+	var p = FPO.filterOut()( {} )( {fn: objIsOdd} )()( {arr: list} );
+	assert.ok( p && Array.isArray( p ), "core: p is an array" );
+	assert.ok( p !== list, "core: p is not list" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ),
+		"core: p has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "core: p has only 2 slots" );
+	assert.ok( p[0] === 2 && p[1] === 4, "core: p is [2,4]" );
+
+	var q = FPO.filterOut( {fn: alwaysTrue, arr: list} );
+	assert.ok( q && Array.isArray( q ), "core: q is an array" );
+	assert.ok( q !== list, "core: q is not list" );
+	assert.ok( Object.keys( q ).length == 0 && q.length == 0, "core: q has no slots" );
+
+	var t = FPO.filterOut( {fn: objIsOdd, arr: undefined} );
+	assert.ok( t && Array.isArray( t ), "core: t is an array" );
+	assert.ok( Object.keys( t ).length == 0 && t.length == 0, "core: t has no slots" );
+
+	var s = FPO.filterOut( {fn: objIsOdd, arr: []} );
+	assert.ok( s && Array.isArray( s ), "core: s is an array" );
+	assert.ok( Object.keys( s ).length == 0 && s.length == 0, "core: s has no slots" );
+
+	var u = FPO.filterOut( {fn: objCheckParams, arr: list} );
+	assert.ok( u && Array.isArray( u ), "core: u is an array" );
+	assert.ok( Object.keys( u ).length == 0 && u.length == 0, "core: u has no slots" );
+
+	// **************************************
+
+	function checkParams(v,i,arr) {
+		if (
+			arr === list &&
+			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			v === (i + 1) && arr[i] === v
+		) {
+			return true;
+		}
+		return false;
+	}
+	function isOdd(v) { return v % 2 == 1; }
+
+	r = FPO.std.filterOut( isOdd, list );
+	assert.ok( r && Array.isArray( r ), "std: r is an array" );
+	assert.ok( r !== list, "std: r is not list" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ),
+		"std: r has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( r ).length == 2 && r.length == 2, "std: r has only 2 slots" );
+	assert.ok( r[0] === 2 && r[1] === 4, "std: r is [2,4]" );
+
+	p = FPO.std.filterOut()( isOdd )()( list );
+	assert.ok( p && Array.isArray( p ), "std: p is an array" );
+	assert.ok( p !== list, "std: p is not list" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ),
+		"std: p has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "std: p has only 2 slots" );
+	assert.ok( p[0] === 2 && p[1] === 4, "std: p is [2,4]" );
+
+	q = FPO.std.filterOut( alwaysTrue, list );
+	assert.ok( q && Array.isArray( q ), "std: q is an array" );
+	assert.ok( q !== list, "std: q is not list" );
+	assert.ok( Object.keys( q ).length == 0 && q.length == 0, "std: q has no slots" );
+
+	t = FPO.std.filterOut( isOdd, undefined );
+	assert.ok( t && Array.isArray( t ), "std: t is an array" );
+	assert.ok( Object.keys( t ).length == 0 && t.length == 0, "std: t has no slots" );
+
+	s = FPO.std.filterOut( isOdd, [] );
+	assert.ok( s && Array.isArray( s ), "std: s is an array" );
+	assert.ok( Object.keys( s ).length == 0 && s.length == 0, "std: s has no slots" );
+
+	u = FPO.std.filterOut( checkParams, list );
+	assert.ok( u && Array.isArray( u ), "std: u is an array" );
+	assert.ok( Object.keys( u ).length == 0 && u.length == 0, "std: u has no slots" );
+});
+
+
 
 
 
