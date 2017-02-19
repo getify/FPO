@@ -190,7 +190,7 @@ QUnit.test("pick()",function t6(assert){
 	assert.ok( p.y === 2, "std: p.y === 2" );
 });
 
-QUnit.test("pickAll()",function t6(assert){
+QUnit.test("pickAll()",function t7(assert){
 	assert.expect( 18 );
 
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
@@ -236,7 +236,7 @@ QUnit.test("pickAll()",function t6(assert){
 	assert.ok( p.y === 2, "std: p.y === 2" );
 });
 
-QUnit.test("nAry()",function t7(assert){
+QUnit.test("nAry()",function t8(assert){
 	assert.expect( 17 );
 
 	function foo(argsObj) { return argsObj; }
@@ -287,7 +287,7 @@ QUnit.test("nAry()",function t7(assert){
 	assert.ok( p[0] === 1 && p[1] === 2 && p[2] === 3, "std: p is [1,2,3]" );
 });
 
-QUnit.test("unary()",function t8(assert){
+QUnit.test("unary()",function t9(assert){
 	assert.expect( 18 );
 
 	function foo(argsObj) { return argsObj; }
@@ -333,7 +333,7 @@ QUnit.test("unary()",function t8(assert){
 	assert.ok( p[0] === 1, "std: p is [1]" );
 });
 
-QUnit.test("binary()",function t9(assert){
+QUnit.test("binary()",function t10(assert){
 	assert.expect( 18 );
 
 	function foo(argsObj) { return argsObj; }
@@ -391,7 +391,7 @@ QUnit.test("binary()",function t9(assert){
 	assert.ok( p[0] === 1 && p[1] === 2, "std: p is [1,2]" );
 });
 
-QUnit.test("curry()",function t10(assert){
+QUnit.test("curry()",function t11(assert){
 	assert.expect( 18 );
 
 	function foo(argsObj) { return argsObj; }
@@ -438,7 +438,7 @@ QUnit.test("curry()",function t10(assert){
 });
 
 
-QUnit.test("curryMultiple()",function t11(assert){
+QUnit.test("curryMultiple()",function t12(assert){
 	assert.expect( 16 );
 
 	function foo(argsObj) { return argsObj; }
@@ -488,7 +488,7 @@ QUnit.test("curryMultiple()",function t11(assert){
 	assert.ok( p[0] === 1 && p[1] === 2, "std: p is [1,2]" );
 });
 
-QUnit.test("uncurry()",function t12(assert){
+QUnit.test("uncurry()",function t13(assert){
 	assert.expect( 16 );
 
 	function foo(argsObj) { return argsObj; }
@@ -538,6 +538,77 @@ QUnit.test("uncurry()",function t12(assert){
 	assert.ok( p[0] === 1 && p[1] === 2, "std: p is [1,2]" );
 });
 
+QUnit.test("partial()",function t14(assert){
+	assert.expect( 16 );
+
+	function foo(argsObj) { return argsObj; }
+
+	var f = FPO.partial( {fn: foo, args: {z:3}} );
+	var r = f( {x: 1, y: 2} );
+	assert.ok( r && typeof r == "object", "core: r is an object" );
+	assert.ok(
+		_hasProp( r, "x" ) && _hasProp( r, "y" ) & _hasProp( r, "z" ),
+		"core: r has 'x', 'y', and 'z' properties"
+	);
+	assert.ok( Object.keys( r ).length == 3, "core: r has only 3 properties" );
+	assert.ok( r.x === 1 && r.y === 2 && r.z === 3, "core: r.x === 1, r.y === 2, r.z === 3" );
+
+	f = FPO.partial()( {} )( {fn: foo} )( {args: {y:2}} );
+	var p = f( {x: 1} );
+	assert.ok( p && typeof p == "object", "core: p is an object" );
+	assert.ok(
+		_hasProp( p, "x" ) && _hasProp( p, "y" ),
+		"core: p has 'x' and 'y' properties"
+	);
+	assert.ok( Object.keys( p ).length == 2, "core: p has only 2 properties" );
+	assert.ok( p.x === 1 && p.y === 2, "core: p.x === 1, p.y === 2" );
+
+	// **************************************
+
+	function bar(...args) { return args; }
+
+	f = FPO.std.partial( bar, [1] );
+	r = f( 2, 3 );
+	assert.ok( r && Array.isArray( r ), "std: r is an array" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ) & _hasProp( r, "2" ),
+		"std: r has filled slots at indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "std: r has only 3 slots" );
+	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 3, "std: r is [1,2,3]" );
+
+	f = FPO.std.partial()( bar )( [1] );
+	p = f( 2 );
+	assert.ok( p && Array.isArray( p ), "std: p is an array" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ),
+		"std: p has a filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "std: p has only 2 slots" );
+	assert.ok( p[0] === 1 && p[1] === 2, "std: p is [1,2]" );
+});
+
+QUnit.test("complement()",function t15(assert){
+	assert.expect( 4 );
+
+	function xPlusYEven(argsObj) { return (argsObj.x + argsObj.y) % 2 == 0; }
+
+	var xPlusYOdd = FPO.complement( {fn: xPlusYEven} );
+	assert.ok( xPlusYOdd( {x: 1, y: 2} ) === true, "core: xPlusYOdd({x:1,y:2}) === true" );
+
+	xPlusYOdd = FPO.complement()( {} )( { fn: xPlusYEven } );
+	assert.ok( xPlusYOdd( {x: 2, y: 4} ) === false, "core: xPlusYOdd({x:2,y:4}) === false" );
+
+	// **************************************
+
+	function argPlusArgEven(...args) { return (args[0] + args[1]) % 2 == 0; }
+
+	var argPlusArgOdd = FPO.std.complement( argPlusArgEven );
+	assert.ok( argPlusArgOdd( 1, 2 ) === true, "std: argPlusArgOdd(1,2) === true" );
+
+	argPlusArgOdd = FPO.std.complement()( argPlusArgEven );
+	assert.ok( argPlusArgOdd( 2, 4 ) === false, "std: argPlusArgOdd(2,4) === false" );
+});
 
 
 
