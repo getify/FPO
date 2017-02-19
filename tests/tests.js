@@ -123,25 +123,25 @@ QUnit.test("identity()",function t4(assert){
 QUnit.test("constant()",function t5(assert){
 	assert.expect( 6 );
 
-	var f = FPO.constant( {v: 2} );
-	assert.ok( f() === 2, "core: f() === 2" );
+	var r = FPO.constant( {v: 2} )();
+	assert.ok( r === 2, "core: r === 2" );
 
-	f = FPO.constant()( {} )( { v: undefined } );
-	assert.ok( f() === undefined, "core: f() === undefined" );
+	r = FPO.constant()( {} )( { v: undefined } )();
+	assert.ok( r === undefined, "core: r === undefined" );
 
-	f = FPO.constant()( {} )( {v: 3} );
-	assert.ok( f() === 3, "core: f() === 3" );
+	r = FPO.constant()( {} )( {v: 3} )();
+	assert.ok( r === 3, "core: r === 3" );
 
 	// **************************************
 
-	f = FPO.std.constant( 2 );
-	assert.ok( f() === 2, "std: f() === 2" );
+	r = FPO.std.constant( 2 )();
+	assert.ok( r === 2, "std: r === 2" );
 
-	f = FPO.std.constant()( undefined );
-	assert.ok( f() === undefined, "std: f() === undefined" );
+	r = FPO.std.constant()( undefined )();
+	assert.ok( r === undefined, "std: r === undefined" );
 
-	f = FPO.std.constant()( 3 );
-	assert.ok( f() === 3, "std: f() === 3" );
+	r = FPO.std.constant()( 3 )();
+	assert.ok( r === 3, "std: r === 3" );
 });
 
 QUnit.test("pick()",function t6(assert){
@@ -149,18 +149,18 @@ QUnit.test("pick()",function t6(assert){
 
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
 
-	var o = FPO.pick( {v: obj, props: ["x","z","x","f"]} );
-	assert.ok( o && typeof o == "object", "core: o is an object" );
+	var r = FPO.pick( {v: obj, props: ["x","z","x","f"]} );
+	assert.ok( r && typeof r == "object", "core: r is an object" );
 	assert.ok(
-		_hasProp( o, "x" ) && _hasProp( o, "z" ),
-		"core: o has 'x' and 'z' properties"
+		_hasProp( r, "x" ) && _hasProp( r, "z" ),
+		"core: r has 'x' and 'z' properties"
 	);
 	assert.ok(
-		!_hasProp( o, "y" ) && !_hasProp( o, "w" ) && !_hasProp( o, "f" ),
-		"core: o does not have 'y', 'w', or 'f' properties"
+		!_hasProp( r, "y" ) && !_hasProp( r, "w" ) && !_hasProp( r, "f" ),
+		"core: r does not have 'y', 'w', or 'f' properties"
 	);
-	assert.ok( Object.keys( o ).length == 2, "core: o has only 2 properties" );
-	assert.ok( o.x === 1 && o.z === 3, "core: o.x === 1, o.z === 3" );
+	assert.ok( Object.keys( r ).length == 2, "core: r has only 2 properties" );
+	assert.ok( r.x === 1 && r.z === 3, "core: r.x === 1, r.z === 3" );
 
 	var p = FPO.pick()( {} )( {v: obj} )( {props: ["y"]} );
 	assert.ok( p && typeof p == "object", "core: p is an object" );
@@ -170,18 +170,18 @@ QUnit.test("pick()",function t6(assert){
 
 	// **************************************
 
-	o = FPO.std.pick( ["x","z","x","f"], o );
-	assert.ok( o && typeof o == "object", "std: o is an object" );
+	r = FPO.std.pick( ["x","z","x","f"], obj );
+	assert.ok( r && typeof r == "object", "std: r is an object" );
 	assert.ok(
-		_hasProp( o, "x" ) && _hasProp( o, "z" ),
-		"std: o has 'x' and 'z' properties"
+		_hasProp( r, "x" ) && _hasProp( r, "z" ),
+		"std: r has 'x' and 'z' properties"
 	);
 	assert.ok(
-		!_hasProp( o, "y" ) && !_hasProp( o, "w" ) && !_hasProp( o, "f" ),
-		"std: o does not have 'y', 'w', or 'f' properties"
+		!_hasProp( r, "y" ) && !_hasProp( r, "w" ) && !_hasProp( r, "f" ),
+		"std: r does not have 'y', 'w', or 'f' properties"
 	);
-	assert.ok( Object.keys( o ).length == 2, "std: o has only 2 properties" );
-	assert.ok( o.x === 1 && o.z === 3, "std: o.x === 1, o.z === 3" );
+	assert.ok( Object.keys( r ).length == 2, "std: r has only 2 properties" );
+	assert.ok( r.x === 1 && r.z === 3, "std: r.x === 1, r.z === 3" );
 
 	p = FPO.std.pick()( ["y"] )( obj );
 	assert.ok( p && typeof p == "object", "std: p is an object" );
@@ -195,18 +195,18 @@ QUnit.test("pickAll()",function t7(assert){
 
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
 
-	var o = FPO.pickAll( {v: obj, props: ["x","z","x","f"]} );
-	assert.ok( o && typeof o == "object", "core: o is an object" );
+	var r = FPO.pickAll( {v: obj, props: ["x","z","x","f"]} );
+	assert.ok( r && typeof r == "object", "core: r is an object" );
 	assert.ok(
-		_hasProp( o, "x" ) && _hasProp( o, "z" ) && _hasProp( o, "f" ),
-		"core: o has 'x', 'z', and 'f' properties"
+		_hasProp( r, "x" ) && _hasProp( r, "z" ) && _hasProp( r, "f" ),
+		"core: r has 'x', 'z', and 'f' properties"
 	);
 	assert.ok(
-		!_hasProp( o, "y" ) && !_hasProp( o, "w" ),
-		"core: o does not have 'y' and 'w' properties"
+		!_hasProp( r, "y" ) && !_hasProp( r, "w" ),
+		"core: r does not have 'y' and 'w' properties"
 	);
-	assert.ok( Object.keys( o ).length == 3, "core: o has only 3 properties" );
-	assert.ok( o.x === 1 && o.z === 3 && o.f === undefined, "core: o.x === 1, o.z === 3, o.f === undefined" );
+	assert.ok( Object.keys( r ).length == 3, "core: r has only 3 properties" );
+	assert.ok( r.x === 1 && r.z === 3 && r.f === undefined, "core: r.x === 1, r.z === 3, r.f === undefined" );
 
 	var p = FPO.pickAll()( {} )( {v: obj} )( {props: ["y"]} );
 	assert.ok( p && typeof p == "object", "core: p is an object" );
@@ -216,18 +216,18 @@ QUnit.test("pickAll()",function t7(assert){
 
 	// **************************************
 
-	o = FPO.std.pickAll( ["x","z","x","f"], o );
-	assert.ok( o && typeof o == "object", "std: o is an object" );
+	r = FPO.std.pickAll( ["x","z","x","f"], obj );
+	assert.ok( r && typeof r == "object", "std: r is an object" );
 	assert.ok(
-		_hasProp( o, "x" ) && _hasProp( o, "z" ) && _hasProp( o, "f" ),
-		"std: o has 'x', 'z', and 'f' properties"
+		_hasProp( r, "x" ) && _hasProp( r, "z" ) && _hasProp( r, "f" ),
+		"std: r has 'x', 'z', and 'f' properties"
 	);
 	assert.ok(
-		!_hasProp( o, "y" ) && !_hasProp( o, "w" ),
-		"std: o does not have 'y' and 'w' properties"
+		!_hasProp( r, "y" ) && !_hasProp( r, "w" ),
+		"std: r does not have 'y' and 'w' properties"
 	);
-	assert.ok( Object.keys( o ).length == 3, "std: o has only 3 properties" );
-	assert.ok( o.x === 1 && o.z === 3 && o.f === undefined, "std: o.x === 1, o.z === 3, o.f === undefined" );
+	assert.ok( Object.keys( r ).length == 3, "std: r has only 3 properties" );
+	assert.ok( r.x === 1 && r.z === 3 && r.f === undefined, "std: r.x === 1, r.z === 3, r.f === undefined" );
 
 	p = FPO.std.pickAll()( ["y"] )( obj );
 	assert.ok( p && typeof p == "object", "std: p is an object" );
@@ -241,8 +241,7 @@ QUnit.test("nAry()",function t8(assert){
 
 	function foo(argsObj) { return argsObj; }
 
-	var f = FPO.nAry( {fn: foo, props: ["x","y","w"]} );
-	var r = f( {x: 1, y: 2, z: 3, w: 4} );
+	var r = FPO.nAry( {fn: foo, props: ["x","y","w"]} )( {x: 1, y: 2, z: 3, w: 4} );
 	assert.ok( r && typeof r == "object", "core: r is an object" );
 	assert.ok(
 		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "w" ),
@@ -252,8 +251,7 @@ QUnit.test("nAry()",function t8(assert){
 	assert.ok( Object.keys( r ).length == 3, "core: r has only 3 properties" );
 	assert.ok( r.x === 1 && r.y === 2 && r.w === 4, "core: r.x === 1, r.y === 2, r.w === 4" );
 
-	f = FPO.nAry()( {} )( {fn: foo} )( {props: ["w","z"]} );
-	var p = f( {x: 1, y: 2, z: 3, w: 4} );
+	var p = FPO.nAry()( {} )( {fn: foo} )( {props: ["w","z"]} )( {x: 1, y: 2, z: 3, w: 4} );
 	assert.ok( p && typeof p == "object", "core: p is an object" );
 	assert.ok(
 		_hasProp( p, "w" ) && _hasProp( p, "z" ),
@@ -266,8 +264,7 @@ QUnit.test("nAry()",function t8(assert){
 
 	function bar(...args) { return args; }
 
-	f = FPO.std.nAry( bar, 3 );
-	r = f( 1, 2, 3, 4 );
+	r = FPO.std.nAry( bar, 3 )( 1, 2, 3, 4 );
 	assert.ok( r && Array.isArray( r ), "std: r is an array" );
 	assert.ok(
 		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
@@ -276,8 +273,7 @@ QUnit.test("nAry()",function t8(assert){
 	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "std: r has only 3 slots" );
 	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 3, "std: r is [1,2,3]" );
 
-	f = FPO.std.nAry()( bar )( 3 );
-	var p = f( 1, 2, 3, 4 );
+	p = FPO.std.nAry()( bar )( 3 )( 1, 2, 3, 4 );
 	assert.ok( p && Array.isArray( p ), "std: p is an array" );
 	assert.ok(
 		_hasProp( p, "0" ) && _hasProp( p, "1" ) && _hasProp( p, "2" ),
@@ -292,8 +288,7 @@ QUnit.test("unary()",function t9(assert){
 
 	function foo(argsObj) { return argsObj; }
 
-	var f = FPO.unary( {fn: foo, prop: "y"} );
-	var r = f( {x: 1, y: 2, z: 3, w: 4} );
+	var r = FPO.unary( {fn: foo, prop: "y"} )( {x: 1, y: 2, z: 3, w: 4} );
 	assert.ok( r && typeof r == "object", "core: r is an object" );
 	assert.ok( _hasProp( r, "y" ), "core: r has 'y' property" );
 	assert.ok(
@@ -303,8 +298,7 @@ QUnit.test("unary()",function t9(assert){
 	assert.ok( Object.keys( r ).length == 1, "core: r has only 1 property" );
 	assert.ok( r.y === 2, "core: r.y === 2" );
 
-	f = FPO.unary()( {} )( {fn: foo} )( {prop: "w"} );
-	var p = f( {x: 1, y: 2, z: 3, w: 4} );
+	var p = FPO.unary()( {} )( {fn: foo} )( {prop: "w"} )( {x: 1, y: 2, z: 3, w: 4} );
 	assert.ok( p && typeof p == "object", "core: p is an object" );
 	assert.ok( _hasProp( p, "w" ), "core: p has 'w' property" );
 	assert.ok(
@@ -318,15 +312,13 @@ QUnit.test("unary()",function t9(assert){
 
 	function bar(...args) { return args; }
 
-	f = FPO.std.unary( bar );
-	r = f( 1, 2, 3 );
+	r = FPO.std.unary( bar )( 1, 2, 3 );
 	assert.ok( r && Array.isArray( r ), "std: r is an array" );
 	assert.ok( _hasProp( r, "0" ), "std: r has a filled slot at index 0" );
 	assert.ok( Object.keys( r ).length == 1 && r.length == 1, "std: r has only 1 slots" );
 	assert.ok( r[0] === 1, "std: r is [1]" );
 
-	f = FPO.std.unary()( bar );
-	var p = f( 1, 2, 3 );
+	p = FPO.std.unary()( bar )( 1, 2, 3 );
 	assert.ok( p && Array.isArray( p ), "std: p is an array" );
 	assert.ok( _hasProp( p, "0" ), "std: p has a filled slot at index 0" );
 	assert.ok( Object.keys( p ).length == 1 && p.length == 1, "std: p has only 1 slot" );
@@ -338,8 +330,7 @@ QUnit.test("binary()",function t10(assert){
 
 	function foo(argsObj) { return argsObj; }
 
-	var f = FPO.binary( {fn: foo, props: ["y","w"]} );
-	var r = f( {x: 1, y: 2, z: 3, w: 4} );
+	var r = FPO.binary( {fn: foo, props: ["y","w"]} )( {x: 1, y: 2, z: 3, w: 4} );
 	assert.ok( r && typeof r == "object", "core: r is an object" );
 	assert.ok(
 		_hasProp( r, "y" ) && _hasProp( r, "w" ),
@@ -352,8 +343,7 @@ QUnit.test("binary()",function t10(assert){
 	assert.ok( Object.keys( r ).length == 2, "core: r has only 2 properties" );
 	assert.ok( r.y === 2 && r.w === 4, "core: r.y === 2, r.w === 4" );
 
-	f = FPO.binary()( {} )( {fn: foo} )( {props: ["y","w"]} );
-	var p = f( {x: 1, y: 2, z: 3, w: 4} );
+	var p = FPO.binary()( {} )( {fn: foo} )( {props: ["y","w"]} )( {x: 1, y: 2, z: 3, w: 4} );
 	assert.ok( p && typeof p == "object", "core: p is an object" );
 	assert.ok(
 		_hasProp( p, "y" ) && _hasProp( p, "w" ),
@@ -370,8 +360,7 @@ QUnit.test("binary()",function t10(assert){
 
 	function bar(...args) { return args; }
 
-	f = FPO.std.binary( bar );
-	r = f( 1, 2, 3 );
+	r = FPO.std.binary( bar )( 1, 2, 3 );
 	assert.ok( r && Array.isArray( r ), "std: r is an array" );
 	assert.ok(
 		_hasProp( r, "0" ) && _hasProp( r, "1" ),
@@ -380,8 +369,7 @@ QUnit.test("binary()",function t10(assert){
 	assert.ok( Object.keys( r ).length == 2 && r.length == 2, "std: r has only 2 slots" );
 	assert.ok( r[0] === 1 && r[1] === 2, "std: r is [1,2]" );
 
-	f = FPO.std.binary()( bar );
-	var p = f( 1, 2, 3 );
+	p = FPO.std.binary()( bar )( 1, 2, 3 );
 	assert.ok( p && Array.isArray( p ), "std: p is an array" );
 	assert.ok(
 		_hasProp( p, "0" ) && _hasProp( p, "1" ),
@@ -396,8 +384,7 @@ QUnit.test("curry()",function t11(assert){
 
 	function foo(argsObj) { return argsObj; }
 
-	var f = FPO.curry( {fn: foo, n: 3} );
-	var r = f( {x: 1} )( {y: 2, z: 3} )( {w: 4} );
+	var r = FPO.curry( {fn: foo, n: 3} )( {x: 1} )( {y: 2, z: 3} )( {w: 4} );
 	assert.ok( r && typeof r == "object", "core: r is an object" );
 	assert.ok(
 		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "w" ),
@@ -407,8 +394,7 @@ QUnit.test("curry()",function t11(assert){
 	assert.ok( Object.keys( r ).length == 3, "core: r has only 3 properties" );
 	assert.ok( r.x === 1 && r.y === 2 && r.w === 4, "core: r.x === 1, r.y === 2, r.w === 4" );
 
-	f = FPO.curry()( {} )( {fn: foo} );
-	var p = f()( {} )( {x: 1, y: 2} );
+	var p = FPO.curry()( {} )( {fn: foo} )()( {} )( {x: 1, y: 2} );
 	assert.ok( p && typeof p == "object", "core: p is an object" );
 	assert.ok( _hasProp( p, "x" ), "core: p has 'x' property" );
 	assert.ok( !_hasProp( p, "y" ), "core: p does not have 'y' property" );
@@ -419,8 +405,7 @@ QUnit.test("curry()",function t11(assert){
 
 	function bar(...args) { return args; }
 
-	f = FPO.std.curry( bar, 3 );
-	r = f( 1 )( 2, 3 )( 4 );
+	r = FPO.std.curry( bar, 3 )( 1 )( 2, 3 )( 4 );
 	assert.ok( r && Array.isArray( r ), "std: r is an array" );
 	assert.ok(
 		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
@@ -429,8 +414,7 @@ QUnit.test("curry()",function t11(assert){
 	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "std: r has only 3 slots" );
 	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 4, "std: r is [1,2,4]" );
 
-	f = FPO.std.curry()( bar );
-	p = f()( 1, 2 );
+	p = FPO.std.curry()( bar )()( 1, 2 );
 	assert.ok( p && Array.isArray( p ), "std: p is an array" );
 	assert.ok( _hasProp( p, "0" ), "std: p has a filled slot at index 0" );
 	assert.ok( Object.keys( p ).length == 1 && p.length == 1, "std: p has only 1 slot" );
@@ -443,8 +427,7 @@ QUnit.test("curryMultiple()",function t12(assert){
 
 	function foo(argsObj) { return argsObj; }
 
-	var f = FPO.curryMultiple( {fn: foo, n: 3} );
-	var r = f( {x: 1} )( {y: 2, z: 3} );
+	var r = FPO.curryMultiple( {fn: foo, n: 3} )( {x: 1} )( {y: 2, z: 3} );
 	assert.ok( r && typeof r == "object", "core: r is an object" );
 	assert.ok(
 		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "z" ),
@@ -453,8 +436,7 @@ QUnit.test("curryMultiple()",function t12(assert){
 	assert.ok( Object.keys( r ).length == 3, "core: r has only 3 properties" );
 	assert.ok( r.x === 1 && r.y === 2 && r.z === 3, "core: r.x === 1, r.y === 2, r.z === 3" );
 
-	f = FPO.curryMultiple()( {} )( {fn: foo} );
-	var p = f()( {} )( {x: 1, y: 2} );
+	var p = FPO.curryMultiple()( {} )( {fn: foo} )()( {} )( {x: 1, y: 2} );
 	assert.ok( p && typeof p == "object", "core: p is an object" );
 	assert.ok(
 		_hasProp( p, "x" ) && _hasProp( p, "y" ),
@@ -467,8 +449,7 @@ QUnit.test("curryMultiple()",function t12(assert){
 
 	function bar(...args) { return args; }
 
-	f = FPO.std.curryMultiple( bar, 3 );
-	r = f( 1 )( 2, 3 );
+	r = FPO.std.curryMultiple( bar, 3 )( 1 )( 2, 3 );
 	assert.ok( r && Array.isArray( r ), "std: r is an array" );
 	assert.ok(
 		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
@@ -477,8 +458,7 @@ QUnit.test("curryMultiple()",function t12(assert){
 	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "std: r has only 3 slots" );
 	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 3, "std: r is [1,2,3]" );
 
-	f = FPO.std.curryMultiple()( bar );
-	p = f()( 1, 2 );
+	p = FPO.std.curryMultiple()( bar )()( 1, 2 );
 	assert.ok( p && Array.isArray( p ), "std: p is an array" );
 	assert.ok(
 		_hasProp( p, "0" ) && _hasProp( p, "1" ),
@@ -493,8 +473,7 @@ QUnit.test("uncurry()",function t13(assert){
 
 	function foo(argsObj) { return argsObj; }
 
-	var f = FPO.uncurry( {fn: FPO.curry( {fn: foo, n: 3} )} );
-	var r = f( {x: 1, y: 2, z: 3} );
+	var r = FPO.uncurry( {fn: FPO.curry( {fn: foo, n: 3} )} )( {x: 1, y: 2, z: 3} );
 	assert.ok( r && typeof r == "object", "core: r is an object" );
 	assert.ok(
 		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "z" ),
@@ -503,8 +482,7 @@ QUnit.test("uncurry()",function t13(assert){
 	assert.ok( Object.keys( r ).length == 3, "core: r has only 3 properties" );
 	assert.ok( r.x === 1 && r.y === 2 && r.z === 3, "core: r.x === 1, r.y === 2, r.z === 3" );
 
-	f = FPO.uncurry()( {} )( {fn: FPO.curry( {fn: foo, n: 2} )} );
-	var p = f( {x: 1, y: 2} );
+	var p = FPO.uncurry()( {} )( {fn: FPO.curry( {fn: foo, n: 2} )} )( {x: 1, y: 2} );
 	assert.ok( p && typeof p == "object", "core: p is an object" );
 	assert.ok(
 		_hasProp( p, "x" ) && _hasProp( p, "y" ),
@@ -517,8 +495,7 @@ QUnit.test("uncurry()",function t13(assert){
 
 	function bar(...args) { return args; }
 
-	f = FPO.std.uncurry( FPO.std.curry( bar, 3 ) );
-	r = f( 1, 2, 3 );
+	r = FPO.std.uncurry( FPO.std.curry( bar, 3 ) )( 1, 2, 3 );
 	assert.ok( r && Array.isArray( r ), "std: r is an array" );
 	assert.ok(
 		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
@@ -527,8 +504,7 @@ QUnit.test("uncurry()",function t13(assert){
 	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "std: r has only 3 slots" );
 	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 3, "std: r is [1,2,3]" );
 
-	f = FPO.std.uncurry()( FPO.std.curry( bar, 2 ) );
-	p = f( 1, 2 );
+	p = FPO.std.uncurry()( FPO.std.curry( bar, 2 ) )( 1, 2 );
 	assert.ok( p && Array.isArray( p ), "std: p is an array" );
 	assert.ok(
 		_hasProp( p, "0" ) && _hasProp( p, "1" ),
@@ -543,8 +519,7 @@ QUnit.test("partial()",function t14(assert){
 
 	function foo(argsObj) { return argsObj; }
 
-	var f = FPO.partial( {fn: foo, args: {z:3}} );
-	var r = f( {x: 1, y: 2} );
+	var r = FPO.partial( {fn: foo, args: {z:3}} )( {x: 1, y: 2} );
 	assert.ok( r && typeof r == "object", "core: r is an object" );
 	assert.ok(
 		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "z" ),
@@ -553,8 +528,7 @@ QUnit.test("partial()",function t14(assert){
 	assert.ok( Object.keys( r ).length == 3, "core: r has only 3 properties" );
 	assert.ok( r.x === 1 && r.y === 2 && r.z === 3, "core: r.x === 1, r.y === 2, r.z === 3" );
 
-	f = FPO.partial()( {} )( {fn: foo} )( {args: {y:2}} );
-	var p = f( {x: 1} );
+	var p = FPO.partial()( {} )( {fn: foo} )( {args: {y:2}} )( {x: 1} );
 	assert.ok( p && typeof p == "object", "core: p is an object" );
 	assert.ok(
 		_hasProp( p, "x" ) && _hasProp( p, "y" ),
@@ -567,8 +541,7 @@ QUnit.test("partial()",function t14(assert){
 
 	function bar(...args) { return args; }
 
-	f = FPO.std.partial( bar, [1] );
-	r = f( 2, 3 );
+	r = FPO.std.partial( bar, [1] )( 2, 3 );
 	assert.ok( r && Array.isArray( r ), "std: r is an array" );
 	assert.ok(
 		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
@@ -577,8 +550,7 @@ QUnit.test("partial()",function t14(assert){
 	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "std: r has only 3 slots" );
 	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 3, "std: r is [1,2,3]" );
 
-	f = FPO.std.partial()( bar )( [1] );
-	p = f( 2 );
+	p = FPO.std.partial()( bar )( [1] )( 2 );
 	assert.ok( p && Array.isArray( p ), "std: p is an array" );
 	assert.ok(
 		_hasProp( p, "0" ) && _hasProp( p, "1" ),
@@ -615,8 +587,7 @@ QUnit.test("apply()",function t16(assert){
 
 	function foo(x,y,z) { return {x,y,z}; }
 
-	var f = FPO.apply( {fn: foo} );
-	var r = f( {y: 2, z: 3, x: 1} );
+	var r = FPO.apply( {fn: foo} )( {y: 2, z: 3, x: 1} );
 	assert.ok( r && typeof r == "object", "core: r is an object" );
 	assert.ok(
 		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "z" ),
@@ -625,9 +596,8 @@ QUnit.test("apply()",function t16(assert){
 	assert.ok( Object.keys( r ).length == 3, "core: r has only 3 properties" );
 	assert.ok( r.x === 1 && r.y === 2 && r.z === 3, "core: r.x === 1, r.y === 2, r.z === 3" );
 
-	// NOTE: reversing applied prop order on purpose
-	f = FPO.apply()( {} )( {fn: foo, props: ["z","y","x"]} );
-	var p = f( {y: 2, z: 3, x: 1} );
+	// NOTE: intentionally reversing applied prop order
+	var p = FPO.apply()( {} )( {fn: foo, props: ["z","y","x"]} )( {y: 2, z: 3, x: 1} );
 	assert.ok( p && typeof p == "object", "core: p is an object" );
 	assert.ok(
 		_hasProp( p, "x" ) && _hasProp( p, "y" ) && _hasProp( p, "z" ),
@@ -640,8 +610,7 @@ QUnit.test("apply()",function t16(assert){
 
 	function bar(...args) { return args; }
 
-	f = FPO.std.apply( bar );
-	r = f( [1,2,3] );
+	r = FPO.std.apply( bar )( [1,2,3] );
 	assert.ok( r && Array.isArray( r ), "std: r is an array" );
 	assert.ok(
 		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
@@ -650,8 +619,7 @@ QUnit.test("apply()",function t16(assert){
 	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "std: r has only 3 slots" );
 	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 3, "std: r is [1,2,3]" );
 
-	f = FPO.std.apply()( bar );
-	p = f( [1,2] );
+	p = FPO.std.apply()( bar )( [1,2] );
 	assert.ok( p && Array.isArray( p ), "std: p is an array" );
 	assert.ok(
 		_hasProp( p, "0" ) && _hasProp( p, "1" ),
@@ -666,8 +634,7 @@ QUnit.test("unapply()",function t17(assert){
 
 	function foo({x,y,z}) { return {x,y,z}; }
 
-	var f = FPO.unapply( {fn: foo, props: ["x","y","z"]} );
-	var r = f( 1, 2, 3 );
+	var r = FPO.unapply( {fn: foo, props: ["x","y","z"]} )( 1, 2, 3 );
 	assert.ok( r && typeof r == "object", "core: r is an object" );
 	assert.ok(
 		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "z" ),
@@ -676,9 +643,8 @@ QUnit.test("unapply()",function t17(assert){
 	assert.ok( Object.keys( r ).length == 3, "core: r has only 3 properties" );
 	assert.ok( r.x === 1 && r.y === 2 && r.z === 3, "core: r.x === 1, r.y === 2, r.z === 3" );
 
-	// NOTE: reversing applied prop order on purpose
-	f = FPO.unapply()( {} )( {fn: foo} )( {props: ["z","y","x"]} );
-	var p = f( 1, 2, 3 );
+	// NOTE: intentionally reversing (un)applied prop order
+	var p = FPO.unapply()( {} )( {fn: foo} )( {props: ["z","y","x"]} )( 1, 2, 3 );
 	assert.ok( p && typeof p == "object", "core: p is an object" );
 	assert.ok(
 		_hasProp( p, "x" ) && _hasProp( p, "y" ) && _hasProp( p, "z" ),
@@ -691,8 +657,7 @@ QUnit.test("unapply()",function t17(assert){
 
 	function bar(args) { return args; }
 
-	f = FPO.std.unapply( bar );
-	r = f( 1, 2, 3 );
+	r = FPO.std.unapply( bar )( 1, 2, 3 );
 	assert.ok( r && Array.isArray( r ), "std: r is an array" );
 	assert.ok(
 		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
@@ -701,8 +666,7 @@ QUnit.test("unapply()",function t17(assert){
 	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "std: r has only 3 slots" );
 	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 3, "std: r is [1,2,3]" );
 
-	f = FPO.std.unapply()( bar );
-	p = f( 1, 2 );
+	p = FPO.std.unapply()( bar )( 1, 2 );
 	assert.ok( p && Array.isArray( p ), "std: p is an array" );
 	assert.ok(
 		_hasProp( p, "0" ) && _hasProp( p, "1" ),
@@ -719,25 +683,25 @@ QUnit.test("compose()",function t18(assert){
 	function bar(x) { return `bar,${x}`; }
 	function baz(x) { return `baz,${x}`; }
 
-	var f = FPO.compose( {fns: [foo,bar,baz]} );
-	assert.ok( f( 3, 4 ) === "foo,bar,baz,3", "core: [foo,bar,baz] --> 'foo,bar,baz,3'" );
+	var r = FPO.compose( {fns: [foo,bar,baz]} )( 3, 4 );
+	assert.ok( r === "foo,bar,baz,3", "core: [foo,bar,baz] --> 'foo,bar,baz,3'" );
 
-	f = FPO.compose()( {} )( {fns:[foo]} );
-	assert.ok( f( 3, 4 ) === "foo,3", "core: [foo] --> 'foo,3'" );
+	r = FPO.compose()( {} )( {fns:[foo]} )( 3, 4 );
+	assert.ok( r === "foo,3", "core: [foo] --> 'foo,3'" );
 
-	f = FPO.compose()( {} )( {fns:[]} );
-	assert.ok( f( 3, 4 ) === 3, "core: [] --> 3" );
+	r = FPO.compose()( {} )( {fns:[]} )( 3, 4 );
+	assert.ok( r === 3, "core: [] --> 3" );
 
 	// **************************************
 
-	var f = FPO.std.compose( [foo,bar,baz] );
-	assert.ok( f( 3, 4 ) === "foo,bar,baz,3", "std: [foo,bar,baz] --> 'foo,bar,baz,3'" );
+	r = FPO.std.compose( [foo,bar,baz] )( 3, 4 );
+	assert.ok( r === "foo,bar,baz,3", "std: [foo,bar,baz] --> 'foo,bar,baz,3'" );
 
-	f = FPO.std.compose()( [foo] );
-	assert.ok( f( 3, 4 ) === "foo,3", "std: [foo] --> 'foo,3'" );
+	r = FPO.std.compose()( [foo] )( 3, 4 );
+	assert.ok( r === "foo,3", "std: [foo] --> 'foo,3'" );
 
-	f = FPO.std.compose()( [] );
-	assert.ok( f( 3, 4 ) === 3, "std: [foo] --> 3" );
+	r = FPO.std.compose()( [] )( 3, 4 );
+	assert.ok( r === 3, "std: [foo] --> 3" );
 });
 
 QUnit.test("pipe()",function t19(assert){
@@ -747,25 +711,25 @@ QUnit.test("pipe()",function t19(assert){
 	function bar(x) { return `bar,${x}`; }
 	function baz(x) { return `baz,${x}`; }
 
-	var f = FPO.pipe( {fns: [baz,bar,foo]} );
-	assert.ok( f( 3, 4 ) === "foo,bar,baz,3", "core: [foo,bar,baz] --> 'foo,bar,baz,3'" );
+	var r = FPO.pipe( {fns: [baz,bar,foo]} )( 3, 4 );
+	assert.ok( r === "foo,bar,baz,3", "core: [foo,bar,baz] --> 'foo,bar,baz,3'" );
 
-	f = FPO.pipe()( {} )( {fns:[foo]} );
-	assert.ok( f( 3, 4 ) === "foo,3", "core: [foo] --> 'foo,3'" );
+	r = FPO.pipe()( {} )( {fns:[foo]} )( 3, 4 );
+	assert.ok( r === "foo,3", "core: [foo] --> 'foo,3'" );
 
-	f = FPO.pipe()( {} )( {fns:[]} );
-	assert.ok( f( 3, 4 ) === 3, "core: [] --> 3" );
+	r = FPO.pipe()( {} )( {fns:[]} )( 3, 4 );
+	assert.ok( r === 3, "core: [] --> 3" );
 
 	// **************************************
 
-	var f = FPO.std.pipe( [baz,bar,foo] );
-	assert.ok( f( 3, 4 ) === "foo,bar,baz,3", "std: [foo,bar,baz] --> 'foo,bar,baz,3'" );
+	r = FPO.std.pipe( [baz,bar,foo] )( 3, 4 );
+	assert.ok( r === "foo,bar,baz,3", "std: [foo,bar,baz] --> 'foo,bar,baz,3'" );
 
-	f = FPO.std.pipe()( [foo] );
-	assert.ok( f( 3, 4 ) === "foo,3", "std: [foo] --> 'foo,3'" );
+	r = FPO.std.pipe()( [foo] )( 3, 4 );
+	assert.ok( r === "foo,3", "std: [foo] --> 'foo,3'" );
 
-	f = FPO.std.pipe()( [] );
-	assert.ok( f( 3, 4 ) === 3, "std: [foo] --> 3" );
+	r = FPO.std.pipe()( [] )( 3, 4 );
+	assert.ok( r === 3, "std: [foo] --> 3" );
 });
 
 QUnit.test("prop()",function t20(assert){
@@ -774,23 +738,26 @@ QUnit.test("prop()",function t20(assert){
 	var obj1 = { x: 1, y: 2, z: 3, w: 4 };
 	var obj2 = { x: 1, y: 2 };
 
-	var f = FPO.prop( {v: obj1} );
-	assert.ok( f( {prop: "x"} ) === 1, "core: obj1.x === 1" );
+	var r = FPO.prop( {v: obj1} )( {prop: "x"} );
+	assert.ok( r === 1, "core: r === 1" );
 
-	f = FPO.prop( {v: obj1} )()( {} );
-	assert.ok( f( {prop: "y"} ) === 2, "core: obj1.y === 2" );
+	r = FPO.prop( {v: obj1} )()( {} )( {prop: "y"} );
+	assert.ok( r === 2, "core: r === 2" );
 
-	f = FPO.prop( {prop: "z"} )()( {} );
-	assert.ok( f( {v: obj1} ) === 3, "core: obj1.z === 3" );
-	assert.ok( f( {v: obj2} ) === undefined, "core: obj2.z === undefined" );
+	var f = FPO.prop( {prop: "z"} )()( {} );
+	var p = f( {v: obj1} )
+	assert.ok( p === 3, "core: p === 3" );
+
+	p = f( {v: obj2} );
+	assert.ok( p === undefined, "core: p === undefined" );
 
 	// **************************************
 
-	f = FPO.std.prop( "z" );
-	assert.ok( f( obj1 ) === 3, "std: obj1.z === 3" );
+	r = FPO.std.prop( "z" )( obj1 );
+	assert.ok( r === 3, "std: r === 3" );
 
-	f = FPO.prop( "z" )();
-	assert.ok( f( obj2 ) === undefined, "std: obj2.z === undefined" );
+	p = FPO.std.prop()( "z" )()( obj2 );
+	assert.ok( p === undefined, "std: p === undefined" );
 });
 
 QUnit.test("setProp()",function t21(assert){
