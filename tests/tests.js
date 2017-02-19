@@ -596,7 +596,7 @@ QUnit.test("complement()",function t15(assert){
 	var xPlusYOdd = FPO.complement( {fn: xPlusYEven} );
 	assert.ok( xPlusYOdd( {x: 1, y: 2} ) === true, "core: xPlusYOdd({x:1,y:2}) === true" );
 
-	xPlusYOdd = FPO.complement()( {} )( { fn: xPlusYEven } );
+	xPlusYOdd = FPO.complement()( {} )( {fn: xPlusYEven} );
 	assert.ok( xPlusYOdd( {x: 2, y: 4} ) === false, "core: xPlusYOdd({x:2,y:4}) === false" );
 
 	// **************************************
@@ -610,6 +610,108 @@ QUnit.test("complement()",function t15(assert){
 	assert.ok( argPlusArgOdd( 2, 4 ) === false, "std: argPlusArgOdd(2,4) === false" );
 });
 
+QUnit.test("apply()",function t16(assert){
+	assert.expect( 16 );
+
+	function foo(x,y,z) { return {x,y,z}; }
+
+	var f = FPO.apply( {fn: foo} );
+	var r = f( {y: 2, z: 3, x: 1} );
+	assert.ok( r && typeof r == "object", "core: r is an object" );
+	assert.ok(
+		_hasProp( r, "x" ) && _hasProp( r, "y" ) & _hasProp( r, "z" ),
+		"core: r has 'x', 'y', and 'z' properties"
+	);
+	assert.ok( Object.keys( r ).length == 3, "core: r has only 3 properties" );
+	assert.ok( r.x === 1 && r.y === 2 && r.z === 3, "core: r.x === 1, r.y === 2, r.z === 3" );
+
+	// NOTE: reversing applied prop order on purpose
+	f = FPO.apply()( {} )( {fn: foo, props: ["z","y","x"]} );
+	var p = f( {y: 2, z: 3, x: 1} );
+	assert.ok( p && typeof p == "object", "core: p is an object" );
+	assert.ok(
+		_hasProp( p, "x" ) && _hasProp( p, "y" ) & _hasProp( p, "z" ),
+		"core: p has 'x', 'y', and 'z' properties"
+	);
+	assert.ok( Object.keys( p ).length == 3, "core: p has only 3 properties" );
+	assert.ok( p.x === 3 && p.y === 2 && p.z === 1, "core: p.x === 3, p.y === 2, p.z === 1" );
+
+	// **************************************
+
+	function bar(...args) { return args; }
+
+	f = FPO.std.apply( bar );
+	r = f( [1,2,3] );
+	assert.ok( r && Array.isArray( r ), "std: r is an array" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ) & _hasProp( r, "2" ),
+		"std: r has filled slots at indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "std: r has only 3 slots" );
+	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 3, "std: r is [1,2,3]" );
+
+	f = FPO.std.apply()( bar );
+	p = f( [1,2] );
+	assert.ok( p && Array.isArray( p ), "std: p is an array" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ),
+		"std: p has a filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "std: p has only 2 slots" );
+	assert.ok( p[0] === 1 && p[1] === 2, "std: p is [1,2]" );
+});
+
+
+QUnit.test("unapply()",function t17(assert){
+	assert.expect( 16 );
+
+	function foo({x,y,z}) { return {x,y,z}; }
+
+	var f = FPO.unapply( {fn: foo, props: ["x","y","z"]} );
+	var r = f( 1, 2, 3 );
+	assert.ok( r && typeof r == "object", "core: r is an object" );
+	assert.ok(
+		_hasProp( r, "x" ) && _hasProp( r, "y" ) & _hasProp( r, "z" ),
+		"core: r has 'x', 'y', and 'z' properties"
+	);
+	assert.ok( Object.keys( r ).length == 3, "core: r has only 3 properties" );
+	assert.ok( r.x === 1 && r.y === 2 && r.z === 3, "core: r.x === 1, r.y === 2, r.z === 3" );
+
+	// NOTE: reversing applied prop order on purpose
+	f = FPO.unapply()( {} )( {fn: foo} )( {props: ["z","y","x"]} );
+	var p = f( 1, 2, 3 );
+	assert.ok( p && typeof p == "object", "core: p is an object" );
+	assert.ok(
+		_hasProp( p, "x" ) && _hasProp( p, "y" ) & _hasProp( p, "z" ),
+		"core: p has 'x', 'y', and 'z' properties"
+	);
+	assert.ok( Object.keys( p ).length == 3, "core: p has only 3 properties" );
+	assert.ok( p.x === 3 && p.y === 2 && p.z === 1, "core: p.x === 3, p.y === 2, p.z === 1" );
+
+	// **************************************
+
+	function bar(args) { return args; }
+
+	f = FPO.std.unapply( bar );
+	r = f( 1, 2, 3 );
+	assert.ok( r && Array.isArray( r ), "std: r is an array" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ) & _hasProp( r, "2" ),
+		"std: r has filled slots at indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "std: r has only 3 slots" );
+	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 3, "std: r is [1,2,3]" );
+
+	f = FPO.std.unapply()( bar );
+	p = f( 1, 2 );
+	assert.ok( p && Array.isArray( p ), "std: p is an array" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ),
+		"std: p has a filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "std: p has only 2 slots" );
+	assert.ok( p[0] === 1 && p[1] === 2, "std: p is [1,2]" );
+});
 
 
 
