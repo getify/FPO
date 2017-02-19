@@ -661,7 +661,6 @@ QUnit.test("apply()",function t16(assert){
 	assert.ok( p[0] === 1 && p[1] === 2, "std: p is [1,2]" );
 });
 
-
 QUnit.test("unapply()",function t17(assert){
 	assert.expect( 16 );
 
@@ -712,6 +711,63 @@ QUnit.test("unapply()",function t17(assert){
 	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "std: p has only 2 slots" );
 	assert.ok( p[0] === 1 && p[1] === 2, "std: p is [1,2]" );
 });
+
+QUnit.test("compose()",function t18(assert){
+	assert.expect( 6 );
+
+	function foo(x) { return `foo,${x}`; }
+	function bar(x) { return `bar,${x}`; }
+	function baz(x) { return `baz,${x}`; }
+
+	var f = FPO.compose( {fns: [foo,bar,baz]} );
+	assert.ok( f( 3, 4 ) === "foo,bar,baz,3", "core: [foo,bar,baz] --> 'foo,bar,baz,3'" );
+
+	f = FPO.compose()( {} )( {fns:[foo]} );
+	assert.ok( f( 3, 4 ) === "foo,3", "core: [foo] --> 'foo,3'" );
+
+	f = FPO.compose()( {} )( {fns:[]} );
+	assert.ok( f( 3, 4 ) === 3, "core: [] --> 3" );
+
+	// **************************************
+
+	var f = FPO.std.compose( [foo,bar,baz] );
+	assert.ok( f( 3, 4 ) === "foo,bar,baz,3", "std: [foo,bar,baz] --> 'foo,bar,baz,3'" );
+
+	f = FPO.std.compose()( [foo] );
+	assert.ok( f( 3, 4 ) === "foo,3", "std: [foo] --> 'foo,3'" );
+
+	f = FPO.std.compose()( [] );
+	assert.ok( f( 3, 4 ) === 3, "std: [foo] --> 3" );
+});
+
+QUnit.test("pipe()",function t19(assert){
+	assert.expect( 6 );
+
+	function foo(x) { return `foo,${x}`; }
+	function bar(x) { return `bar,${x}`; }
+	function baz(x) { return `baz,${x}`; }
+
+	var f = FPO.pipe( {fns: [baz,bar,foo]} );
+	assert.ok( f( 3, 4 ) === "foo,bar,baz,3", "core: [foo,bar,baz] --> 'foo,bar,baz,3'" );
+
+	f = FPO.pipe()( {} )( {fns:[foo]} );
+	assert.ok( f( 3, 4 ) === "foo,3", "core: [foo] --> 'foo,3'" );
+
+	f = FPO.pipe()( {} )( {fns:[]} );
+	assert.ok( f( 3, 4 ) === 3, "core: [] --> 3" );
+
+	// **************************************
+
+	var f = FPO.std.pipe( [baz,bar,foo] );
+	assert.ok( f( 3, 4 ) === "foo,bar,baz,3", "std: [foo,bar,baz] --> 'foo,bar,baz,3'" );
+
+	f = FPO.std.pipe()( [foo] );
+	assert.ok( f( 3, 4 ) === "foo,3", "std: [foo] --> 'foo,3'" );
+
+	f = FPO.std.pipe()( [] );
+	assert.ok( f( 3, 4 ) === 3, "std: [foo] --> 3" );
+});
+
 
 
 
