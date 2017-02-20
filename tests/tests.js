@@ -1,6 +1,6 @@
 "use strict";
 
-QUnit.test("core API methods present",function t1(assert){
+QUnit.test( "core API methods present", function t1(assert){
 	assert.expect( 35 );
 
 	assert.ok( _isFunction( FPO.identity ), "identity()" );
@@ -38,9 +38,9 @@ QUnit.test("core API methods present",function t1(assert){
 	assert.ok( _isFunction( FPO.transducers.string ), "transducers.string()" );
 	assert.ok( _isFunction( FPO.transducers.array ), "transducers.array()" );
 	assert.ok( _isFunction( FPO.transducers.default ), "transducers.default()" );
-});
+} );
 
-QUnit.test("std API methods present",function t2(assert){
+QUnit.test( "std API methods present", function t2(assert){
 	assert.expect( 35 );
 
 	assert.ok( _isFunction( FPO.std.identity ), "identity()" );
@@ -78,84 +78,80 @@ QUnit.test("std API methods present",function t2(assert){
 	assert.ok( _isFunction( FPO.std.transducers.string ), "transducers.string()" );
 	assert.ok( _isFunction( FPO.std.transducers.array ), "transducers.array()" );
 	assert.ok( _isFunction( FPO.std.transducers.default ), "transducers.default()" );
-});
+} );
 
-QUnit.test("API aliases present",function t3(assert){
+QUnit.test( "API aliases present", function t3(assert){
 	assert.expect( 22 );
 
-	assert.equal( FPO.always, FPO.constant, "core: always -> constant" );
-	assert.equal( FPO.std.always, FPO.std.constant, "std: always -> constant" );
-	assert.equal( FPO.flow, FPO.pipe, "core: flow -> pipe" );
-	assert.equal( FPO.std.flow, FPO.std.pipe, "std: flow -> pipe" );
-	assert.equal( FPO.flowRight, FPO.compose, "core: flowRight -> compose" );
-	assert.equal( FPO.std.flowRight, FPO.std.compose, "std: flowRight -> compose" );
-	assert.equal( FPO.spread, FPO.apply, "core: spread -> apply" );
-	assert.equal( FPO.std.spread, FPO.std.apply, "std: spread -> apply" );
-	assert.equal( FPO.gather, FPO.unapply, "core: gather -> unapply" );
-	assert.equal( FPO.std.gather, FPO.std.unapply, "std: gather -> unapply" );
-	assert.equal( FPO.assoc, FPO.setProp, "core: assoc -> setProp" );
-	assert.equal( FPO.std.assoc, FPO.std.setProp, "std: assoc -> setProp" );
-	assert.equal( FPO.filter, FPO.filterIn, "core: filter -> filterIn" );
-	assert.equal( FPO.std.filter, FPO.std.filterIn, "std: filter -> filterIn" );
-	assert.equal( FPO.chain, FPO.flatMap, "core: chain -> flatMap" );
-	assert.equal( FPO.std.chain, FPO.std.flatMap, "std: chain -> flatMap" );
-	assert.equal( FPO.fold, FPO.reduce, "core: fold -> reduce" );
-	assert.equal( FPO.std.fold, FPO.std.reduce, "std: fold -> reduce" );
-	assert.equal( FPO.foldL, FPO.reduce, "core: foldL -> reduce" );
-	assert.equal( FPO.std.foldL, FPO.std.reduce, "std: foldL -> reduce" );
-	assert.equal( FPO.foldR, FPO.reduceRight, "core: foldR -> reduceRight" );
-	assert.equal( FPO.std.foldR, FPO.std.reduceRight, "std: foldR -> reduceRight" );
-});
+	assert.strictEqual( FPO.always, FPO.constant, "core: always -> constant" );
+	assert.strictEqual( FPO.std.always, FPO.std.constant, "std: always -> constant" );
+	assert.strictEqual( FPO.flow, FPO.pipe, "core: flow -> pipe" );
+	assert.strictEqual( FPO.std.flow, FPO.std.pipe, "std: flow -> pipe" );
+	assert.strictEqual( FPO.flowRight, FPO.compose, "core: flowRight -> compose" );
+	assert.strictEqual( FPO.std.flowRight, FPO.std.compose, "std: flowRight -> compose" );
+	assert.strictEqual( FPO.spread, FPO.apply, "core: spread -> apply" );
+	assert.strictEqual( FPO.std.spread, FPO.std.apply, "std: spread -> apply" );
+	assert.strictEqual( FPO.gather, FPO.unapply, "core: gather -> unapply" );
+	assert.strictEqual( FPO.std.gather, FPO.std.unapply, "std: gather -> unapply" );
+	assert.strictEqual( FPO.assoc, FPO.setProp, "core: assoc -> setProp" );
+	assert.strictEqual( FPO.std.assoc, FPO.std.setProp, "std: assoc -> setProp" );
+	assert.strictEqual( FPO.filter, FPO.filterIn, "core: filter -> filterIn" );
+	assert.strictEqual( FPO.std.filter, FPO.std.filterIn, "std: filter -> filterIn" );
+	assert.strictEqual( FPO.chain, FPO.flatMap, "core: chain -> flatMap" );
+	assert.strictEqual( FPO.std.chain, FPO.std.flatMap, "std: chain -> flatMap" );
+	assert.strictEqual( FPO.fold, FPO.reduce, "core: fold -> reduce" );
+	assert.strictEqual( FPO.std.fold, FPO.std.reduce, "std: fold -> reduce" );
+	assert.strictEqual( FPO.foldL, FPO.reduce, "core: foldL -> reduce" );
+	assert.strictEqual( FPO.std.foldL, FPO.std.reduce, "std: foldL -> reduce" );
+	assert.strictEqual( FPO.foldR, FPO.reduceRight, "core: foldR -> reduceRight" );
+	assert.strictEqual( FPO.std.foldR, FPO.std.reduceRight, "std: foldR -> reduceRight" );
+} );
 
-QUnit.test("identity()",function t4(assert){
-	assert.expect( 6 );
-
+QUnit.test( "identity()", function t4(assert){
 	var r = FPO.identity( {v: 2} );
-	assert.ok( r === 2, "core: r === 2" );
+	var p = FPO.identity()( {} )( { v: undefined } );
+	var q = FPO.identity()( {} )( {v: 3} );
 
-	r = FPO.identity()( {} )( { v: undefined } );
-	assert.ok( r === undefined, "core: r === undefined" );
+	assert.expect( 3 );
+	assert.strictEqual( r, 2, "regular call" );
+	assert.strictEqual( p, undefined, "curried call with undefined" );
+	assert.strictEqual( q, 3, "curried call with value" );
+} );
 
-	r = FPO.identity()( {} )( {v: 3} );
-	assert.ok( r === 3, "core: r === 3" );
+QUnit.test( "std.identity()", function t5(assert){
+	var r = FPO.std.identity( 2 );
+	var p = FPO.std.identity()( undefined );
+	var q = FPO.std.identity()( 3 );
 
-	// **************************************
+	assert.expect( 3 );
+	assert.strictEqual( r, 2, "regular call" );
+	assert.strictEqual( p, undefined, "curried with undefined" );
+	assert.strictEqual( q, 3, "curried with value" );
+} );
 
-	r = FPO.std.identity( 2 );
-	assert.ok( r === 2, "std: r === 2" );
-
-	r = FPO.std.identity()( undefined );
-	assert.ok( r === undefined, "std: r === undefined" );
-
-	r = FPO.std.identity()( 3 );
-	assert.ok( r === 3, "std: r === 3" );
-});
-
-QUnit.test("constant()",function t5(assert){
-	assert.expect( 6 );
-
+QUnit.test( "constant()", function t6(assert){
 	var r = FPO.constant( {v: 2} )();
-	assert.ok( r === 2, "core: r === 2" );
+	var p = FPO.constant()( {} )( { v: undefined } )();
+	var q = FPO.constant()( {} )( {v: 3} )();
 
-	r = FPO.constant()( {} )( { v: undefined } )();
-	assert.ok( r === undefined, "core: r === undefined" );
+	assert.expect( 3 );
+	assert.strictEqual( r, 2, "regular call" );
+	assert.strictEqual( p, undefined, "curried with undefined" );
+	assert.strictEqual( q, 3, "curried with value" );
+} );
 
-	r = FPO.constant()( {} )( {v: 3} )();
-	assert.ok( r === 3, "core: r === 3" );
+QUnit.test( "std.constant()", function t7(assert){
+	var r = FPO.std.constant( 2 )();
+	var p = FPO.std.constant()( undefined )();
+	var q = FPO.std.constant()( 3 )();
 
-	// **************************************
+	assert.expect( 3 );
+	assert.strictEqual( r, 2, "r === 2" );
+	assert.strictEqual( p, undefined, "p === undefined" );
+	assert.strictEqual( q, 3, "q === 3" );
+} );
 
-	r = FPO.std.constant( 2 )();
-	assert.ok( r === 2, "std: r === 2" );
-
-	r = FPO.std.constant()( undefined )();
-	assert.ok( r === undefined, "std: r === undefined" );
-
-	r = FPO.std.constant()( 3 )();
-	assert.ok( r === 3, "std: r === 3" );
-});
-
-QUnit.test("pick()",function t6(assert){
+QUnit.test( "pick()", function t6(assert){
 	assert.expect( 26 );
 
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
@@ -177,7 +173,7 @@ QUnit.test("pick()",function t6(assert){
 	assert.ok( p && typeof p == "object", "core: p is an object" );
 	assert.ok( _hasProp( p, "y" ), "core: p has 'y' property" );
 	assert.ok( Object.keys( p ).length == 1, "core: p has only 1 property" );
-	assert.ok( p.y === 2, "core: p.y === 2" );
+	assert.strictEqual( p.y, 2, "core: p.y === 2" );
 
 	var q = FPO.pick()( {} )( {v: obj} )( {props: []} );
 	assert.ok( q && typeof q == "object", "core: q is an object" );
@@ -206,7 +202,7 @@ QUnit.test("pick()",function t6(assert){
 	assert.ok( p && typeof p == "object", "std: p is an object" );
 	assert.ok( _hasProp( p, "y" ), "std: p has 'y' property" );
 	assert.ok( Object.keys( p ).length == 1, "std: p has only 1 property" );
-	assert.ok( p.y === 2, "std: p.y === 2" );
+	assert.strictEqual( p.y, 2, "std: p.y === 2" );
 
 	q = FPO.std.pick()( [] )( obj );
 	assert.ok( q && typeof q == "object", "std: q is an object" );
@@ -215,9 +211,9 @@ QUnit.test("pick()",function t6(assert){
 	t = FPO.std.pick()( undefined )( obj );
 	assert.ok( t && typeof t == "object", "std: t is an object" );
 	assert.ok( Object.keys( t ).length == 0, "std: t has no properties" );
-});
+} );
 
-QUnit.test("pickAll()",function t7(assert){
+QUnit.test( "pickAll()", function t7(assert){
 	assert.expect( 26 );
 
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
@@ -239,7 +235,7 @@ QUnit.test("pickAll()",function t7(assert){
 	assert.ok( p && typeof p == "object", "core: p is an object" );
 	assert.ok( _hasProp( p, "y" ), "core: p has 'y' property" );
 	assert.ok( Object.keys( p ).length == 1, "core: p has only 1 property" );
-	assert.ok( p.y === 2, "core: p.y === 2" );
+	assert.strictEqual( p.y, 2, "core: p.y === 2" );
 
 	var q = FPO.pickAll()( {} )( {v: obj} )( {props: []} );
 	assert.ok( q && typeof q == "object", "core: q is an object" );
@@ -268,7 +264,7 @@ QUnit.test("pickAll()",function t7(assert){
 	assert.ok( p && typeof p == "object", "std: p is an object" );
 	assert.ok( _hasProp( p, "y" ), "std: p has 'y' property" );
 	assert.ok( Object.keys( p ).length == 1, "std: p has only 1 property" );
-	assert.ok( p.y === 2, "std: p.y === 2" );
+	assert.strictEqual( p.y, 2, "std: p.y === 2" );
 
 	q = FPO.std.pickAll()( [] )( obj );
 	assert.ok( q && typeof q == "object", "std: q is an object" );
@@ -277,9 +273,9 @@ QUnit.test("pickAll()",function t7(assert){
 	t = FPO.std.pickAll()( undefined )( obj );
 	assert.ok( t && typeof t == "object", "std: t is an object" );
 	assert.ok( Object.keys( t ).length == 0, "std: t has no properties" );
-});
+} );
 
-QUnit.test("nAry()",function t8(assert){
+QUnit.test( "nAry()", function t8(assert){
 	assert.expect( 25 );
 
 	function foo(argsObj) { return argsObj; }
@@ -341,9 +337,9 @@ QUnit.test("nAry()",function t8(assert){
 	t = FPO.std.nAry()( bar )( undefined )( obj );
 	assert.ok( t && Array.isArray( t ), "std: t is an array" );
 	assert.ok( Object.keys( t ).length == 0 && t.length == 0, "std: t is []" );
-});
+} );
 
-QUnit.test("unary()",function t9(assert){
+QUnit.test( "unary()", function t9(assert){
 	assert.expect( 22 );
 
 	function foo(argsObj) { return argsObj; }
@@ -357,7 +353,7 @@ QUnit.test("unary()",function t9(assert){
 		"core: r does not have 'x', 'z', or 'w' properties"
 	);
 	assert.ok( Object.keys( r ).length == 1, "core: r has only 1 property" );
-	assert.ok( r.y === 2, "core: r.y === 2" );
+	assert.strictEqual( r.y, 2, "core: r.y === 2" );
 
 	var p = FPO.unary()( {} )( {fn: foo} )( {prop: "w"} )( obj );
 	assert.ok( p && typeof p == "object", "core: p is an object" );
@@ -367,7 +363,7 @@ QUnit.test("unary()",function t9(assert){
 		"core: p does not have 'x', 'z', or 'w' properties"
 	);
 	assert.ok( Object.keys( p ).length == 1, "core: p has only 1 property" );
-	assert.ok( p.w === 4, "core: p.w === 4" );
+	assert.strictEqual( p.w, 4, "core: p.w === 4" );
 
 	var q = FPO.unary( {fn: foo} )( {prop: undefined} )( obj );
 	assert.ok( q && typeof q == "object", "core: q is an object" );
@@ -385,16 +381,16 @@ QUnit.test("unary()",function t9(assert){
 	assert.ok( r && Array.isArray( r ), "std: r is an array" );
 	assert.ok( _hasProp( r, "0" ), "std: r has a filled slot at index 0" );
 	assert.ok( Object.keys( r ).length == 1 && r.length == 1, "std: r has only 1 slots" );
-	assert.ok( r[0] === 1, "std: r is [1]" );
+	assert.strictEqual( r[0], 1, "std: r is [1]" );
 
 	p = FPO.std.unary()( bar )( 1, 2, 3 );
 	assert.ok( p && Array.isArray( p ), "std: p is an array" );
 	assert.ok( _hasProp( p, "0" ), "std: p has a filled slot at index 0" );
 	assert.ok( Object.keys( p ).length == 1 && p.length == 1, "std: p has only 1 slot" );
-	assert.ok( p[0] === 1, "std: p is [1]" );
-});
+	assert.strictEqual( p[0], 1, "std: p is [1]" );
+} );
 
-QUnit.test("binary()",function t10(assert){
+QUnit.test( "binary()", function t10(assert){
 	assert.expect( 24 );
 
 	function foo(argsObj) { return argsObj; }
@@ -459,9 +455,9 @@ QUnit.test("binary()",function t10(assert){
 	);
 	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "std: p has only 2 slots" );
 	assert.ok( p[0] === 1 && p[1] === 2, "std: p is [1,2]" );
-});
+} );
 
-QUnit.test("curry()",function t11(assert){
+QUnit.test( "curry()", function t11(assert){
 	assert.expect( 32 );
 
 	function foo(argsObj) { return argsObj; }
@@ -481,21 +477,21 @@ QUnit.test("curry()",function t11(assert){
 	assert.ok( _hasProp( p, "x" ), "core: p has 'x' property" );
 	assert.ok( !_hasProp( p, "y" ), "core: p does not have 'y' property" );
 	assert.ok( Object.keys( p ).length == 1, "core: p has only 1 property" );
-	assert.ok( p.x === 1, "core: p.x === 1" );
+	assert.strictEqual( p.x, 1, "core: p.x === 1" );
 
 	var q = FPO.curry()( {} )( {fn: foo, n: undefined} )( {x: 1, y: 2} );
 	assert.ok( q && typeof q == "object", "core: q is an object" );
 	assert.ok( _hasProp( q, "x" ), "core: q has 'x' property" );
 	assert.ok( !_hasProp( q, "y" ), "core: q does not have 'y' property" );
 	assert.ok( Object.keys( q ).length == 1, "core: q has only 1 property" );
-	assert.ok( q.x === 1, "core: q.x === 1" );
+	assert.strictEqual( q.x, 1, "core: q.x === 1" );
 
 	var t = FPO.curry()( {} )( {fn: foo, n: 0} )( {x: 1, y: 2} );
 	assert.ok( t && typeof t == "object", "core: t is an object" );
 	assert.ok( _hasProp( t, "x" ), "core: t has 'x' property" );
 	assert.ok( !_hasProp( t, "y" ), "core: t does not have 'y' property" );
 	assert.ok( Object.keys( t ).length == 1, "core: t has only 1 property" );
-	assert.ok( t.x === 1, "core: t.x === 1" );
+	assert.strictEqual( t.x, 1, "core: t.x === 1" );
 
 	// **************************************
 
@@ -514,17 +510,17 @@ QUnit.test("curry()",function t11(assert){
 	assert.ok( p && Array.isArray( p ), "std: p is an array" );
 	assert.ok( _hasProp( p, "0" ), "std: p has a filled slot at index 0" );
 	assert.ok( Object.keys( p ).length == 1 && p.length == 1, "std: p has only 1 slot" );
-	assert.ok( p[0] === 1, "std: p is [1]" );
+	assert.strictEqual( p[0], 1, "std: p is [1]" );
 
 	q = FPO.std.curry( bar, 0 )( 1, 2 );
 	assert.ok( q && Array.isArray( q ), "std: q is an array" );
 	assert.ok( _hasProp( q, "0" ), "std: q has a filled slot at index 0" );
 	assert.ok( Object.keys( q ).length == 1 && q.length == 1, "std: q has only 1 slot" );
-	assert.ok( q[0] === 1, "std: q is [1]" );
-});
+	assert.strictEqual( q[0], 1, "std: q is [1]" );
+} );
 
 
-QUnit.test("curryMultiple()",function t12(assert){
+QUnit.test( "curryMultiple()", function t12(assert){
 	assert.expect( 28 );
 
 	function foo(argsObj) { return argsObj; }
@@ -595,9 +591,9 @@ QUnit.test("curryMultiple()",function t12(assert){
 	);
 	assert.ok( Object.keys( q ).length == 2 && q.length == 2, "std: q has only 2 slots" );
 	assert.ok( q[0] === 1 && q[1] === 2, "std: q is [1,2]" );
-});
+} );
 
-QUnit.test("uncurry()",function t13(assert){
+QUnit.test( "uncurry()", function t13(assert){
 	assert.expect( 16 );
 
 	function foo(argsObj) { return argsObj; }
@@ -641,9 +637,9 @@ QUnit.test("uncurry()",function t13(assert){
 	);
 	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "std: p has only 2 slots" );
 	assert.ok( p[0] === 1 && p[1] === 2, "std: p is [1,2]" );
-});
+} );
 
-QUnit.test("partial()",function t14(assert){
+QUnit.test( "partial()", function t14(assert){
 	assert.expect( 32 );
 
 	function foo(argsObj) { return argsObj; }
@@ -670,13 +666,13 @@ QUnit.test("partial()",function t14(assert){
 	assert.ok( q && typeof q == "object", "core: q is an object" );
 	assert.ok( _hasProp( q, "x" ), "core: q has 'x' property" );
 	assert.ok( Object.keys( q ).length == 1, "core: q has only 1 property" );
-	assert.ok( q.x === 1, "core: q.x === 1" );
+	assert.strictEqual( q.x, 1, "core: q.x === 1" );
 
 	var t = FPO.partial()( {} )( {fn: foo} )( {args: {}} )( {x: 1} );
 	assert.ok( t && typeof t == "object", "core: t is an object" );
 	assert.ok( _hasProp( t, "x" ), "core: t has 'x' property" );
 	assert.ok( Object.keys( t ).length == 1, "core: t has only 1 property" );
-	assert.ok( t.x === 1, "core: t.x === 1" );
+	assert.strictEqual( t.x, 1, "core: t.x === 1" );
 
 	// **************************************
 
@@ -717,9 +713,9 @@ QUnit.test("partial()",function t14(assert){
 	);
 	assert.ok( Object.keys( t ).length == 2 && t.length == 2, "std: t has only 2 slots" );
 	assert.ok( t[0] === 1 && t[1] === 2, "std: t is [1,2]" );
-});
+} );
 
-QUnit.test("complement()",function t15(assert){
+QUnit.test( "complement()", function t15(assert){
 	assert.expect( 4 );
 
 	function xPlusYEven(argsObj) { return (argsObj.x + argsObj.y) % 2 == 0; }
@@ -739,9 +735,9 @@ QUnit.test("complement()",function t15(assert){
 
 	argPlusArgOdd = FPO.std.complement()( argPlusArgEven );
 	assert.ok( argPlusArgOdd( 2, 4 ) === false, "std: argPlusArgOdd(2,4) === false" );
-});
+} );
 
-QUnit.test("apply()",function t16(assert){
+QUnit.test( "apply()", function t16(assert){
 	assert.expect( 24 );
 
 	function foo(x,y,z) { return {x,y,z}; }
@@ -804,9 +800,9 @@ QUnit.test("apply()",function t16(assert){
 	);
 	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "std: p has only 2 slots" );
 	assert.ok( p[0] === 1 && p[1] === 2, "std: p is [1,2]" );
-});
+} );
 
-QUnit.test("unapply()",function t17(assert){
+QUnit.test( "unapply()", function t17(assert){
 	assert.expect( 24 );
 
 	function foo({x,y,z}) { return {x,y,z}; }
@@ -869,9 +865,9 @@ QUnit.test("unapply()",function t17(assert){
 	);
 	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "std: p has only 2 slots" );
 	assert.ok( p[0] === 1 && p[1] === 2, "std: p is [1,2]" );
-});
+} );
 
-QUnit.test("compose()",function t18(assert){
+QUnit.test( "compose()", function t18(assert){
 	assert.expect( 7 );
 
 	function foo(x) { return `foo,${x}`; }
@@ -879,30 +875,30 @@ QUnit.test("compose()",function t18(assert){
 	function baz(x) { return `baz,${x}`; }
 
 	var r = FPO.compose( {fns: [foo,bar,baz]} )( 3, 4 );
-	assert.ok( r === "foo,bar,baz,3", "core: r === 'foo,bar,baz,3'" );
+	assert.strictEqual( r, "foo,bar,baz,3", "core: r === 'foo,bar,baz,3'" );
 
 	var p = FPO.compose()( {} )( {fns: [foo]} )( 3, 4 );
-	assert.ok( p === "foo,3", "core: p === 'foo,3'" );
+	assert.strictEqual( p, "foo,3", "core: p === 'foo,3'" );
 
 	var q = FPO.compose()( {} )( {fns: undefined} )( 3, 4 );
-	assert.ok( q === 3, "core: q === 3" );
+	assert.strictEqual( q, 3, "core: q === 3" );
 
 	var t = FPO.compose()( {} )( {fns: []} )( 3, 4 );
-	assert.ok( t === 3, "core: t === 3" );
+	assert.strictEqual( t, 3, "core: t === 3" );
 
 	// **************************************
 
 	r = FPO.std.compose( [foo,bar,baz] )( 3, 4 );
-	assert.ok( r === "foo,bar,baz,3", "std: r === 'foo,bar,baz,3'" );
+	assert.strictEqual( r, "foo,bar,baz,3", "std: r === 'foo,bar,baz,3'" );
 
 	p = FPO.std.compose()( [foo] )( 3, 4 );
-	assert.ok( p === "foo,3", "std: p === 'foo,3'" );
+	assert.strictEqual( p, "foo,3", "std: p === 'foo,3'" );
 
 	q = FPO.std.compose()( [] )( 3, 4 );
-	assert.ok( q === 3, "std: q === 3" );
-});
+	assert.strictEqual( q, 3, "std: q === 3" );
+} );
 
-QUnit.test("pipe()",function t19(assert){
+QUnit.test( "pipe()", function t19(assert){
 	assert.expect( 7 );
 
 	function foo(x) { return `foo,${x}`; }
@@ -910,70 +906,70 @@ QUnit.test("pipe()",function t19(assert){
 	function baz(x) { return `baz,${x}`; }
 
 	var r = FPO.pipe( {fns: [baz,bar,foo]} )( 3, 4 );
-	assert.ok( r === "foo,bar,baz,3", "core: r === 'foo,bar,baz,3'" );
+	assert.strictEqual( r, "foo,bar,baz,3", "core: r === 'foo,bar,baz,3'" );
 
 	var p = FPO.pipe()( {} )( {fns: [foo]} )( 3, 4 );
-	assert.ok( p === "foo,3", "p === 'foo,3'" );
+	assert.strictEqual( p, "foo,3", "p === 'foo,3'" );
 
 	var q = FPO.pipe()( {} )( {fns: undefined} )( 3, 4 );
-	assert.ok( q === 3, "core: q === 3" );
+	assert.strictEqual( q, 3, "core: q === 3" );
 
 	var t = FPO.pipe()( {} )( {fns: []} )( 3, 4 );
-	assert.ok( t === 3, "core: t === 3" );
+	assert.strictEqual( t, 3, "core: t === 3" );
 
 	// **************************************
 
 	r = FPO.std.pipe( [baz,bar,foo] )( 3, 4 );
-	assert.ok( r === "foo,bar,baz,3", "std: r === 'foo,bar,baz,3'" );
+	assert.strictEqual( r, "foo,bar,baz,3", "std: r === 'foo,bar,baz,3'" );
 
 	p = FPO.std.pipe()( [foo] )( 3, 4 );
-	assert.ok( p === "foo,3", "std: p === 'foo,3'" );
+	assert.strictEqual( p, "foo,3", "std: p === 'foo,3'" );
 
 	q = FPO.std.pipe()( [] )( 3, 4 );
-	assert.ok( q === 3, "std: q === 3" );
-});
+	assert.strictEqual( q, 3, "std: q === 3" );
+} );
 
-QUnit.test("prop()",function t20(assert){
+QUnit.test( "prop()", function t20(assert){
 	assert.expect( 10 );
 
 	var obj1 = { x: 1, y: 2, z: 3, w: 4 };
 	var obj2 = { x: 1, y: 2 };
 
 	var r = FPO.prop( {v: obj1} )( {prop: "x"} );
-	assert.ok( r === 1, "core: r === 1" );
+	assert.strictEqual( r, 1, "core: r === 1" );
 
 	var p = FPO.prop( {v: obj1} )()( {} )( {prop: "y"} );
-	assert.ok( p === 2, "core: p === 2" );
+	assert.strictEqual( p, 2, "core: p === 2" );
 
 	var f = FPO.prop( {prop: "z"} )()( {} );
 	var q = f( {v: obj1} )
-	assert.ok( q === 3, "core: q === 3" );
+	assert.strictEqual( q, 3, "core: q === 3" );
 
 	var t = f( {v: obj2} );
-	assert.ok( t === undefined, "core: t === undefined" );
+	assert.strictEqual( t, undefined, "core: t === undefined" );
 
 	var s = FPO.prop( {prop: undefined, v: undefined} );
-	assert.ok( s === undefined, "core: s === undefined" );
+	assert.strictEqual( s, undefined, "core: s === undefined" );
 
 	var u = FPO.prop( {prop: "", v: {}} );
-	assert.ok( u === undefined, "core: u === undefined" );
+	assert.strictEqual( u, undefined, "core: u === undefined" );
 
 	// **************************************
 
 	r = FPO.std.prop( "z" )( obj1 );
-	assert.ok( r === 3, "std: r === 3" );
+	assert.strictEqual( r, 3, "std: r === 3" );
 
 	p = FPO.std.prop()( "z" )()( obj2 );
-	assert.ok( p === undefined, "std: p === undefined" );
+	assert.strictEqual( p, undefined, "std: p === undefined" );
 
 	q = FPO.std.prop( undefined )( undefined );
-	assert.ok( q === undefined, "std: q === undefined" );
+	assert.strictEqual( q, undefined, "std: q === undefined" );
 
 	t = FPO.std.prop( "" )( {} );
-	assert.ok( t === undefined, "std: t === undefined" );
-});
+	assert.strictEqual( t, undefined, "std: t === undefined" );
+} );
 
-QUnit.test("setProp()",function t21(assert){
+QUnit.test( "setProp()", function t21(assert){
 	assert.expect( 36 );
 
 	var obj1 = { x: 1, y: 2, z: 3, w: 4 };
@@ -1003,13 +999,13 @@ QUnit.test("setProp()",function t21(assert){
 	assert.ok( q && typeof q == "object", "core: q is an object" );
 	assert.ok( _hasProp( q, "" ), "core: q has '' property" );
 	assert.ok( Object.keys( q ).length == 1, "core: q has only 1 property" );
-	assert.ok( q[""] === 10, "core: q[''] === 10" );
+	assert.strictEqual( q[""], 10, "core: q[''] === 10" );
 
 	var t = FPO.setProp( {v: 10, prop: "", o: {}} );
 	assert.ok( t && typeof t == "object", "core: t is an object" );
 	assert.ok( _hasProp( t, "" ), "core: t has '' property" );
 	assert.ok( Object.keys( t ).length == 1, "core: t has only 1 property" );
-	assert.ok( t[""] === 10, "core: t[''] === 10" );
+	assert.strictEqual( t[""], 10, "core: t[''] === 10" );
 
 	// **************************************
 
@@ -1037,16 +1033,16 @@ QUnit.test("setProp()",function t21(assert){
 	assert.ok( q && typeof q == "object", "core: q is an object" );
 	assert.ok( _hasProp( q, "" ), "core: q has '' property" );
 	assert.ok( Object.keys( q ).length == 1, "core: q has only 1 property" );
-	assert.ok( q[""] === 10, "core: q[''] === 10" );
+	assert.strictEqual( q[""], 10, "core: q[''] === 10" );
 
 	t = FPO.std.setProp( "" )( {} )( 10 );
 	assert.ok( t && typeof t == "object", "core: t is an object" );
 	assert.ok( _hasProp( t, "" ), "core: t has '' property" );
 	assert.ok( Object.keys( t ).length == 1, "core: t has only 1 property" );
-	assert.ok( t[""] === 10, "core: t[''] === 10" );
-});
+	assert.strictEqual( t[""], 10, "core: t[''] === 10" );
+} );
 
-QUnit.test("filterIn()",function t22(assert){
+QUnit.test( "filterIn()", function t22(assert){
 	assert.expect( 38 );
 
 	function objCheckParams({ v, i, arr }) {
@@ -1150,9 +1146,9 @@ QUnit.test("filterIn()",function t22(assert){
 	u = FPO.std.filterIn( checkParams, list );
 	assert.ok( u && Array.isArray( u ), "std: u is an array" );
 	assert.ok( Object.keys( u ).length == 0 && u.length == 0, "std: u has no slots" );
-});
+} );
 
-QUnit.test("filterOut()",function t23(assert){
+QUnit.test( "filterOut()", function t23(assert){
 	assert.expect( 38 );
 
 	function objCheckParams({ v, i, arr }) {
@@ -1256,9 +1252,9 @@ QUnit.test("filterOut()",function t23(assert){
 	u = FPO.std.filterOut( checkParams, list );
 	assert.ok( u && Array.isArray( u ), "std: u is an array" );
 	assert.ok( Object.keys( u ).length == 0 && u.length == 0, "std: u has no slots" );
-});
+} );
 
-QUnit.test("map()",function t24(assert){
+QUnit.test( "map()", function t24(assert){
 	assert.expect( 38 );
 
 	function objCheckParams({ v, i, arr }) {
@@ -1363,9 +1359,9 @@ QUnit.test("map()",function t24(assert){
 	);
 	assert.ok( Object.keys( s ).length == 2 && s.length == 2, "std: s has only 2 slots" );
 	assert.ok( s[0] === true && s[1] === true, "std: s is [true,true]" );
-});
+} );
 
-QUnit.test("flatMap()",function t25(assert){
+QUnit.test( "flatMap()", function t25(assert){
 	assert.expect( 38 );
 
 	function objCheckParams({ v, i, arr }) {
@@ -1481,9 +1477,9 @@ QUnit.test("flatMap()",function t25(assert){
 	);
 	assert.ok( Object.keys( s ).length == 2 && s.length == 2, "std: s has only 2 slots" );
 	assert.ok( s[0] === true && s[1] === true, "std: s is [true,true]" );
-});
+} );
 
-QUnit.test("reduce()",function t26(assert){
+QUnit.test( "reduce()", function t26(assert){
 	assert.expect( 12 );
 
 	function objCheckParams({ acc, v, i, arr }) {
@@ -1501,22 +1497,22 @@ QUnit.test("reduce()",function t26(assert){
 	var list = [1,2,3,4,5];
 
 	var r = FPO.reduce( {fn: objSum, arr: list} );
-	assert.ok( r === 15, "core: r === 15" );
+	assert.strictEqual( r, 15, "core: r === 15" );
 
 	var p = FPO.reduce()( {} )( {fn: objSum} )()( {arr: list} );
-	assert.ok( p === 15, "core: p === 15" );
+	assert.strictEqual( p, 15, "core: p === 15" );
 
 	var q = FPO.reduce( {fn: objSum, arr: undefined} );
-	assert.ok( q === undefined, "core: q === undefined" );
+	assert.strictEqual( q, undefined, "core: q === undefined" );
 
 	var t = FPO.reduce( {fn: objSum, arr: [], v: 6} );
-	assert.ok( t === 6, "core: t === 6" );
+	assert.strictEqual( t, 6, "core: t === 6" );
 
 	var s = FPO.reduce( {fn: objCheckParams, arr: list} );
-	assert.ok( s === 15, "core: s === 15" );
+	assert.strictEqual( s, 15, "core: s === 15" );
 
 	var u = FPO.reduce( {fn: objSum, arr: list, v: 6} );
-	assert.ok( u === 21, "core: u === 21" );
+	assert.strictEqual( u, 21, "core: u === 21" );
 
 	// **************************************
 
@@ -1534,25 +1530,25 @@ QUnit.test("reduce()",function t26(assert){
 	function sum(acc,v) { return acc + v; }
 
 	r = FPO.std.reduce( sum, undefined, list );
-	assert.ok( r === 15, "std: r === 15" );
+	assert.strictEqual( r, 15, "std: r === 15" );
 
 	p = FPO.std.reduce()( sum )( undefined )( list );
-	assert.ok( p === 15, "std: p === 15" );
+	assert.strictEqual( p, 15, "std: p === 15" );
 
 	q = FPO.std.reduce( sum, undefined, undefined );
-	assert.ok( q === undefined, "std: q === undefined" );
+	assert.strictEqual( q, undefined, "std: q === undefined" );
 
 	t = FPO.std.reduce( sum, 6, [] );
-	assert.ok( t === 6, "std: t === 6" );
+	assert.strictEqual( t, 6, "std: t === 6" );
 
 	s = FPO.std.reduce( checkParams, undefined, list );
-	assert.ok( s === 15, "std: s === 15" );
+	assert.strictEqual( s, 15, "std: s === 15" );
 
 	u = FPO.std.reduce( sum, 6, list );
-	assert.ok( u === 21, "std: u === 21" );
-});
+	assert.strictEqual( u, 21, "std: u === 21" );
+} );
 
-QUnit.test("reduceRight()",function t27(assert){
+QUnit.test( "reduceRight()", function t27(assert){
 	assert.expect( 12 );
 
 	function objCheckParams({ acc, v, i, arr }) {
@@ -1570,22 +1566,22 @@ QUnit.test("reduceRight()",function t27(assert){
 	var list = ["1","2","3","4","5"];
 
 	var r = FPO.reduceRight( {fn: objConcat, arr: list} );
-	assert.ok( r === "54321", "core: r === '54321'" );
+	assert.strictEqual( r, "54321", "core: r === '54321'" );
 
 	var p = FPO.reduceRight()( {} )( {fn: objConcat} )()( {arr: list} );
-	assert.ok( p === "54321", "core: p === '54321'" );
+	assert.strictEqual( p, "54321", "core: p === '54321'" );
 
 	var q = FPO.reduceRight( {fn: objConcat, arr: undefined} );
-	assert.ok( q === undefined, "core: q === undefined" );
+	assert.strictEqual( q, undefined, "core: q === undefined" );
 
 	var t = FPO.reduceRight( {fn: objConcat, arr: [], v: "6"} );
-	assert.ok( t === "6", "core: t === '6'" );
+	assert.strictEqual( t, "6", "core: t === '6'" );
 
 	var s = FPO.reduceRight( {fn: objCheckParams, arr: list} );
-	assert.ok( s === "54321", "core: s === '54321'" );
+	assert.strictEqual( s, "54321", "core: s === '54321'" );
 
 	var u = FPO.reduceRight( {fn: objConcat, arr: list, v: "6"} );
-	assert.ok( u === "654321", "core: u === '654321'" );
+	assert.strictEqual( u, "654321", "core: u === '654321'" );
 
 	// **************************************
 
@@ -1603,25 +1599,25 @@ QUnit.test("reduceRight()",function t27(assert){
 	function concat(acc,v) { return acc + v; }
 
 	r = FPO.std.reduceRight( concat, undefined, list );
-	assert.ok( r === "54321", "std: r === '54321'" );
+	assert.strictEqual( r, "54321", "std: r === '54321'" );
 
 	p = FPO.std.reduceRight()( concat )( undefined )( list );
-	assert.ok( p === "54321", "std: p === '54321'" );
+	assert.strictEqual( p, "54321", "std: p === '54321'" );
 
 	q = FPO.std.reduceRight( concat, undefined, undefined );
-	assert.ok( q === undefined, "std: q === undefined" );
+	assert.strictEqual( q, undefined, "std: q === undefined" );
 
 	t = FPO.std.reduceRight( concat, "6", [] );
-	assert.ok( t === "6", "std: t === '6'" );
+	assert.strictEqual( t, "6", "std: t === '6'" );
 
 	s = FPO.std.reduceRight( checkParams, undefined, list );
-	assert.ok( s === "54321", "std: s === '54321'" );
+	assert.strictEqual( s, "54321", "std: s === '54321'" );
 
 	u = FPO.std.reduceRight( concat, "6", list );
-	assert.ok( u === "654321", "std: u === '654321'" );
-});
+	assert.strictEqual( u, "654321", "std: u === '654321'" );
+} );
 
-QUnit.test("flatten()",function t28(assert){
+QUnit.test( "flatten()", function t28(assert){
 	assert.expect( 102 );
 
 	var list = [1,2,[3,[4,5]]];
@@ -1905,9 +1901,9 @@ QUnit.test("flatten()",function t28(assert){
 	m = FPO.std.flatten( [] );
 	assert.ok( m && Array.isArray( m ), "std: m is an array" );
 	assert.ok( Object.keys( m ).length == 0 && m.length == 0, "std: m is []" );
-});
+} );
 
-QUnit.test("zip()",function t29(assert){
+QUnit.test( "zip()", function t29(assert){
 	assert.expect( 68 );
 
 	var list1 = [1,4,7];
@@ -2179,9 +2175,9 @@ QUnit.test("zip()",function t29(assert){
 	h = FPO.std.zip( [], [] );
 	assert.ok( h && Array.isArray( h ), "std: h is an array" );
 	assert.ok( Object.keys( h ).length == 0 && h.length == 0, "std: h is []" );
-});
+} );
 
-QUnit.test("trampoline()",function t30(assert){
+QUnit.test( "trampoline()", function t30(assert){
 	assert.expect( 4 );
 
 	function sum(total,x) {
@@ -2190,19 +2186,19 @@ QUnit.test("trampoline()",function t30(assert){
 	}
 
 	var r = FPO.trampoline( {fn: sum} )( 0, 5 );
-	assert.ok( r === 15, "core: r === 15" );
+	assert.strictEqual( r, 15, "core: r === 15" );
 
 	var p = FPO.trampoline()( {} )( {fn: sum} )( 0, 5 );
-	assert.ok( p === 15, "core: p === 15" );
+	assert.strictEqual( p, 15, "core: p === 15" );
 
 	// **************************************
 
 	r = FPO.std.trampoline( sum )( 0, 5 );
-	assert.ok( r === 15, "std: r === 15" );
+	assert.strictEqual( r, 15, "std: r === 15" );
 
 	p = FPO.std.trampoline()( sum )( 0, 5 );
-	assert.ok( p === 15, "std: p === 15" );
-});
+	assert.strictEqual( p, 15, "std: p === 15" );
+} );
 
 
 
