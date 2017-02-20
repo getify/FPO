@@ -99,25 +99,25 @@ QUnit.test("API aliases present",function t3(assert){
 QUnit.test("identity()",function t4(assert){
 	assert.expect( 6 );
 
-	var v = FPO.identity( {v: 2} );
-	assert.ok( v === 2, "core: v === 2" );
+	var r = FPO.identity( {v: 2} );
+	assert.ok( r === 2, "core: r === 2" );
 
-	v = FPO.identity()( {} )( { v: undefined } );
-	assert.ok( v === undefined, "core: v === undefined" );
+	r = FPO.identity()( {} )( { v: undefined } );
+	assert.ok( r === undefined, "core: r === undefined" );
 
-	v = FPO.identity()( {} )( {v: 3} );
-	assert.ok( v === 3, "core: v === 3" );
+	r = FPO.identity()( {} )( {v: 3} );
+	assert.ok( r === 3, "core: r === 3" );
 
 	// **************************************
 
-	v = FPO.std.identity( 2 );
-	assert.ok( v === 2, "std: v === 2" );
+	r = FPO.std.identity( 2 );
+	assert.ok( r === 2, "std: r === 2" );
 
-	v = FPO.std.identity()( undefined );
-	assert.ok( v === undefined, "std: v === undefined" );
+	r = FPO.std.identity()( undefined );
+	assert.ok( r === undefined, "std: r === undefined" );
 
-	v = FPO.std.identity()( 3 );
-	assert.ok( v === 3, "std: v === 3" );
+	r = FPO.std.identity()( 3 );
+	assert.ok( r === 3, "std: r === 3" );
 });
 
 QUnit.test("constant()",function t5(assert){
@@ -1894,6 +1894,280 @@ QUnit.test("flatten()",function t28(assert){
 	m = FPO.std.flatten( [] );
 	assert.ok( m && Array.isArray( m ), "std: m is an array" );
 	assert.ok( Object.keys( m ).length == 0 && m.length == 0, "std: m is []" );
+});
+
+QUnit.test("zip()",function t29(assert){
+	assert.expect( 68 );
+
+	var list1 = [1,4,7];
+	var list2 = [2,5,8];
+	var list3 = [3,6];
+
+	var r = FPO.zip( {arr1: list1, arr2: list2} );
+	assert.ok( r && Array.isArray( r ), "core: r is an array" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
+		"core: r has filled slots at indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "core: r has only 3 slots" );
+	assert.ok(
+		r[0] && Array.isArray( r[0] ) &&
+		r[1] && Array.isArray( r[1] ) &&
+		r[2] && Array.isArray( r[2] ),
+		"core: r[0]/r[1]/r[2] are each arrays"
+	);
+	assert.ok(
+		_hasProp( r[0], "0" ) && _hasProp( r[0], "1" ) &&
+		_hasProp( r[1], "0" ) && _hasProp( r[1], "1" ) &&
+		_hasProp( r[2], "0" ) && _hasProp( r[2], "1" ),
+		"core: r[0]/r[1]/r[2] each have filled slots at indexes 0 and 1"
+	);
+	assert.ok(
+		Object.keys( r[0] ).length == 2 && r[0].length == 2 &&
+		Object.keys( r[1] ).length == 2 && r[1].length == 2 &&
+		Object.keys( r[2] ).length == 2 && r[2].length == 2,
+		"core: r[0]/r[1]/r[2] each have only 2 slots"
+	);
+	assert.ok(
+		r[0][0] === 1 && r[0][1] === 2 &&
+		r[1][0] === 4 && r[1][1] === 5 &&
+		r[2][0] === 7 && r[2][1] === 8,
+		"core: r is [[1,2],[4,5],[7,8]]"
+	);
+
+	var p = FPO.zip()( {} )( {arr1: list1} )()( {} )( {arr2: list2} );
+	assert.ok( p && Array.isArray( p ), "core: p is an array" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ) && _hasProp( p, "2" ),
+		"core: p has filled slots at indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( p ).length == 3 && p.length == 3, "core: p has only 3 slots" );
+	assert.ok(
+		p[0] && Array.isArray( p[0] ) &&
+		p[1] && Array.isArray( p[1] ) &&
+		p[2] && Array.isArray( p[2] ),
+		"core: p[0]/p[1]/p[2] are each arrays"
+	);
+	assert.ok(
+		_hasProp( p[0], "0" ) && _hasProp( p[0], "1" ) &&
+		_hasProp( p[1], "0" ) && _hasProp( p[1], "1" ) &&
+		_hasProp( p[2], "0" ) && _hasProp( p[2], "1" ),
+		"core: p[0]/p[1]/p[2] each have filled slots at indexes 0 and 1"
+	);
+	assert.ok(
+		Object.keys( p[0] ).length == 2 && p[0].length == 2 &&
+		Object.keys( p[1] ).length == 2 && p[1].length == 2 &&
+		Object.keys( p[2] ).length == 2 && p[2].length == 2,
+		"core: p[0]/p[1]/p[2] each have only 2 slots"
+	);
+	assert.ok(
+		p[0][0] === 1 && p[0][1] === 2 &&
+		p[1][0] === 4 && p[1][1] === 5 &&
+		p[2][0] === 7 && p[2][1] === 8,
+		"core: p is [[1,2],[4,5],[7,8]]"
+	);
+
+	var q = FPO.zip( {arr1: list1, arr2: list3} );
+	assert.ok( q && Array.isArray( q ), "core: q is an array" );
+	assert.ok(
+		_hasProp( q, "0" ) && _hasProp( q, "1" ),
+		"core: q has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( q ).length == 2 && q.length == 2, "core: q has only 2 slots" );
+	assert.ok(
+		q[0] && Array.isArray( q[0] ) &&
+		q[1] && Array.isArray( q[1] ),
+		"core: q[0]/q[1] are each arrays"
+	);
+	assert.ok(
+		_hasProp( q[0], "0" ) && _hasProp( q[0], "1" ) &&
+		_hasProp( q[1], "0" ) && _hasProp( q[1], "1" ),
+		"core: q[0]/q[1] each have filled slots at indexes 0 and 1"
+	);
+	assert.ok(
+		Object.keys( q[0] ).length == 2 && q[0].length == 2 &&
+		Object.keys( q[1] ).length == 2 && q[1].length == 2,
+		"core: q[0]/q[1] each have only 2 slots"
+	);
+	assert.ok(
+		q[0][0] === 1 && q[0][1] === 3 &&
+		q[1][0] === 4 && q[1][1] === 6,
+		"core: q is [[1,3],[4,6]]"
+	);
+
+	var t = FPO.zip( {arr1: list3, arr2: list1} );
+	assert.ok( t && Array.isArray( t ), "core: t is an array" );
+	assert.ok(
+		_hasProp( t, "0" ) && _hasProp( t, "1" ),
+		"core: t has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( t ).length == 2 && t.length == 2, "core: t has only 2 slots" );
+	assert.ok(
+		t[0] && Array.isArray( t[0] ) &&
+		t[1] && Array.isArray( t[1] ),
+		"core: t[0]/t[1] are each arrays"
+	);
+	assert.ok(
+		_hasProp( t[0], "0" ) && _hasProp( t[0], "1" ) &&
+		_hasProp( t[1], "0" ) && _hasProp( t[1], "1" ),
+		"core: t[0]/t[1] each have filled slots at indexes 0 and 1"
+	);
+	assert.ok(
+		Object.keys( t[0] ).length == 2 && t[0].length == 2 &&
+		Object.keys( t[1] ).length == 2 && t[1].length == 2,
+		"core: t[0]/t[1] each have only 2 slots"
+	);
+	assert.ok(
+		t[0][0] === 3 && t[0][1] === 1 &&
+		t[1][0] === 6 && t[1][1] === 4,
+		"core: t is [[3,1],[6,4]]"
+	);
+
+	var s = FPO.zip( {arr1: list1, arr2: undefined} );
+	assert.ok( s && Array.isArray( s ), "core: s is an array" );
+	assert.ok( Object.keys( s ).length == 0 && s.length == 0, "core: s is []" );
+
+	var u = FPO.zip( {arr1: undefined, arr2: undefined} );
+	assert.ok( u && Array.isArray( u ), "core: u is an array" );
+	assert.ok( Object.keys( u ).length == 0 && u.length == 0, "core: u is []" );
+
+	var h = FPO.zip( {arr1: [], arr2: []} );
+	assert.ok( h && Array.isArray( h ), "core: h is an array" );
+	assert.ok( Object.keys( h ).length == 0 && h.length == 0, "core: h is []" );
+
+	// **************************************
+
+	r = FPO.std.zip( list1, list2 );
+	assert.ok( r && Array.isArray( r ), "std: r is an array" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
+		"std: r has filled slots at indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "std: r has only 3 slots" );
+	assert.ok(
+		r[0] && Array.isArray( r[0] ) &&
+		r[1] && Array.isArray( r[1] ) &&
+		r[2] && Array.isArray( r[2] ),
+		"std: r[0]/r[1]/r[2] are each arrays"
+	);
+	assert.ok(
+		_hasProp( r[0], "0" ) && _hasProp( r[0], "1" ) &&
+		_hasProp( r[1], "0" ) && _hasProp( r[1], "1" ) &&
+		_hasProp( r[2], "0" ) && _hasProp( r[2], "1" ),
+		"std: r[0]/r[1]/r[2] each have filled slots at indexes 0 and 1"
+	);
+	assert.ok(
+		Object.keys( r[0] ).length == 2 && r[0].length == 2 &&
+		Object.keys( r[1] ).length == 2 && r[1].length == 2 &&
+		Object.keys( r[2] ).length == 2 && r[2].length == 2,
+		"std: r[0]/r[1]/r[2] each have only 2 slots"
+	);
+	assert.ok(
+		r[0][0] === 1 && r[0][1] === 2 &&
+		r[1][0] === 4 && r[1][1] === 5 &&
+		r[2][0] === 7 && r[2][1] === 8,
+		"std: r is [[1,2],[4,5],[7,8]]"
+	);
+
+	p = FPO.std.zip()( list1 )()( list2 );
+	assert.ok( p && Array.isArray( p ), "std: p is an array" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ) && _hasProp( p, "2" ),
+		"std: p has filled slots at indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( p ).length == 3 && p.length == 3, "std: p has only 3 slots" );
+	assert.ok(
+		p[0] && Array.isArray( p[0] ) &&
+		p[1] && Array.isArray( p[1] ) &&
+		p[2] && Array.isArray( p[2] ),
+		"std: p[0]/p[1]/p[2] are each arrays"
+	);
+	assert.ok(
+		_hasProp( p[0], "0" ) && _hasProp( p[0], "1" ) &&
+		_hasProp( p[1], "0" ) && _hasProp( p[1], "1" ) &&
+		_hasProp( p[2], "0" ) && _hasProp( p[2], "1" ),
+		"std: p[0]/p[1]/p[2] each have filled slots at indexes 0 and 1"
+	);
+	assert.ok(
+		Object.keys( p[0] ).length == 2 && p[0].length == 2 &&
+		Object.keys( p[1] ).length == 2 && p[1].length == 2 &&
+		Object.keys( p[2] ).length == 2 && p[2].length == 2,
+		"std: p[0]/p[1]/p[2] each have only 2 slots"
+	);
+	assert.ok(
+		p[0][0] === 1 && p[0][1] === 2 &&
+		p[1][0] === 4 && p[1][1] === 5 &&
+		p[2][0] === 7 && p[2][1] === 8,
+		"std: p is [[1,2],[4,5],[7,8]]"
+	);
+
+	q = FPO.std.zip( list1, list3 );
+	assert.ok( q && Array.isArray( q ), "std: q is an array" );
+	assert.ok(
+		_hasProp( q, "0" ) && _hasProp( q, "1" ),
+		"std: q has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( q ).length == 2 && q.length == 2, "std: q has only 2 slots" );
+	assert.ok(
+		q[0] && Array.isArray( q[0] ) &&
+		q[1] && Array.isArray( q[1] ),
+		"std: q[0]/q[1] are each arrays"
+	);
+	assert.ok(
+		_hasProp( q[0], "0" ) && _hasProp( q[0], "1" ) &&
+		_hasProp( q[1], "0" ) && _hasProp( q[1], "1" ),
+		"std: q[0]/q[1] each have filled slots at indexes 0 and 1"
+	);
+	assert.ok(
+		Object.keys( q[0] ).length == 2 && q[0].length == 2 &&
+		Object.keys( q[1] ).length == 2 && q[1].length == 2,
+		"std: q[0]/q[1] each have only 2 slots"
+	);
+	assert.ok(
+		q[0][0] === 1 && q[0][1] === 3 &&
+		q[1][0] === 4 && q[1][1] === 6,
+		"std: q is [[1,3],[4,6]]"
+	);
+
+	t = FPO.std.zip( list3, list1 );
+	assert.ok( t && Array.isArray( t ), "std: t is an array" );
+	assert.ok(
+		_hasProp( t, "0" ) && _hasProp( t, "1" ),
+		"std: t has filled slots at indexes 0 and 1"
+	);
+	assert.ok( Object.keys( t ).length == 2 && t.length == 2, "std: t has only 2 slots" );
+	assert.ok(
+		t[0] && Array.isArray( t[0] ) &&
+		t[1] && Array.isArray( t[1] ),
+		"std: t[0]/t[1] are each arrays"
+	);
+	assert.ok(
+		_hasProp( t[0], "0" ) && _hasProp( t[0], "1" ) &&
+		_hasProp( t[1], "0" ) && _hasProp( t[1], "1" ),
+		"std: t[0]/t[1] each have filled slots at indexes 0 and 1"
+	);
+	assert.ok(
+		Object.keys( t[0] ).length == 2 && t[0].length == 2 &&
+		Object.keys( t[1] ).length == 2 && t[1].length == 2,
+		"std: t[0]/t[1] each have only 2 slots"
+	);
+	assert.ok(
+		t[0][0] === 3 && t[0][1] === 1 &&
+		t[1][0] === 6 && t[1][1] === 4,
+		"std: t is [[3,1],[6,4]]"
+	);
+
+	s = FPO.std.zip( list1, undefined );
+	assert.ok( s && Array.isArray( s ), "std: s is an array" );
+	assert.ok( Object.keys( s ).length == 0 && s.length == 0, "std: s is []" );
+
+	u = FPO.std.zip( undefined, undefined );
+	assert.ok( u && Array.isArray( u ), "std: u is an array" );
+	assert.ok( Object.keys( u ).length == 0 && u.length == 0, "std: u is []" );
+
+	h = FPO.std.zip( [], [] );
+	assert.ok( h && Array.isArray( h ), "std: h is an array" );
+	assert.ok( Object.keys( h ).length == 0 && h.length == 0, "std: h is []" );
 });
 
 
