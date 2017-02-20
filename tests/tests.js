@@ -1610,6 +1610,294 @@ QUnit.test("reduceRight()",function t27(assert){
 	assert.ok( u === "654321", "std: u === '654321'" );
 });
 
+QUnit.test("flatten()",function t28(assert){
+	assert.expect( 102 );
+
+	var list = [1,2,[3,[4,5]]];
+
+	var r = FPO.flatten( {v: list} );
+	assert.ok( r && Array.isArray( r ), "core: r is an array" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ) &&
+		_hasProp( r, "3" ) && _hasProp( r, "4" ),
+		"core: r has filled slots as indexes 0, 1, 2, 3, and 4"
+	);
+	assert.ok( Object.keys( r ).length == 5 && r.length == 5, "core: r has only 5 slots" );
+	assert.ok(
+		r[0] === 1 && r[1] === 2 && r[2] === 3 && r[3] === 4 && r[4] === 5,
+		"core: r is [1,2,3,4,5]"
+	);
+
+	var p = FPO.flatten()( {} )( {v: list} );
+	assert.ok( p && Array.isArray( p ), "core: p is an array" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ) && _hasProp( p, "2" ) &&
+		_hasProp( p, "3" ) && _hasProp( p, "4" ),
+		"core: p has filled slots as indexes 0, 1, 2, 3, and 4"
+	);
+	assert.ok( Object.keys( p ).length == 5 && p.length == 5, "core: p has only 5 slots" );
+	assert.ok(
+		p[0] === 1 && p[1] === 2 && p[2] === 3 && p[3] === 4 && p[4] === 5,
+		"core: p is [1,2,3,4,5]"
+	);
+
+	var q = FPO.flatten( {n: undefined, v: list} );
+	assert.ok( q && Array.isArray( q ), "core: q is an array" );
+	assert.ok(
+		_hasProp( q, "0" ) && _hasProp( q, "1" ) && _hasProp( q, "2" ) &&
+		_hasProp( q, "3" ) && _hasProp( q, "4" ),
+		"core: q has filled slots as indexes 0, 1, 2, 3, and 4"
+	);
+	assert.ok( Object.keys( q ).length == 5 && q.length == 5, "core: q has only 5 slots" );
+	assert.ok(
+		q[0] === 1 && q[1] === 2 && q[2] === 3 && q[3] === 4 && q[4] === 5,
+		"core: q is [1,2,3,4,5]"
+	);
+
+	var t = FPO.flatten( {n: 5, v: list} );
+	assert.ok( t && Array.isArray( t ), "core: t is an array" );
+	assert.ok(
+		_hasProp( t, "0" ) && _hasProp( t, "1" ) && _hasProp( t, "2" ) &&
+		_hasProp( t, "3" ) && _hasProp( t, "4" ),
+		"core: t has filled slots as indexes 0, 1, 2, 3, and 4"
+	);
+	assert.ok( Object.keys( t ).length == 5 && t.length == 5, "core: t has only 5 slots" );
+	assert.ok(
+		t[0] === 1 && t[1] === 2 && t[2] === 3 && t[3] === 4 && t[4] === 5,
+		"core: t is [1,2,3,4,5]"
+	);
+
+	var s = FPO.flatten( {n: 2, v: list} );
+	assert.ok( s && Array.isArray( s ), "core: s is an array" );
+	assert.ok(
+		_hasProp( s, "0" ) && _hasProp( s, "1" ) && _hasProp( s, "2" ) &&
+		_hasProp( s, "3" ) && _hasProp( s, "4" ),
+		"core: s has filled slots as indexes 0, 1, 2, 3, and 4"
+	);
+	assert.ok( Object.keys( s ).length == 5 && s.length == 5, "core: s has only 5 slots" );
+	assert.ok(
+		s[0] === 1 && s[1] === 2 && s[2] === 3 && s[3] === 4 && s[4] === 5,
+		"core: s is [1,2,3,4,5]"
+	);
+
+	var u = FPO.flatten( {n: 1, v: list} );
+	assert.ok( u && Array.isArray( u ), "core: u is an array" );
+	assert.ok(
+		_hasProp( u, "0" ) && _hasProp( u, "1" ) && _hasProp( u, "2" ) && _hasProp( u, "3" ),
+		"core: u has filled slots as indexes 0, 1, 2, and 3"
+	);
+	assert.ok( Object.keys( u ).length == 4 && u.length == 4, "core: u has only 4 slots" );
+	assert.ok( u[3] && Array.isArray( u[3] ), "core: u[3] is an array" );
+	assert.ok(
+		_hasProp( u[3], "0" ) && _hasProp( u[3], "1" ),
+		"core: u[3] has filled slots as indexes 0 and 1"
+	);
+	assert.ok( Object.keys( u[3] ).length == 2 && u[3].length == 2, "core: u[3] has only 2 slots" );
+	assert.ok(
+		u[0] === 1 && u[1] === 2 && u[2] === 3 && u[3][0] === 4 && u[3][1] === 5,
+		"core: u is [1,2,3,[4,5]]"
+	);
+
+	var h = FPO.flatten( {n: 0, v: list} );
+	assert.ok( h && Array.isArray( h ), "core: h is an array" );
+	assert.ok(
+		_hasProp( h, "0" ) && _hasProp( h, "1" ) && _hasProp( h, "2" ),
+		"core: h has filled slots as indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( h ).length == 3 && h.length == 3, "core: h has only 3 slots" );
+	assert.ok( h[2] && Array.isArray( h[2] ), "core: h[2] is an array" );
+	assert.ok(
+		_hasProp( h[2], "0" ) && _hasProp( h[2], "1" ),
+		"core: h[2] has filled slots as indexes 0 and 1"
+	);
+	assert.ok( Object.keys( h[2] ).length == 2 && h[2].length == 2, "core: h[2] has only 2 slots" );
+	assert.ok( h[2][1] && Array.isArray( h[2][1] ), "core: h[2][1] is an array" );
+	assert.ok(
+		_hasProp( h[2][1], "0" ) && _hasProp( h[2][1], "1" ),
+		"core: h[2][1] has filled slots as indexes 0 and 1"
+	);
+	assert.ok( Object.keys( h[2][1] ).length == 2 && h[2][1].length == 2, "core: h[2][1] has only 2 slots" );
+	assert.ok(
+		h[0] === 1 && h[1] === 2 && h[2][0] === 3 && h[2][1][0] === 4 && h[2][1][1] === 5,
+		"core: h is [1,2,[3,[4,5]]]"
+	);
+
+	var j = FPO.flatten( {n: "-whatever-", v: list} );
+	assert.ok( j && Array.isArray( j ), "core: j is an array" );
+	assert.ok(
+		_hasProp( j, "0" ) && _hasProp( j, "1" ) && _hasProp( j, "2" ),
+		"core: j has filled slots as indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( j ).length == 3 && j.length == 3, "core: j has only 3 slots" );
+	assert.ok( j[2] && Array.isArray( j[2] ), "core: j[2] is an array" );
+	assert.ok(
+		_hasProp( j[2], "0" ) && _hasProp( j[2], "1" ),
+		"core: j[2] has filled slots as indexes 0 and 1"
+	);
+	assert.ok( Object.keys( j[2] ).length == 2 && j[2].length == 2, "core: j[2] has only 2 slots" );
+	assert.ok( j[2][1] && Array.isArray( j[2][1] ), "core: j[2][1] is an array" );
+	assert.ok(
+		_hasProp( j[2][1], "0" ) && _hasProp( j[2][1], "1" ),
+		"core: j[2][1] has filled slots as indexes 0 and 1"
+	);
+	assert.ok( Object.keys( j[2][1] ).length == 2 && j[2][1].length == 2, "core: j[2][1] has only 2 slots" );
+	assert.ok(
+		j[0] === 1 && j[1] === 2 && j[2][0] === 3 && j[2][1][0] === 4 && j[2][1][1] === 5,
+		"core: j is [1,2,[3,[4,5]]]"
+	);
+
+	var k = FPO.flatten( {v: undefined} );
+	assert.ok( k && Array.isArray( k ), "core: k is an array" );
+	assert.ok( Object.keys( k ).length == 0 && k.length == 0, "core: k is []" );
+
+	var m = FPO.flatten( {v: []} );
+	assert.ok( m && Array.isArray( m ), "core: m is an array" );
+	assert.ok( Object.keys( m ).length == 0 && m.length == 0, "core: m is []" );
+
+	// **************************************
+
+	r = FPO.std.flatten( list );
+	assert.ok( r && Array.isArray( r ), "std: r is an array" );
+	assert.ok(
+		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ) &&
+		_hasProp( r, "3" ) && _hasProp( r, "4" ),
+		"std: r has filled slots as indexes 0, 1, 2, 3, and 4"
+	);
+	assert.ok( Object.keys( r ).length == 5 && r.length == 5, "std: r has only 5 slots" );
+	assert.ok(
+		r[0] === 1 && r[1] === 2 && r[2] === 3 && r[3] === 4 && r[4] === 5,
+		"std: r is [1,2,3,4,5]"
+	);
+
+	p = FPO.std.flatten()( list );
+	assert.ok( p && Array.isArray( p ), "std: p is an array" );
+	assert.ok(
+		_hasProp( p, "0" ) && _hasProp( p, "1" ) && _hasProp( p, "2" ) &&
+		_hasProp( p, "3" ) && _hasProp( p, "4" ),
+		"std: p has filled slots as indexes 0, 1, 2, 3, and 4"
+	);
+	assert.ok( Object.keys( p ).length == 5 && p.length == 5, "std: p has only 5 slots" );
+	assert.ok(
+		p[0] === 1 && p[1] === 2 && p[2] === 3 && p[3] === 4 && p[4] === 5,
+		"std: p is [1,2,3,4,5]"
+	);
+
+	q = FPO.std.flatten( list, undefined );
+	assert.ok( q && Array.isArray( q ), "std: q is an array" );
+	assert.ok(
+		_hasProp( q, "0" ) && _hasProp( q, "1" ) && _hasProp( q, "2" ) &&
+		_hasProp( q, "3" ) && _hasProp( q, "4" ),
+		"std: q has filled slots as indexes 0, 1, 2, 3, and 4"
+	);
+	assert.ok( Object.keys( q ).length == 5 && q.length == 5, "std: q has only 5 slots" );
+	assert.ok(
+		q[0] === 1 && q[1] === 2 && q[2] === 3 && q[3] === 4 && q[4] === 5,
+		"std: q is [1,2,3,4,5]"
+	);
+
+	t = FPO.std.flatten( list, 5 );
+	assert.ok( t && Array.isArray( t ), "std: t is an array" );
+	assert.ok(
+		_hasProp( t, "0" ) && _hasProp( t, "1" ) && _hasProp( t, "2" ) &&
+		_hasProp( t, "3" ) && _hasProp( t, "4" ),
+		"std: t has filled slots as indexes 0, 1, 2, 3, and 4"
+	);
+	assert.ok( Object.keys( t ).length == 5 && t.length == 5, "std: t has only 5 slots" );
+	assert.ok(
+		t[0] === 1 && t[1] === 2 && t[2] === 3 && t[3] === 4 && t[4] === 5,
+		"std: t is [1,2,3,4,5]"
+	);
+
+	s = FPO.std.flatten( list, 2 );
+	assert.ok( s && Array.isArray( s ), "std: s is an array" );
+	assert.ok(
+		_hasProp( s, "0" ) && _hasProp( s, "1" ) && _hasProp( s, "2" ) &&
+		_hasProp( s, "3" ) && _hasProp( s, "4" ),
+		"std: s has filled slots as indexes 0, 1, 2, 3, and 4"
+	);
+	assert.ok( Object.keys( s ).length == 5 && s.length == 5, "std: s has only 5 slots" );
+	assert.ok(
+		s[0] === 1 && s[1] === 2 && s[2] === 3 && s[3] === 4 && s[4] === 5,
+		"std: s is [1,2,3,4,5]"
+	);
+
+	u = FPO.std.flatten( list, 1 );
+	assert.ok( u && Array.isArray( u ), "std: u is an array" );
+	assert.ok(
+		_hasProp( u, "0" ) && _hasProp( u, "1" ) && _hasProp( u, "2" ) && _hasProp( u, "3" ),
+		"std: u has filled slots as indexes 0, 1, 2, and 3"
+	);
+	assert.ok( Object.keys( u ).length == 4 && u.length == 4, "std: u has only 4 slots" );
+	assert.ok( u[3] && Array.isArray( u[3] ), "std: u[3] is an array" );
+	assert.ok(
+		_hasProp( u[3], "0" ) && _hasProp( u[3], "1" ),
+		"std: u[3] has filled slots as indexes 0 and 1"
+	);
+	assert.ok( Object.keys( u[3] ).length == 2 && u[3].length == 2, "std: u[3] has only 2 slots" );
+	assert.ok(
+		u[0] === 1 && u[1] === 2 && u[2] === 3 && u[3][0] === 4 && u[3][1] === 5,
+		"std: u is [1,2,3,[4,5]]"
+	);
+
+	h = FPO.std.flatten( list, 0 );
+	assert.ok( h && Array.isArray( h ), "std: h is an array" );
+	assert.ok(
+		_hasProp( h, "0" ) && _hasProp( h, "1" ) && _hasProp( h, "2" ),
+		"std: h has filled slots as indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( h ).length == 3 && h.length == 3, "std: h has only 3 slots" );
+	assert.ok( h[2] && Array.isArray( h[2] ), "std: h[2] is an array" );
+	assert.ok(
+		_hasProp( h[2], "0" ) && _hasProp( h[2], "1" ),
+		"std: h[2] has filled slots as indexes 0 and 1"
+	);
+	assert.ok( Object.keys( h[2] ).length == 2 && h[2].length == 2, "std: h[2] has only 2 slots" );
+	assert.ok( h[2][1] && Array.isArray( h[2][1] ), "std: h[2][1] is an array" );
+	assert.ok(
+		_hasProp( h[2][1], "0" ) && _hasProp( h[2][1], "1" ),
+		"std: h[2][1] has filled slots as indexes 0 and 1"
+	);
+	assert.ok( Object.keys( h[2][1] ).length == 2 && h[2][1].length == 2, "std: h[2][1] has only 2 slots" );
+	assert.ok(
+		h[0] === 1 && h[1] === 2 && h[2][0] === 3 && h[2][1][0] === 4 && h[2][1][1] === 5,
+		"std: h is [1,2,[3,[4,5]]]"
+	);
+
+	j = FPO.std.flatten( list, "-whatever-" );
+	assert.ok( j && Array.isArray( j ), "std: j is an array" );
+	assert.ok(
+		_hasProp( j, "0" ) && _hasProp( j, "1" ) && _hasProp( j, "2" ),
+		"std: j has filled slots as indexes 0, 1, and 2"
+	);
+	assert.ok( Object.keys( j ).length == 3 && j.length == 3, "std: j has only 3 slots" );
+	assert.ok( j[2] && Array.isArray( j[2] ), "std: j[2] is an array" );
+	assert.ok(
+		_hasProp( j[2], "0" ) && _hasProp( j[2], "1" ),
+		"std: j[2] has filled slots as indexes 0 and 1"
+	);
+	assert.ok( Object.keys( j[2] ).length == 2 && j[2].length == 2, "std: j[2] has only 2 slots" );
+	assert.ok( j[2][1] && Array.isArray( j[2][1] ), "std: j[2][1] is an array" );
+	assert.ok(
+		_hasProp( j[2][1], "0" ) && _hasProp( j[2][1], "1" ),
+		"std: j[2][1] has filled slots as indexes 0 and 1"
+	);
+	assert.ok( Object.keys( j[2][1] ).length == 2 && j[2][1].length == 2, "std: j[2][1] has only 2 slots" );
+	assert.ok(
+		j[0] === 1 && j[1] === 2 && j[2][0] === 3 && j[2][1][0] === 4 && j[2][1][1] === 5,
+		"std: j is [1,2,[3,[4,5]]]"
+	);
+
+	k = FPO.std.flatten( undefined );
+	assert.ok( k && Array.isArray( k ), "std: k is an array" );
+	assert.ok( Object.keys( k ).length == 0 && k.length == 0, "std: k is []" );
+
+	m = FPO.std.flatten( [] );
+	assert.ok( m && Array.isArray( m ), "std: m is an array" );
+	assert.ok( Object.keys( m ).length == 0 && m.length == 0, "std: m is []" );
+});
+
+
+
 
 
 
