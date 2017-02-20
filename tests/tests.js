@@ -2170,6 +2170,29 @@ QUnit.test("zip()",function t29(assert){
 	assert.ok( Object.keys( h ).length == 0 && h.length == 0, "std: h is []" );
 });
 
+QUnit.test("trampoline()",function t30(assert){
+	assert.expect( 4 );
+
+	function sum(total,x) {
+		if (x <= 1) return total + x;
+		return () => sum( total + x, x - 1 );
+	}
+
+	var r = FPO.trampoline( {fn: sum} )( 0, 5 );
+	assert.ok( r === 15, "core: r === 15" );
+
+	var p = FPO.trampoline()( {} )( {fn: sum} )( 0, 5 );
+	assert.ok( p === 15, "core: p === 15" );
+
+	// **************************************
+
+	r = FPO.std.trampoline( sum )( 0, 5 );
+	assert.ok( r === 15, "std: r === 15" );
+
+	p = FPO.std.trampoline()( sum )( 0, 5 );
+	assert.ok( p === 15, "std: p === 15" );
+});
+
 
 
 
