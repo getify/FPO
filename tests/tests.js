@@ -1472,6 +1472,143 @@ QUnit.test("flatMap()",function t25(assert){
 	assert.ok( s[0] === true && s[1] === true, "std: s is [true,true]" );
 });
 
+QUnit.test("reduce()",function t26(assert){
+	assert.expect( 12 );
+
+	function objCheckParams({ acc, v, i, arr }) {
+		if (
+			arr === list &&
+			typeof acc == "number" && typeof v == "number" &&
+			typeof i == "number" && Array.isArray( arr ) &&
+			v === (i + 1) && arr[i] === v
+		) {
+			return acc + v;
+		}
+		return NaN;
+	}
+	function objSum({ acc, v }) { return acc + v; }
+	var list = [1,2,3,4,5];
+
+	var r = FPO.reduce( {fn: objSum, arr: list} );
+	assert.ok( r === 15, "core: r === 15" );
+
+	var p = FPO.reduce()( {} )( {fn: objSum} )()( {arr: list} );
+	assert.ok( p === 15, "core: p === 15" );
+
+	var q = FPO.reduce( {fn: objSum, arr: undefined} );
+	assert.ok( q === undefined, "core: q === undefined" );
+
+	var t = FPO.reduce( {fn: objSum, arr: [], v: 6} );
+	assert.ok( t === 6, "core: t === 6" );
+
+	var s = FPO.reduce( {fn: objCheckParams, arr: list} );
+	assert.ok( s === 15, "core: s === 15" );
+
+	var u = FPO.reduce( {fn: objSum, arr: list, v: 6} );
+	assert.ok( u === 21, "core: u === 21" );
+
+	// **************************************
+
+	function checkParams(acc,v,i,arr) {
+		if (
+			arr === list &&
+			typeof acc == "number" && typeof v == "number" &&
+			typeof i == "number" && Array.isArray( arr ) &&
+			v === (i + 1) && arr[i] === v
+		) {
+			return acc + v;
+		}
+		return NaN;
+	}
+	function sum(acc,v) { return acc + v; }
+
+	r = FPO.std.reduce( sum, undefined, list );
+	assert.ok( r === 15, "std: r === 15" );
+
+	p = FPO.std.reduce()( sum )( undefined )( list );
+	assert.ok( p === 15, "std: p === 15" );
+
+	q = FPO.std.reduce( sum, undefined, undefined );
+	assert.ok( q === undefined, "std: q === undefined" );
+
+	t = FPO.std.reduce( sum, 6, [] );
+	assert.ok( t === 6, "std: t === 6" );
+
+	s = FPO.std.reduce( checkParams, undefined, list );
+	assert.ok( s === 15, "std: s === 15" );
+
+	u = FPO.std.reduce( sum, 6, list );
+	assert.ok( u === 21, "std: u === 21" );
+});
+
+QUnit.test("reduceRight()",function t27(assert){
+	assert.expect( 12 );
+
+	function objCheckParams({ acc, v, i, arr }) {
+		if (
+			arr === list &&
+			typeof acc == "string" && typeof v == "string" &&
+			typeof i == "number" && Array.isArray( arr ) &&
+			Number( v ) === (i + 1) && arr[i] === v
+		) {
+			return acc + v;
+		}
+		return NaN;
+	}
+	function objConcat({ acc, v }) { return acc + v; }
+	var list = ["1","2","3","4","5"];
+
+	var r = FPO.reduceRight( {fn: objConcat, arr: list} );
+	assert.ok( r === "54321", "core: r === '54321'" );
+
+	var p = FPO.reduceRight()( {} )( {fn: objConcat} )()( {arr: list} );
+	assert.ok( p === "54321", "core: p === '54321'" );
+
+	var q = FPO.reduceRight( {fn: objConcat, arr: undefined} );
+	assert.ok( q === undefined, "core: q === undefined" );
+
+	var t = FPO.reduceRight( {fn: objConcat, arr: [], v: "6"} );
+	assert.ok( t === "6", "core: t === '6'" );
+
+	var s = FPO.reduceRight( {fn: objCheckParams, arr: list} );
+	assert.ok( s === "54321", "core: s === '54321'" );
+
+	var u = FPO.reduceRight( {fn: objConcat, arr: list, v: "6"} );
+	assert.ok( u === "654321", "core: u === '654321'" );
+
+	// **************************************
+
+	function checkParams(acc,v,i,arr) {
+		if (
+			arr === list &&
+			typeof acc == "string" && typeof v == "string" &&
+			typeof i == "number" && Array.isArray( arr ) &&
+			Number( v ) === (i + 1) && arr[i] === v
+		) {
+			return acc + v;
+		}
+		return NaN;
+	}
+	function concat(acc,v) { return acc + v; }
+
+	r = FPO.std.reduceRight( concat, undefined, list );
+	assert.ok( r === "54321", "std: r === '54321'" );
+
+	p = FPO.std.reduceRight()( concat )( undefined )( list );
+	assert.ok( p === "54321", "std: p === '54321'" );
+
+	q = FPO.std.reduceRight( concat, undefined, undefined );
+	assert.ok( q === undefined, "std: q === undefined" );
+
+	t = FPO.std.reduceRight( concat, "6", [] );
+	assert.ok( t === "6", "std: t === '6'" );
+
+	s = FPO.std.reduceRight( checkParams, undefined, list );
+	assert.ok( s === "54321", "std: s === '54321'" );
+
+	u = FPO.std.reduceRight( concat, "6", list );
+	assert.ok( u === "654321", "std: u === '654321'" );
+});
 
 
 
