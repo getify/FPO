@@ -3,97 +3,108 @@
 QUnit.test("core API methods present",function t1(assert){
 	assert.expect( 35 );
 
-	assert.ok( typeof FPO.identity == "function", "identity()" );
-	assert.ok( typeof FPO.constant == "function", "constant()" );
-	assert.ok( typeof FPO.pick == "function", "pick()" );
-	assert.ok( typeof FPO.pickAll == "function", "pickAll()" );
-	assert.ok( typeof FPO.nAry == "function", "nAry()" );
-	assert.ok( typeof FPO.unary == "function", "unary()" );
-	assert.ok( typeof FPO.binary == "function", "binary()" );
-	assert.ok( typeof FPO.curry == "function", "curry()" );
-	assert.ok( typeof FPO.curryMultiple == "function", "curryMultiple()" );
-	assert.ok( typeof FPO.uncurry == "function", "uncurry()" );
-	assert.ok( typeof FPO.partial == "function", "partial()" );
-	assert.ok( typeof FPO.complement == "function", "complement()" );
-	assert.ok( typeof FPO.apply == "function", "apply()" );
-	assert.ok( typeof FPO.unapply == "function", "unapply()" );
-	assert.ok( typeof FPO.compose == "function", "compose()" );
-	assert.ok( typeof FPO.pipe == "function", "pipe()" );
-	assert.ok( typeof FPO.prop == "function", "prop()" );
-	assert.ok( typeof FPO.setProp == "function", "setProp()" );
-	assert.ok( typeof FPO.filterIn == "function", "filterIn()" );
-	assert.ok( typeof FPO.filterOut == "function", "filterOut()" );
-	assert.ok( typeof FPO.map == "function", "map()" );
-	assert.ok( typeof FPO.flatMap == "function", "flatMap()" );
-	assert.ok( typeof FPO.reduce == "function", "reduce()" );
-	assert.ok( typeof FPO.reduceRight == "function", "reduceRight()" );
-	assert.ok( typeof FPO.flatten == "function", "flatten()" );
-	assert.ok( typeof FPO.zip == "function", "zip()" );
-	assert.ok( typeof FPO.trampoline == "function", "trampoline()" );
-	assert.ok( FPO.transducers && typeof FPO.transducers == "object", "transducers" );
-	assert.ok( typeof FPO.transducers.transduce == "function", "transducers.transduce()" );
-	assert.ok( typeof FPO.transducers.into == "function", "transducers.into()" );
-	assert.ok( typeof FPO.transducers.map == "function", "transducers.map()" );
-	assert.ok( typeof FPO.transducers.filter == "function", "transducers.filter()" );
-	assert.ok( typeof FPO.transducers.string == "function", "transducers.string()" );
-	assert.ok( typeof FPO.transducers.array == "function", "transducers.array()" );
-	assert.ok( typeof FPO.transducers.default == "function", "transducers.default()" );
+	assert.ok( _isFunction( FPO.identity ), "identity()" );
+	assert.ok( _isFunction( FPO.constant ), "constant()" );
+	assert.ok( _isFunction( FPO.pick ), "pick()" );
+	assert.ok( _isFunction( FPO.pickAll ), "pickAll()" );
+	assert.ok( _isFunction( FPO.nAry ), "nAry()" );
+	assert.ok( _isFunction( FPO.unary ), "unary()" );
+	assert.ok( _isFunction( FPO.binary ), "binary()" );
+	assert.ok( _isFunction( FPO.curry ), "curry()" );
+	assert.ok( _isFunction( FPO.curryMultiple ), "curryMultiple()" );
+	assert.ok( _isFunction( FPO.uncurry ), "uncurry()" );
+	assert.ok( _isFunction( FPO.partial ), "partial()" );
+	assert.ok( _isFunction( FPO.complement ), "complement()" );
+	assert.ok( _isFunction( FPO.apply ), "apply()" );
+	assert.ok( _isFunction( FPO.unapply ), "unapply()" );
+	assert.ok( _isFunction( FPO.compose ), "compose()" );
+	assert.ok( _isFunction( FPO.pipe ), "pipe()" );
+	assert.ok( _isFunction( FPO.prop ), "prop()" );
+	assert.ok( _isFunction( FPO.setProp ), "setProp()" );
+	assert.ok( _isFunction( FPO.filterIn ), "filterIn()" );
+	assert.ok( _isFunction( FPO.filterOut ), "filterOut()" );
+	assert.ok( _isFunction( FPO.map ), "map()" );
+	assert.ok( _isFunction( FPO.flatMap ), "flatMap()" );
+	assert.ok( _isFunction( FPO.reduce ), "reduce()" );
+	assert.ok( _isFunction( FPO.reduceRight ), "reduceRight()" );
+	assert.ok( _isFunction( FPO.flatten ), "flatten()" );
+	assert.ok( _isFunction( FPO.zip ), "zip()" );
+	assert.ok( _isFunction( FPO.trampoline ), "trampoline()" );
+	assert.ok( _isObject( FPO.transducers ), "transducers" );
+	assert.ok( _isFunction( FPO.transducers.transduce ), "transducers.transduce()" );
+	assert.ok( _isFunction( FPO.transducers.into ), "transducers.into()" );
+	assert.ok( _isFunction( FPO.transducers.map ), "transducers.map()" );
+	assert.ok( _isFunction( FPO.transducers.filter ), "transducers.filter()" );
+	assert.ok( _isFunction( FPO.transducers.string ), "transducers.string()" );
+	assert.ok( _isFunction( FPO.transducers.array ), "transducers.array()" );
+	assert.ok( _isFunction( FPO.transducers.default ), "transducers.default()" );
 });
 
 QUnit.test("std API methods present",function t2(assert){
 	assert.expect( 35 );
 
-	assert.ok( typeof FPO.std.identity == "function", "identity()" );
-	assert.ok( typeof FPO.std.constant == "function", "constant()" );
-	assert.ok( typeof FPO.std.pick == "function", "pick()" );
-	assert.ok( typeof FPO.std.pickAll == "function", "pickAll()" );
-	assert.ok( typeof FPO.std.nAry == "function", "nAry()" );
-	assert.ok( typeof FPO.std.unary == "function", "unary()" );
-	assert.ok( typeof FPO.std.binary == "function", "binary()" );
-	assert.ok( typeof FPO.std.curry == "function", "curry()" );
-	assert.ok( typeof FPO.std.curryMultiple == "function", "curryMultiple()" );
-	assert.ok( typeof FPO.std.uncurry == "function", "uncurry()" );
-	assert.ok( typeof FPO.std.partial == "function", "partial()" );
-	assert.ok( typeof FPO.std.complement == "function", "complement()" );
-	assert.ok( typeof FPO.std.apply == "function", "apply()" );
-	assert.ok( typeof FPO.std.unapply == "function", "unapply()" );
-	assert.ok( typeof FPO.std.compose == "function", "compose()" );
-	assert.ok( typeof FPO.std.pipe == "function", "pipe()" );
-	assert.ok( typeof FPO.std.prop == "function", "prop()" );
-	assert.ok( typeof FPO.std.setProp == "function", "setProp()" );
-	assert.ok( typeof FPO.std.filterIn == "function", "filterIn()" );
-	assert.ok( typeof FPO.std.filterOut == "function", "filterOut()" );
-	assert.ok( typeof FPO.std.map == "function", "map()" );
-	assert.ok( typeof FPO.std.flatMap == "function", "flatMap()" );
-	assert.ok( typeof FPO.std.reduce == "function", "reduce()" );
-	assert.ok( typeof FPO.std.reduceRight == "function", "reduceRight()" );
-	assert.ok( typeof FPO.std.flatten == "function", "flatten()" );
-	assert.ok( typeof FPO.std.zip == "function", "zip()" );
-	assert.ok( typeof FPO.std.trampoline == "function", "trampoline()" );
-	assert.ok( FPO.std.transducers && typeof FPO.std.transducers == "object", "transducers" );
-	assert.ok( typeof FPO.std.transducers.transduce == "function", "transducers.transduce()" );
-	assert.ok( typeof FPO.std.transducers.into == "function", "transducers.into()" );
-	assert.ok( typeof FPO.std.transducers.map == "function", "transducers.map()" );
-	assert.ok( typeof FPO.std.transducers.filter == "function", "transducers.filter()" );
-	assert.ok( typeof FPO.std.transducers.string == "function", "transducers.string()" );
-	assert.ok( typeof FPO.std.transducers.array == "function", "transducers.array()" );
-	assert.ok( typeof FPO.std.transducers.default == "function", "transducers.default()" );
+	assert.ok( _isFunction( FPO.std.identity ), "identity()" );
+	assert.ok( _isFunction( FPO.std.constant ), "constant()" );
+	assert.ok( _isFunction( FPO.std.pick ), "pick()" );
+	assert.ok( _isFunction( FPO.std.pickAll ), "pickAll()" );
+	assert.ok( _isFunction( FPO.std.nAry ), "nAry()" );
+	assert.ok( _isFunction( FPO.std.unary ), "unary()" );
+	assert.ok( _isFunction( FPO.std.binary ), "binary()" );
+	assert.ok( _isFunction( FPO.std.curry ), "curry()" );
+	assert.ok( _isFunction( FPO.std.curryMultiple ), "curryMultiple()" );
+	assert.ok( _isFunction( FPO.std.uncurry ), "uncurry()" );
+	assert.ok( _isFunction( FPO.std.partial ), "partial()" );
+	assert.ok( _isFunction( FPO.std.complement ), "complement()" );
+	assert.ok( _isFunction( FPO.std.apply ), "apply()" );
+	assert.ok( _isFunction( FPO.std.unapply ), "unapply()" );
+	assert.ok( _isFunction( FPO.std.compose ), "compose()" );
+	assert.ok( _isFunction( FPO.std.pipe ), "pipe()" );
+	assert.ok( _isFunction( FPO.std.prop ), "prop()" );
+	assert.ok( _isFunction( FPO.std.setProp ), "setProp()" );
+	assert.ok( _isFunction( FPO.std.filterIn ), "filterIn()" );
+	assert.ok( _isFunction( FPO.std.filterOut ), "filterOut()" );
+	assert.ok( _isFunction( FPO.std.map ), "map()" );
+	assert.ok( _isFunction( FPO.std.flatMap ), "flatMap()" );
+	assert.ok( _isFunction( FPO.std.reduce ), "reduce()" );
+	assert.ok( _isFunction( FPO.std.reduceRight ), "reduceRight()" );
+	assert.ok( _isFunction( FPO.std.flatten ), "flatten()" );
+	assert.ok( _isFunction( FPO.std.zip ), "zip()" );
+	assert.ok( _isFunction( FPO.std.trampoline ), "trampoline()" );
+	assert.ok( _isObject( FPO.std.transducers ), "transducers" );
+	assert.ok( _isFunction( FPO.std.transducers.transduce ), "transducers.transduce()" );
+	assert.ok( _isFunction( FPO.std.transducers.into ), "transducers.into()" );
+	assert.ok( _isFunction( FPO.std.transducers.map ), "transducers.map()" );
+	assert.ok( _isFunction( FPO.std.transducers.filter ), "transducers.filter()" );
+	assert.ok( _isFunction( FPO.std.transducers.string ), "transducers.string()" );
+	assert.ok( _isFunction( FPO.std.transducers.array ), "transducers.array()" );
+	assert.ok( _isFunction( FPO.std.transducers.default ), "transducers.default()" );
 });
 
 QUnit.test("API aliases present",function t3(assert){
-	assert.expect( 11 );
+	assert.expect( 22 );
 
-	assert.ok( FPO.always === FPO.constant && FPO.std.always === FPO.std.constant, "always -> constant" );
-	assert.ok( FPO.flow === FPO.pipe && FPO.std.flow === FPO.std.pipe, "flow -> pipe" );
-	assert.ok( FPO.flowRight === FPO.compose && FPO.std.flowRight === FPO.std.compose, "flowRight -> compose" );
-	assert.ok( FPO.spread === FPO.apply && FPO.std.spread === FPO.std.apply, "spread -> apply" );
-	assert.ok( FPO.gather === FPO.unapply && FPO.std.gather === FPO.std.unapply, "gather -> unapply" );
-	assert.ok( FPO.assoc === FPO.setProp && FPO.std.assoc === FPO.std.setProp, "assoc -> setProp" );
-	assert.ok( FPO.filter === FPO.filterIn && FPO.std.filter === FPO.std.filterIn, "filter -> filterIn" );
-	assert.ok( FPO.chain === FPO.flatMap && FPO.std.chain === FPO.std.flatMap, "chain -> flatMap" );
-	assert.ok( FPO.fold === FPO.reduce && FPO.std.fold === FPO.std.reduce, "fold -> reduce" );
-	assert.ok( FPO.foldL === FPO.reduce && FPO.std.foldL === FPO.std.reduce, "foldL -> reduce" );
-	assert.ok( FPO.foldR === FPO.reduceRight && FPO.std.foldR === FPO.std.reduceRight, "foldR -> reduceRight" );
+	assert.equal( FPO.always, FPO.constant, "core: always -> constant" );
+	assert.equal( FPO.std.always, FPO.std.constant, "std: always -> constant" );
+	assert.equal( FPO.flow, FPO.pipe, "core: flow -> pipe" );
+	assert.equal( FPO.std.flow, FPO.std.pipe, "std: flow -> pipe" );
+	assert.equal( FPO.flowRight, FPO.compose, "core: flowRight -> compose" );
+	assert.equal( FPO.std.flowRight, FPO.std.compose, "std: flowRight -> compose" );
+	assert.equal( FPO.spread, FPO.apply, "core: spread -> apply" );
+	assert.equal( FPO.std.spread, FPO.std.apply, "std: spread -> apply" );
+	assert.equal( FPO.gather, FPO.unapply, "core: gather -> unapply" );
+	assert.equal( FPO.std.gather, FPO.std.unapply, "std: gather -> unapply" );
+	assert.equal( FPO.assoc, FPO.setProp, "core: assoc -> setProp" );
+	assert.equal( FPO.std.assoc, FPO.std.setProp, "std: assoc -> setProp" );
+	assert.equal( FPO.filter, FPO.filterIn, "core: filter -> filterIn" );
+	assert.equal( FPO.std.filter, FPO.std.filterIn, "std: filter -> filterIn" );
+	assert.equal( FPO.chain, FPO.flatMap, "core: chain -> flatMap" );
+	assert.equal( FPO.std.chain, FPO.std.flatMap, "std: chain -> flatMap" );
+	assert.equal( FPO.fold, FPO.reduce, "core: fold -> reduce" );
+	assert.equal( FPO.std.fold, FPO.std.reduce, "std: fold -> reduce" );
+	assert.equal( FPO.foldL, FPO.reduce, "core: foldL -> reduce" );
+	assert.equal( FPO.std.foldL, FPO.std.reduce, "std: foldL -> reduce" );
+	assert.equal( FPO.foldR, FPO.reduceRight, "core: foldR -> reduceRight" );
+	assert.equal( FPO.std.foldR, FPO.std.reduceRight, "std: foldR -> reduceRight" );
 });
 
 QUnit.test("identity()",function t4(assert){
@@ -2202,4 +2213,16 @@ QUnit.test("trampoline()",function t30(assert){
 
 function _hasProp(obj,prop) {
 	return Object.hasOwnProperty.call( obj, prop );
+}
+
+function _isFunction(v) {
+	return typeof v == "function";
+}
+
+function _isObject(v) {
+	return v && typeof v == "object" && !_isArray( v );
+}
+
+function _isArray(v) {
+	return Array.isArray( v );
 }
