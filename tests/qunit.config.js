@@ -1,9 +1,11 @@
 QUnit.config.requireExpects = true;
 
 QUnit.begin(begin);
+QUnit.log(testLog);
 QUnit.testDone(testDone);
 QUnit.done(done);
 
+var testLogEntries = {};
 
 // ******************************
 
@@ -18,12 +20,24 @@ function begin(details){
 	}
 }
 
+function testLog(details) {
+	var testId = details.testId;
+
+	testLogEntries[testId] = testLogEntries[testId] || {};
+	testLogEntries[testId][details.message] = details;
+}
+
 function testDone(results){
+	var testId = results.testId;
+
 	if (results.failed > 0) {
 		console.log(`Failed: '${results.name}' (${results.failed}/${results.total})`);
 		for (let i = 0; i < results.assertions.length; i++) {
 			if (results.assertions[i].result === false) {
-				console.log(`  ${results.assertions[i].message}`);
+				let { message, expected, actual } = testLogEntries[testId][results.assertions[i].message];
+				console.log(`  ${message}`);
+				console.log(`    expected: ${prettyPrint(expected)}`);
+				console.log(`    actual: ${prettyPrint(actual)}`);
 			}
 		}
 	}
@@ -49,4 +63,19 @@ function done(results){
 		console.log("No tests run!");
 		process.exit(1);
 	}
+}
+
+function prettyPrint(v) {
+	if (Array.isArray(v)) {
+		return `[${v.toString()}]`;
+	}
+	else if (v && typeof v == "object") {
+		return JSON.stringify(v,function(k,v){
+			if (v === undefined) {
+				return null;
+			}
+			return v;
+		});
+	}
+	return String(v);
 }
