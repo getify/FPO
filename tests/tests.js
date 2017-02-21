@@ -1006,10 +1006,8 @@ QUnit.test( "std.map()", function t45(assert){
 	assert.deepEqual( sActual, sExpected, "mapper params check" );
 } );
 
-QUnit.test( "flatMap()", function t25(assert){
-	assert.expect( 38 );
-
-	function objCheckParams({ v, i, arr }) {
+QUnit.test( "flatMap()", function t46(assert){
+	function checkParams({ v, i, arr }) {
 		if (
 			arr === list &&
 			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
@@ -1019,7 +1017,7 @@ QUnit.test( "flatMap()", function t25(assert){
 		}
 		return false;
 	}
-	function objMul10({ v }) {
+	function mul10And100({ v }) {
 		if (v <= 1) {
 			return [v * 10,v * 100];
 		}
@@ -1028,46 +1026,27 @@ QUnit.test( "flatMap()", function t25(assert){
 
 	var list = [1,2];
 
-	var r = FPO.flatMap( {fn: objMul10, arr: list} );
-	assert.ok( r && Array.isArray( r ), "r is an array" );
-	assert.ok( r !== list, "r is not list" );
-	assert.ok(
-		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
-		"r has filled slots at indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "r has only 3 slots" );
-	assert.ok( r[0] === 10 && r[1] === 100 && r[2] === 20, "r is [10,100,20]" );
+	var rExpected = [10,100,20];
+	var pExpected = [10,100,20];
+	var qExpected = [];
+	var tExpected = [];
+	var sExpected = [true,true];
 
-	var p = FPO.flatMap()( {} )( {fn: objMul10} )()( {arr: list} );
-	assert.ok( p && Array.isArray( p ), "p is an array" );
-	assert.ok( p !== list, "p is not list" );
-	assert.ok(
-		_hasProp( p, "0" ) && _hasProp( p, "1" ) && _hasProp( p, "2" ),
-		"p has filled slots at indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "p has only 3 slots" );
-	assert.ok( p[0] === 10 && p[1] === 100 && p[2] === 20, "p is [10,100,20]" );
+	var rActual = FPO.flatMap( {fn: mul10And100, arr: list} );
+	var pActual = FPO.flatMap()( {} )( {fn: mul10And100} )()( {arr: list} );
+	var qActual = FPO.flatMap( {fn: mul10And100, arr: undefined} );
+	var tActual = FPO.flatMap( {fn: mul10And100, arr: []} );
+	var sActual = FPO.flatMap( {fn: checkParams, arr: list} );
 
-	var q = FPO.flatMap( {fn: objMul10, arr: undefined} );
-	assert.ok( q && Array.isArray( q ), "q is an array" );
-	assert.ok( Object.keys( q ).length == 0 && q.length == 0, "q has no slots" );
+	assert.expect( 5 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "array undefined" );
+	assert.deepEqual( tActual, tExpected, "array empty" );
+	assert.deepEqual( sActual, sExpected, "mapper params check" );
+} );
 
-	var t = FPO.flatMap( {fn: objMul10, arr: []} );
-	assert.ok( t && Array.isArray( t ), "t is an array" );
-	assert.ok( Object.keys( t ).length == 0 && t.length == 0, "t has no slots" );
-
-	var s = FPO.flatMap( {fn: objCheckParams, arr: list} );
-	assert.ok( s && Array.isArray( s ), "s is an array" );
-	assert.ok( s !== list, "s is not list" );
-	assert.ok(
-		_hasProp( s, "0" ) && _hasProp( s, "1" ),
-		"s has filled slots at indexes 0 and 1"
-	);
-	assert.ok( Object.keys( s ).length == 2 && s.length == 2, "s has only 2 slots" );
-	assert.ok( s[0] === true && s[1] === true, "s is [true,true]" );
-
-	// **************************************
-
+QUnit.test( "std.flatMap()", function t47(assert){
 	function checkParams(v,i,arr) {
 		if (
 			arr === list &&
@@ -1078,125 +1057,37 @@ QUnit.test( "flatMap()", function t25(assert){
 		}
 		return false;
 	}
-	function mul10(v) {
+	function mul10And100(v) {
 		if (v <= 1) {
 			return [v * 10,v * 100];
 		}
 		return v * 10;
 	}
 
-	r = FPO.std.flatMap( mul10, list );
-	assert.ok( r && Array.isArray( r ), "r is an array" );
-	assert.ok( r !== list, "r is not list" );
-	assert.ok(
-		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
-		"r has filled slots at indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "r has only 3 slots" );
-	assert.ok( r[0] === 10 && r[1] === 100 && r[2] === 20, "r is [10,100,20]" );
+	var list = [1,2];
 
-	p = FPO.std.flatMap()( mul10 )()( list );
-	assert.ok( p && Array.isArray( p ), "p is an array" );
-	assert.ok( p !== list, "p is not list" );
-	assert.ok(
-		_hasProp( p, "0" ) && _hasProp( p, "1" ) && _hasProp( p, "2" ),
-		"p has filled slots at indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "p has only 3 slots" );
-	assert.ok( p[0] === 10 && p[1] === 100 && p[2] === 20, "p is [10,100,20]" );
+	var rExpected = [10,100,20];
+	var pExpected = [10,100,20];
+	var qExpected = [];
+	var tExpected = [];
+	var sExpected = [true,true];
 
-	q = FPO.std.flatMap( mul10, undefined );
-	assert.ok( q && Array.isArray( q ), "q is an array" );
-	assert.ok( Object.keys( q ).length == 0 && q.length == 0, "q has no slots" );
+	var rActual = FPO.std.flatMap( mul10And100, list );
+	var pActual = FPO.std.flatMap()( mul10And100 )()( list );
+	var qActual = FPO.std.flatMap( mul10And100, undefined );
+	var tActual = FPO.std.flatMap( mul10And100, [] );
+	var sActual = FPO.std.flatMap( checkParams, list );
 
-	t = FPO.std.flatMap( mul10, [] );
-	assert.ok( t && Array.isArray( t ), "t is an array" );
-	assert.ok( Object.keys( t ).length == 0 && t.length == 0, "t has no slots" );
-
-	s = FPO.std.flatMap( checkParams, list );
-	assert.ok( s && Array.isArray( s ), "s is an array" );
-	assert.ok( s !== list, "s is not list" );
-	assert.ok(
-		_hasProp( s, "0" ) && _hasProp( s, "1" ),
-		"s has filled slots at indexes 0 and 1"
-	);
-	assert.ok( Object.keys( s ).length == 2 && s.length == 2, "s has only 2 slots" );
-	assert.ok( s[0] === true && s[1] === true, "s is [true,true]" );
+	assert.expect( 5 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "array undefined" );
+	assert.deepEqual( tActual, tExpected, "array empty" );
+	assert.deepEqual( sActual, sExpected, "mapper params check" );
 } );
 
-QUnit.test( "reduce()", function t26(assert){
-	assert.expect( 12 );
-
-	function objCheckParams({ acc, v, i, arr }) {
-		if (
-			arr === list &&
-			typeof acc == "number" && typeof v == "number" &&
-			typeof i == "number" && Array.isArray( arr ) &&
-			v === (i + 1) && arr[i] === v
-		) {
-			return acc + v;
-		}
-		return NaN;
-	}
-	function objSum({ acc, v }) { return acc + v; }
-	var list = [1,2,3,4,5];
-
-	var r = FPO.reduce( {fn: objSum, arr: list} );
-	assert.strictEqual( r, 15, "r === 15" );
-
-	var p = FPO.reduce()( {} )( {fn: objSum} )()( {arr: list} );
-	assert.strictEqual( p, 15, "p === 15" );
-
-	var q = FPO.reduce( {fn: objSum, arr: undefined} );
-	assert.strictEqual( q, undefined, "q === undefined" );
-
-	var t = FPO.reduce( {fn: objSum, arr: [], v: 6} );
-	assert.strictEqual( t, 6, "t === 6" );
-
-	var s = FPO.reduce( {fn: objCheckParams, arr: list} );
-	assert.strictEqual( s, 15, "s === 15" );
-
-	var u = FPO.reduce( {fn: objSum, arr: list, v: 6} );
-	assert.strictEqual( u, 21, "u === 21" );
-
-	// **************************************
-
-	function checkParams(acc,v,i,arr) {
-		if (
-			arr === list &&
-			typeof acc == "number" && typeof v == "number" &&
-			typeof i == "number" && Array.isArray( arr ) &&
-			v === (i + 1) && arr[i] === v
-		) {
-			return acc + v;
-		}
-		return NaN;
-	}
-	function sum(acc,v) { return acc + v; }
-
-	r = FPO.std.reduce( sum, undefined, list );
-	assert.strictEqual( r, 15, "r === 15" );
-
-	p = FPO.std.reduce()( sum )( undefined )( list );
-	assert.strictEqual( p, 15, "p === 15" );
-
-	q = FPO.std.reduce( sum, undefined, undefined );
-	assert.strictEqual( q, undefined, "q === undefined" );
-
-	t = FPO.std.reduce( sum, 6, [] );
-	assert.strictEqual( t, 6, "t === 6" );
-
-	s = FPO.std.reduce( checkParams, undefined, list );
-	assert.strictEqual( s, 15, "s === 15" );
-
-	u = FPO.std.reduce( sum, 6, list );
-	assert.strictEqual( u, 21, "u === 21" );
-} );
-
-QUnit.test( "reduceRight()", function t27(assert){
-	assert.expect( 12 );
-
-	function objCheckParams({ acc, v, i, arr }) {
+QUnit.test( "reduce()", function t48(assert){
+	function checkParams({ acc, v, i, arr }) {
 		if (
 			arr === list &&
 			typeof acc == "string" && typeof v == "string" &&
@@ -1207,29 +1098,34 @@ QUnit.test( "reduceRight()", function t27(assert){
 		}
 		return NaN;
 	}
-	function objConcat({ acc, v }) { return acc + v; }
+	function concat({ acc, v }) { return acc + v; }
+
 	var list = ["1","2","3","4","5"];
 
-	var r = FPO.reduceRight( {fn: objConcat, arr: list} );
-	assert.strictEqual( r, "54321", "r === '54321'" );
+	var rExpected = "12345";
+	var pExpected = "12345";
+	var qExpected = "012345";
+	var tExpected = undefined;
+	var sExpected = "0";
+	var uExpected = "12345";
 
-	var p = FPO.reduceRight()( {} )( {fn: objConcat} )()( {arr: list} );
-	assert.strictEqual( p, "54321", "p === '54321'" );
+	var rActual = FPO.reduce( {fn: concat, arr: list} );
+	var pActual = FPO.reduce()( {} )( {fn: concat} )()( {arr: list} );
+	var qActual = FPO.reduce( {fn: concat, arr: list, v: "0"} );
+	var tActual = FPO.reduce( {fn: concat, arr: undefined} );
+	var sActual = FPO.reduce( {fn: concat, arr: [], v: "0"} );
+	var uActual = FPO.reduce( {fn: checkParams, arr: list} );
 
-	var q = FPO.reduceRight( {fn: objConcat, arr: undefined} );
-	assert.strictEqual( q, undefined, "q === undefined" );
+	assert.expect( 6 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+	assert.strictEqual( qActual, qExpected, "initial value" );
+	assert.strictEqual( tActual, tExpected, "array undefined" );
+	assert.strictEqual( sActual, sExpected, "array empty, initial value" );
+	assert.strictEqual( uActual, uExpected, "reducer params check" );
+} );
 
-	var t = FPO.reduceRight( {fn: objConcat, arr: [], v: "6"} );
-	assert.strictEqual( t, "6", "t === '6'" );
-
-	var s = FPO.reduceRight( {fn: objCheckParams, arr: list} );
-	assert.strictEqual( s, "54321", "s === '54321'" );
-
-	var u = FPO.reduceRight( {fn: objConcat, arr: list, v: "6"} );
-	assert.strictEqual( u, "654321", "u === '654321'" );
-
-	// **************************************
-
+QUnit.test( "std.reduce()", function t49(assert){
 	function checkParams(acc,v,i,arr) {
 		if (
 			arr === list &&
@@ -1243,23 +1139,107 @@ QUnit.test( "reduceRight()", function t27(assert){
 	}
 	function concat(acc,v) { return acc + v; }
 
-	r = FPO.std.reduceRight( concat, undefined, list );
-	assert.strictEqual( r, "54321", "r === '54321'" );
+	var list = ["1","2","3","4","5"];
 
-	p = FPO.std.reduceRight()( concat )( undefined )( list );
-	assert.strictEqual( p, "54321", "p === '54321'" );
+	var rExpected = "12345";
+	var pExpected = "12345";
+	var qExpected = "012345";
+	var tExpected = undefined;
+	var sExpected = "0";
+	var uExpected = "12345";
 
-	q = FPO.std.reduceRight( concat, undefined, undefined );
-	assert.strictEqual( q, undefined, "q === undefined" );
+	var rActual = FPO.std.reduce( concat, undefined, list );
+	var pActual = FPO.std.reduce()( concat )()( undefined )()( list );
+	var qActual = FPO.std.reduce( concat, "0", list );
+	var tActual = FPO.std.reduce( concat, undefined, undefined );
+	var sActual = FPO.std.reduce( concat, "0", [] );
+	var uActual = FPO.std.reduce( checkParams, undefined, list );
 
-	t = FPO.std.reduceRight( concat, "6", [] );
-	assert.strictEqual( t, "6", "t === '6'" );
+	assert.expect( 6 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+	assert.strictEqual( qActual, qExpected, "initial value" );
+	assert.strictEqual( tActual, tExpected, "array undefined" );
+	assert.strictEqual( sActual, sExpected, "array empty, initial value" );
+	assert.strictEqual( uActual, uExpected, "reducer params check" );
+} );
 
-	s = FPO.std.reduceRight( checkParams, undefined, list );
-	assert.strictEqual( s, "54321", "s === '54321'" );
+QUnit.test( "reduceRight()", function t50(assert){
+	function checkParams({ acc, v, i, arr }) {
+		if (
+			arr === list &&
+			typeof acc == "string" && typeof v == "string" &&
+			typeof i == "number" && Array.isArray( arr ) &&
+			Number( v ) === (i + 1) && arr[i] === v
+		) {
+			return acc + v;
+		}
+		return NaN;
+	}
+	function concat({ acc, v }) { return acc + v; }
 
-	u = FPO.std.reduceRight( concat, "6", list );
-	assert.strictEqual( u, "654321", "u === '654321'" );
+	var list = ["1","2","3","4","5"];
+
+	var rExpected = "54321";
+	var pExpected = "54321";
+	var qExpected = "654321";
+	var tExpected = undefined;
+	var sExpected = "6";
+	var uExpected = "54321";
+
+	var rActual = FPO.reduceRight( {fn: concat, arr: list} );
+	var pActual = FPO.reduceRight()( {} )( {fn: concat} )()( {arr: list} );
+	var qActual = FPO.reduceRight( {fn: concat, arr: list, v: "6"} );
+	var tActual = FPO.reduceRight( {fn: concat, arr: undefined} );
+	var sActual = FPO.reduceRight( {fn: concat, arr: [], v: "6"} );
+	var uActual = FPO.reduceRight( {fn: checkParams, arr: list} );
+
+	assert.expect( 6 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+	assert.strictEqual( qActual, qExpected, "initial value" );
+	assert.strictEqual( tActual, tExpected, "array undefined" );
+	assert.strictEqual( sActual, sExpected, "array empty, initial value" );
+	assert.strictEqual( uActual, uExpected, "reducer params check" );
+} );
+
+QUnit.test( "std.reduceRight()", function t51(assert){
+	function checkParams(acc,v,i,arr) {
+		if (
+			arr === list &&
+			typeof acc == "string" && typeof v == "string" &&
+			typeof i == "number" && Array.isArray( arr ) &&
+			Number( v ) === (i + 1) && arr[i] === v
+		) {
+			return acc + v;
+		}
+		return NaN;
+	}
+	function concat(acc,v) { return acc + v; }
+
+	var list = ["1","2","3","4","5"];
+
+	var rExpected = "54321";
+	var pExpected = "54321";
+	var qExpected = "654321";
+	var tExpected = undefined;
+	var sExpected = "6";
+	var uExpected = "54321";
+
+	var rActual = FPO.std.reduceRight( concat, undefined, list );
+	var pActual = FPO.std.reduceRight()( concat )()( undefined )()( list );
+	var qActual = FPO.std.reduceRight( concat, "6", list );
+	var tActual = FPO.std.reduceRight( concat, undefined, undefined );
+	var sActual = FPO.std.reduceRight( concat, "6", [] );
+	var uActual = FPO.std.reduceRight( checkParams, undefined, list );
+
+	assert.expect( 6 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+	assert.strictEqual( qActual, qExpected, "initial value" );
+	assert.strictEqual( tActual, tExpected, "array undefined" );
+	assert.strictEqual( sActual, sExpected, "array empty, initial value" );
+	assert.strictEqual( uActual, uExpected, "reducer params check" );
 } );
 
 QUnit.test( "flatten()", function t28(assert){
