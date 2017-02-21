@@ -539,309 +539,257 @@ QUnit.test( "std.complement()", function t27(assert){
 	assert.strictEqual( pActual, false, "curried" );
 } );
 
-QUnit.test( "apply()", function t16(assert){
-	assert.expect( 24 );
-
+QUnit.test( "apply()", function t28(assert){
 	function foo(x,y,z) { return {x,y,z}; }
 
-	var r = FPO.apply( {fn: foo} )( {y: 2, z: 3, x: 1} );
-	assert.ok( r && typeof r == "object", "r is an object" );
-	assert.ok(
-		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "z" ),
-		"r has 'x', 'y', and 'z' properties"
-	);
-	assert.ok( Object.keys( r ).length == 3, "r has only 3 properties" );
-	assert.ok( r.x === 1 && r.y === 2 && r.z === 3, "r.x === 1, r.y === 2, r.z === 3" );
+	var obj = { y: 2, z: 3, x: 1 };
+	var rExpected = { x: 1, y: 2, z: 3 };
+	var pExpected = { x: 3, y: 2, z: 1 };
+	var qExpected = { x: 1, y: 2, z: 3 };
+	var tExpected = { x: undefined, y: undefined, z: undefined };
 
+	var rActual = FPO.apply( {fn: foo} )( obj );
 	// NOTE: intentionally reversing applied prop order
-	var p = FPO.apply()( {} )( {fn: foo, props: ["z","y","x"]} )( {y: 2, z: 3, x: 1} );
-	assert.ok( p && typeof p == "object", "p is an object" );
-	assert.ok(
-		_hasProp( p, "x" ) && _hasProp( p, "y" ) && _hasProp( p, "z" ),
-		"p has 'x', 'y', and 'z' properties"
-	);
-	assert.ok( Object.keys( p ).length == 3, "p has only 3 properties" );
-	assert.ok( p.x === 3 && p.y === 2 && p.z === 1, "p.x === 3, p.y === 2, p.z === 1" );
+	var pActual = FPO.apply()( {} )( {fn: foo, props: ["z","y","x"]} )( obj );
+	var qActual = FPO.apply( {fn: foo, props: undefined} )( obj );
+	var tActual = FPO.apply( {fn: foo, props: []} )( obj );
 
-	var q = FPO.apply( {fn: foo, props: undefined} )( {y: 2, z: 3, x: 1} );
-	assert.ok( q && typeof q == "object", "q is an object" );
-	assert.ok(
-		_hasProp( q, "x" ) && _hasProp( q, "y" ) && _hasProp( q, "z" ),
-		"q has 'x', 'y', and 'z' properties"
-	);
-	assert.ok( Object.keys( q ).length == 3, "q has only 3 properties" );
-	assert.ok( q.x === 1 && q.y === 2 && q.z === 3, "q.x === 1, q.y === 2, q.z === 3" );
-
-	var t = FPO.apply( {fn: foo, props: []} )( {y: 2, z: 3, x: 1} );
-	assert.ok( t && typeof t == "object", "t is an object" );
-	assert.ok(
-		_hasProp( t, "x" ) && _hasProp( t, "y" ) && _hasProp( t, "z" ),
-		"q has 'x', 'y', and 'z' properties"
-	);
-	assert.ok( Object.keys( t ).length == 3, "t has only 3 properties" );
-	assert.ok( t.x === undefined && t.y === undefined && t.z === undefined, "t.x === undefined, t.y === undefined, t.z === undefined" );
-
-	// **************************************
-
-	function bar(...args) { return args; }
-
-	r = FPO.std.apply( bar )( [1,2,3] );
-	assert.ok( r && Array.isArray( r ), "r is an array" );
-	assert.ok(
-		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
-		"r has filled slots at indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "r has only 3 slots" );
-	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 3, "r is [1,2,3]" );
-
-	p = FPO.std.apply()( bar )( [1,2] );
-	assert.ok( p && Array.isArray( p ), "p is an array" );
-	assert.ok(
-		_hasProp( p, "0" ) && _hasProp( p, "1" ),
-		"p has a filled slots at indexes 0 and 1"
-	);
-	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "p has only 2 slots" );
-	assert.ok( p[0] === 1 && p[1] === 2, "p is [1,2]" );
+	assert.expect( 4 );
+	assert.deepEqual( rActual, rExpected, "regular call without props" );
+	assert.deepEqual( pActual, pExpected, "curried with reversed props" );
+	assert.deepEqual( qActual, qExpected, "regular call with undefined props" );
+	assert.deepEqual( tActual, tExpected, "regular call with empty props" );
 } );
 
-QUnit.test( "unapply()", function t17(assert){
-	assert.expect( 24 );
+QUnit.test( "std.apply(..)", function t29(assert){
+	function foo(...args) { return args; }
 
+	var arr = [1,2,3];
+	var rExpected = [1,2,3];
+	var pExpected = [1,2,3];
+
+	var rActual = FPO.std.apply( foo )( arr );
+	var pActual = FPO.std.apply()( foo )( arr );
+
+	assert.expect( 2 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+} );
+
+QUnit.test( "unapply()", function t30(assert){
 	function foo({x,y,z}) { return {x,y,z}; }
 
-	var r = FPO.unapply( {fn: foo, props: ["x","y","z"]} )( 1, 2, 3 );
-	assert.ok( r && typeof r == "object", "r is an object" );
-	assert.ok(
-		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "z" ),
-		"r has 'x', 'y', and 'z' properties"
-	);
-	assert.ok( Object.keys( r ).length == 3, "r has only 3 properties" );
-	assert.ok( r.x === 1 && r.y === 2 && r.z === 3, "r.x === 1, r.y === 2, r.z === 3" );
+	var args = [1,2,3];
+	var rExpected = { x: 1, y: 2, z: 3 };
+	var pExpected = { x: 3, y: 2, z: 1 };
+	var qExpected = { x: undefined, y: undefined, z: undefined };
+	var tExpected = { x: undefined, y: undefined, z: undefined };
 
-	// NOTE: intentionally reversing (un)applied prop order
-	var p = FPO.unapply()( {} )( {fn: foo} )( {props: ["z","y","x"]} )( 1, 2, 3 );
-	assert.ok( p && typeof p == "object", "p is an object" );
-	assert.ok(
-		_hasProp( p, "x" ) && _hasProp( p, "y" ) && _hasProp( p, "z" ),
-		"p has 'x', 'y', and 'z' properties"
-	);
-	assert.ok( Object.keys( p ).length == 3, "p has only 3 properties" );
-	assert.ok( p.x === 3 && p.y === 2 && p.z === 1, "p.x === 3, p.y === 2, p.z === 1" );
+	var rActual = FPO.unapply( {fn: foo, props: ["x","y","z"]} )( ...args );
+	// NOTE: intentionally reversing applied prop order
+	var pActual = FPO.unapply()( {} )( {fn: foo, props: ["z","y","x"]} )( ...args );
+	var qActual = FPO.unapply( {fn: foo, props: undefined} )( ...args );
+	var tActual = FPO.unapply( {fn: foo, props: []} )( ...args );
 
-	var q = FPO.unapply( {fn: foo, props: undefined} )( 1, 2, 3 );
-	assert.ok( q && typeof q == "object", "q is an object" );
-	assert.ok(
-		_hasProp( q, "x" ) && _hasProp( q, "y" ) && _hasProp( q, "z" ),
-		"q has 'x', 'y', and 'z' properties"
-	);
-	assert.ok( Object.keys( q ).length == 3, "q has only 3 properties" );
-	assert.ok( q.x === undefined && q.y === undefined && q.z === undefined, "q.x === undefined, q.y === undefined, q.z === undefined" );
-
-	var t = FPO.unapply( {fn: foo, props: []} )( 1, 2, 3 );
-	assert.ok( t && typeof t == "object", "t is an object" );
-	assert.ok(
-		_hasProp( t, "x" ) && _hasProp( t, "y" ) && _hasProp( t, "z" ),
-		"t has 'x', 'y', and 'z' properties"
-	);
-	assert.ok( Object.keys( t ).length == 3, "t has only 3 properties" );
-	assert.ok( t.x === undefined && t.y === undefined && t.z === undefined, "t.x === undefined, t.y === undefined, t.z === undefined" );
-
-	// **************************************
-
-	function bar(args) { return args; }
-
-	r = FPO.std.unapply( bar )( 1, 2, 3 );
-	assert.ok( r && Array.isArray( r ), "r is an array" );
-	assert.ok(
-		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
-		"r has filled slots at indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "r has only 3 slots" );
-	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 3, "r is [1,2,3]" );
-
-	p = FPO.std.unapply()( bar )( 1, 2 );
-	assert.ok( p && Array.isArray( p ), "p is an array" );
-	assert.ok(
-		_hasProp( p, "0" ) && _hasProp( p, "1" ),
-		"p has a filled slots at indexes 0 and 1"
-	);
-	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "p has only 2 slots" );
-	assert.ok( p[0] === 1 && p[1] === 2, "p is [1,2]" );
+	assert.expect( 4 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried with reversed props" );
+	assert.deepEqual( qActual, qExpected, "regular call with undefined props" );
+	assert.deepEqual( tActual, tExpected, "regular call with empty props" );
 } );
 
-QUnit.test( "compose()", function t18(assert){
-	assert.expect( 7 );
+QUnit.test( "std.unapply()", function t31(assert){
+	function foo(args) { return args; }
 
+	var arr = [1,2,3];
+	var rExpected = [1,2,3];
+	var pExpected = [1,2,3];
+
+	var rActual = FPO.std.unapply( foo )( ...arr );
+	var pActual = FPO.std.unapply()( foo )( ...arr );
+
+	assert.expect( 2 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+} );
+
+QUnit.test( "compose()", function t32(assert){
 	function foo(x) { return `foo,${x}`; }
 	function bar(x) { return `bar,${x}`; }
 	function baz(x) { return `baz,${x}`; }
 
-	var r = FPO.compose( {fns: [foo,bar,baz]} )( 3, 4 );
-	assert.strictEqual( r, "foo,bar,baz,3", "r === 'foo,bar,baz,3'" );
+	var arr = [3,4];
+	var rExpected = "foo,bar,baz,3";
+	var pExpected = "foo,3";
+	var qExpected = 3;
+	var tExpected = 3;
 
-	var p = FPO.compose()( {} )( {fns: [foo]} )( 3, 4 );
-	assert.strictEqual( p, "foo,3", "p === 'foo,3'" );
+	var rActual = FPO.compose( {fns: [foo,bar,baz]} )( ...arr );
+	var pActual = FPO.compose()( {} )( {fns: [foo]} )( ...arr );
+	var qActual = FPO.compose( {fns: undefined} )( ...arr );
+	var tActual = FPO.compose( {fns: []} )( ...arr );
 
-	var q = FPO.compose()( {} )( {fns: undefined} )( 3, 4 );
-	assert.strictEqual( q, 3, "q === 3" );
-
-	var t = FPO.compose()( {} )( {fns: []} )( 3, 4 );
-	assert.strictEqual( t, 3, "t === 3" );
-
-	// **************************************
-
-	r = FPO.std.compose( [foo,bar,baz] )( 3, 4 );
-	assert.strictEqual( r, "foo,bar,baz,3", "r === 'foo,bar,baz,3'" );
-
-	p = FPO.std.compose()( [foo] )( 3, 4 );
-	assert.strictEqual( p, "foo,3", "p === 'foo,3'" );
-
-	q = FPO.std.compose()( [] )( 3, 4 );
-	assert.strictEqual( q, 3, "q === 3" );
+	assert.expect( 4 );
+	assert.strictEqual( rActual, rExpected, "regular call composing 3 functions" );
+	assert.strictEqual( pActual, pExpected, "curried, composing 1 function" );
+	assert.strictEqual( qActual, qExpected, "regular, functions list undefined" );
+	assert.strictEqual( tActual, tExpected, "regular, functions list empty" );
 } );
 
-QUnit.test( "pipe()", function t19(assert){
-	assert.expect( 7 );
-
+QUnit.test( "std.compose()", function t33(assert){
 	function foo(x) { return `foo,${x}`; }
 	function bar(x) { return `bar,${x}`; }
 	function baz(x) { return `baz,${x}`; }
 
-	var r = FPO.pipe( {fns: [baz,bar,foo]} )( 3, 4 );
-	assert.strictEqual( r, "foo,bar,baz,3", "r === 'foo,bar,baz,3'" );
+	var arr = [3,4];
+	var rExpected = "foo,bar,baz,3";
+	var pExpected = "foo,3";
+	var qExpected = 3;
+	var tExpected = 3;
 
-	var p = FPO.pipe()( {} )( {fns: [foo]} )( 3, 4 );
-	assert.strictEqual( p, "foo,3", "p === 'foo,3'" );
+	var rActual = FPO.std.compose( [foo,bar,baz] )( ...arr );
+	var pActual = FPO.std.compose()( [foo] )( ...arr );
+	var qActual = FPO.std.compose( undefined )( ...arr );
+	var tActual = FPO.std.compose( [] )( ...arr );
 
-	var q = FPO.pipe()( {} )( {fns: undefined} )( 3, 4 );
-	assert.strictEqual( q, 3, "q === 3" );
-
-	var t = FPO.pipe()( {} )( {fns: []} )( 3, 4 );
-	assert.strictEqual( t, 3, "t === 3" );
-
-	// **************************************
-
-	r = FPO.std.pipe( [baz,bar,foo] )( 3, 4 );
-	assert.strictEqual( r, "foo,bar,baz,3", "r === 'foo,bar,baz,3'" );
-
-	p = FPO.std.pipe()( [foo] )( 3, 4 );
-	assert.strictEqual( p, "foo,3", "p === 'foo,3'" );
-
-	q = FPO.std.pipe()( [] )( 3, 4 );
-	assert.strictEqual( q, 3, "q === 3" );
+	assert.expect( 4 );
+	assert.strictEqual( rActual, rExpected, "regular call composing 3 functions" );
+	assert.strictEqual( pActual, pExpected, "curried, composing 1 function" );
+	assert.strictEqual( qActual, qExpected, "regular, functions list undefined" );
+	assert.strictEqual( tActual, tExpected, "regular, functions list empty" );
 } );
 
-QUnit.test( "prop()", function t20(assert){
-	assert.expect( 10 );
+QUnit.test( "pipe()", function t34(assert){
+	function foo(x) { return `foo,${x}`; }
+	function bar(x) { return `bar,${x}`; }
+	function baz(x) { return `baz,${x}`; }
 
+	var arr = [3,4];
+	var rExpected = "foo,bar,baz,3";
+	var pExpected = "foo,3";
+	var qExpected = 3;
+	var tExpected = 3;
+
+	var rActual = FPO.pipe( {fns: [baz,bar,foo]} )( ...arr );
+	var pActual = FPO.pipe()( {} )( {fns: [foo]} )( ...arr );
+	var qActual = FPO.pipe( {fns: undefined} )( ...arr );
+	var tActual = FPO.pipe( {fns: []} )( ...arr );
+
+	assert.expect( 4 );
+	assert.strictEqual( rActual, rExpected, "regular call pipeing 3 functions" );
+	assert.strictEqual( pActual, pExpected, "curried, pipeing 1 function" );
+	assert.strictEqual( qActual, qExpected, "regular, functions list undefined" );
+	assert.strictEqual( tActual, tExpected, "regular, functions list empty" );
+} );
+
+QUnit.test( "std.pipe()", function t35(assert){
+	function foo(x) { return `foo,${x}`; }
+	function bar(x) { return `bar,${x}`; }
+	function baz(x) { return `baz,${x}`; }
+
+	var arr = [3,4];
+	var rExpected = "foo,bar,baz,3";
+	var pExpected = "foo,3";
+	var qExpected = 3;
+	var tExpected = 3;
+
+	var rActual = FPO.std.pipe( [baz,bar,foo] )( ...arr );
+	var pActual = FPO.std.pipe()( [foo] )( ...arr );
+	var qActual = FPO.std.pipe( undefined )( ...arr );
+	var tActual = FPO.std.pipe( [] )( ...arr );
+
+	assert.expect( 4 );
+	assert.strictEqual( rActual, rExpected, "regular call pipeing 3 functions" );
+	assert.strictEqual( pActual, pExpected, "curried, pipeing 1 function" );
+	assert.strictEqual( qActual, qExpected, "regular, functions list undefined" );
+	assert.strictEqual( tActual, tExpected, "regular, functions list empty" );
+} );
+
+QUnit.test( "prop()", function t36(assert){
 	var obj1 = { x: 1, y: 2, z: 3, w: 4 };
 	var obj2 = { x: 1, y: 2 };
 
-	var r = FPO.prop( {v: obj1} )( {prop: "x"} );
-	assert.strictEqual( r, 1, "r === 1" );
+	var rExpected = 1;
+	var pExpected = 2;
+	var qExpected = 3;
 
-	var p = FPO.prop( {v: obj1} )()( {} )( {prop: "y"} );
-	assert.strictEqual( p, 2, "p === 2" );
+	var f = FPO.prop( {prop: "z"} );
+	var rActual = FPO.prop( {v: obj1, prop: "x"} );
+	var pActual = FPO.prop()( {} )( {v: obj1} )()( {} )( {prop: "y"} );
+	var qActual = f( {v: obj1} )
+	var tActual = f( {v: obj2} );
+	var sActual = FPO.prop( {prop: undefined, v: undefined} );
+	var uActual = FPO.prop( {prop: "", v: {}} );
 
-	var f = FPO.prop( {prop: "z"} )()( {} );
-	var q = f( {v: obj1} )
-	assert.strictEqual( q, 3, "q === 3" );
-
-	var t = f( {v: obj2} );
-	assert.strictEqual( t, undefined, "t === undefined" );
-
-	var s = FPO.prop( {prop: undefined, v: undefined} );
-	assert.strictEqual( s, undefined, "s === undefined" );
-
-	var u = FPO.prop( {prop: "", v: {}} );
-	assert.strictEqual( u, undefined, "u === undefined" );
-
-	// **************************************
-
-	r = FPO.std.prop( "z" )( obj1 );
-	assert.strictEqual( r, 3, "r === 3" );
-
-	p = FPO.std.prop()( "z" )()( obj2 );
-	assert.strictEqual( p, undefined, "p === undefined" );
-
-	q = FPO.std.prop( undefined )( undefined );
-	assert.strictEqual( q, undefined, "q === undefined" );
-
-	t = FPO.std.prop( "" )( {} );
-	assert.strictEqual( t, undefined, "t === undefined" );
+	assert.expect( 6 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+	assert.strictEqual( qActual, qExpected, "curried with obj1" );
+	assert.strictEqual( tActual, undefined, "curried with obj2" );
+	assert.strictEqual( sActual, undefined, "regular, prop and object undefined" );
+	assert.strictEqual( uActual, undefined, "regular, prop and object empty" );
 } );
 
-QUnit.test( "setProp()", function t21(assert){
-	assert.expect( 36 );
-
+QUnit.test( "std.prop()", function t37(assert){
 	var obj1 = { x: 1, y: 2, z: 3, w: 4 };
 	var obj2 = { x: 1, y: 2 };
 
-	var r = FPO.setProp( {o: obj1, prop: "x"} )( {v: 10} );
-	assert.ok( r && typeof r == "object", "r is an object" );
-	assert.ok( r !== obj1, "r is not obj1" );
-	assert.ok(
-		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "z" ) && _hasProp( r, "w" ),
-		"r has 'x', 'y', 'z', and 'w' properties"
-	);
-	assert.ok( Object.keys( r ).length == 4, "r has only 4 properties" );
-	assert.ok( r.x === 10 && r.y === 2 && r.z === 3 && r.w === 4, "r.x === 10, r.y === 2, r.z === 3, r.w === 4" );
+	var rExpected = 1;
+	var pExpected = 2;
 
-	var p = FPO.setProp()( {v: 10} )()( {prop: "z"} )( {} )( {o: obj2} );
-	assert.ok( p && typeof p == "object", "p is an object" );
-	assert.ok( p !== obj2, "p is not obj2" );
-	assert.ok(
-		_hasProp( p, "x" ) && _hasProp( p, "y" ) && _hasProp( p, "z" ),
-		"p has 'x', 'y', and 'z' properties"
-	);
-	assert.ok( Object.keys( p ).length == 3, "p has only 3 properties" );
-	assert.ok( p.x === 1 && p.y === 2 && p.z === 10, "p.x === 1, p.y === 2, p.z === 10" );
+	var rActual = FPO.std.prop( "x", obj1 );
+	var pActual = FPO.std.prop()( "y" )( obj1 );
+	var qActual = FPO.std.prop( undefined, undefined );
+	var tActual = FPO.std.prop( "", {} );
 
-	var q = FPO.setProp( {v: 10, prop: undefined, o: undefined} );
-	assert.ok( q && typeof q == "object", "q is an object" );
-	assert.ok( _hasProp( q, "" ), "q has '' property" );
-	assert.ok( Object.keys( q ).length == 1, "q has only 1 property" );
-	assert.strictEqual( q[""], 10, "q[''] === 10" );
+	assert.expect( 4 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+	assert.strictEqual( qActual, undefined, "regular, prop and object undefined" );
+	assert.strictEqual( tActual, undefined, "regular, prop and object empty" );
+} );
 
-	var t = FPO.setProp( {v: 10, prop: "", o: {}} );
-	assert.ok( t && typeof t == "object", "t is an object" );
-	assert.ok( _hasProp( t, "" ), "t has '' property" );
-	assert.ok( Object.keys( t ).length == 1, "t has only 1 property" );
-	assert.strictEqual( t[""], 10, "t[''] === 10" );
+QUnit.test( "setProp()", function t38(assert){
+	var obj1 = { x: 1, y: 2, z: 3, w: 4 };
+	var obj2 = { x: 1, y: 2 };
+	var v10 = { v: 10 };
 
-	// **************************************
+	var rExpected = { x: 10, y: 2, z: 3, w: 4 };
+	var pExpected = { x: 1, y: 2, z: 10 };
+	var qExpected = { "": 10 };
+	var tExpected = { "": 10 };
 
-	r = FPO.std.setProp( "x", obj1 )( 10 );
-	assert.ok( r && typeof r == "object", "r is an object" );
-	assert.ok( r !== obj1, "r is not obj1" );
-	assert.ok(
-		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "z" ) && _hasProp( r, "w" ),
-		"r has 'x', 'y', 'z', and 'w' properties"
-	);
-	assert.ok( Object.keys( r ).length == 4, "r has only 4 properties" );
-	assert.ok( r.x === 10 && r.y === 2 && r.z === 3 && r.w === 4, "r.x === 10, r.y === 2, r.z === 3, r.w === 4" );
+	var rActual = FPO.setProp( {o: obj1, prop: "x"} )( v10 );
+	var pActual = FPO.setProp()( v10 )( {} )( {prop: "z"} )( {} )( {o: obj2} );
+	var qActual = FPO.setProp( v10 )( {prop: undefined, o: undefined} );
+	var tActual = FPO.setProp( v10 )( {prop: "", o: {}} );
 
-	p = FPO.std.setProp()( "z" )()( obj2 )()( 10 );
-	assert.ok( p && typeof p == "object", "p is an object" );
-	assert.ok( p !== obj2, "p is not obj2" );
-	assert.ok(
-		_hasProp( p, "x" ) && _hasProp( p, "y" ) && _hasProp( p, "z" ),
-		"p has 'x', 'y', and 'z' properties"
-	);
-	assert.ok( Object.keys( p ).length == 3, "p has only 3 properties" );
-	assert.ok( p.x === 1 && p.y === 2 && p.z === 10, "p.x === 1, p.y === 2, p.z === 10" );
+	assert.expect( 4 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "regular, prop and object undefined" );
+	assert.deepEqual( tActual, tExpected, "regular, prop and object empty" );
+} );
 
-	q = FPO.std.setProp( undefined )( undefined )( 10 );
-	assert.ok( q && typeof q == "object", "q is an object" );
-	assert.ok( _hasProp( q, "" ), "q has '' property" );
-	assert.ok( Object.keys( q ).length == 1, "q has only 1 property" );
-	assert.strictEqual( q[""], 10, "q[''] === 10" );
+QUnit.test( "std.setProp()", function t39(assert){
+	var obj1 = { x: 1, y: 2, z: 3, w: 4 };
+	var obj2 = { x: 1, y: 2 };
 
-	t = FPO.std.setProp( "" )( {} )( 10 );
-	assert.ok( t && typeof t == "object", "t is an object" );
-	assert.ok( _hasProp( t, "" ), "t has '' property" );
-	assert.ok( Object.keys( t ).length == 1, "t has only 1 property" );
-	assert.strictEqual( t[""], 10, "t[''] === 10" );
+	var rExpected = { x: 10, y: 2, z: 3, w: 4 };
+	var pExpected = { x: 1, y: 2, z: 10 };
+	var qExpected = { "": 10 };
+	var tExpected = { "": 10 };
+
+	var rActual = FPO.std.setProp( "x", obj1 )( 10 );
+	var pActual = FPO.std.setProp()( "z" )()( obj2 )( 10 );
+	var qActual = FPO.std.setProp( undefined, undefined, 10 );
+	var tActual = FPO.std.setProp( "", {}, 10 );
+
+	assert.expect( 4 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "regular, prop and object undefined" );
+	assert.deepEqual( tActual, tExpected, "regular, prop and object empty" );
 } );
 
 QUnit.test( "filterIn()", function t22(assert){
