@@ -796,7 +796,7 @@ QUnit.test( "filterIn()", function t40(assert){
 	function checkParams({ v, i, arr }) {
 		if (
 			arr === list &&
-			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			typeof v == "number" && typeof i == "number" && _isArray( arr ) &&
 			v === (i + 1) && arr[i] === v
 		) {
 			return false;
@@ -832,7 +832,7 @@ QUnit.test( "std.filterIn()", function t41(assert){
 	function checkParams(v,i,arr) {
 		if (
 			arr === list &&
-			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			typeof v == "number" && typeof i == "number" && _isArray( arr ) &&
 			v === (i + 1) && arr[i] === v
 		) {
 			return false;
@@ -868,7 +868,7 @@ QUnit.test( "filterOut()", function t42(assert){
 	function checkParams({ v, i, arr }) {
 		if (
 			arr === list &&
-			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			typeof v == "number" && typeof i == "number" && _isArray( arr ) &&
 			v === (i + 1) && arr[i] === v
 		) {
 			return true;
@@ -904,7 +904,7 @@ QUnit.test( "std.filterOut()", function t43(assert){
 	function checkParams(v,i,arr) {
 		if (
 			arr === list &&
-			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			typeof v == "number" && typeof i == "number" && _isArray( arr ) &&
 			v === (i + 1) && arr[i] === v
 		) {
 			return true;
@@ -940,7 +940,7 @@ QUnit.test( "map()", function t44(assert){
 	function checkParams({ v, i, arr }) {
 		if (
 			arr === list &&
-			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			typeof v == "number" && typeof i == "number" && _isArray( arr ) &&
 			v === (i + 1) && arr[i] === v
 		) {
 			return true;
@@ -975,7 +975,7 @@ QUnit.test( "std.map()", function t45(assert){
 	function checkParams(v,i,arr) {
 		if (
 			arr === list &&
-			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			typeof v == "number" && typeof i == "number" && _isArray( arr ) &&
 			v === (i + 1) && arr[i] === v
 		) {
 			return true;
@@ -1010,7 +1010,7 @@ QUnit.test( "flatMap()", function t46(assert){
 	function checkParams({ v, i, arr }) {
 		if (
 			arr === list &&
-			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			typeof v == "number" && typeof i == "number" && _isArray( arr ) &&
 			v === (i + 1) && arr[i] === v
 		) {
 			return true;
@@ -1050,7 +1050,7 @@ QUnit.test( "std.flatMap()", function t47(assert){
 	function checkParams(v,i,arr) {
 		if (
 			arr === list &&
-			typeof v == "number" && typeof i == "number" && Array.isArray( arr ) &&
+			typeof v == "number" && typeof i == "number" && _isArray( arr ) &&
 			v === (i + 1) && arr[i] === v
 		) {
 			return true;
@@ -1091,7 +1091,7 @@ QUnit.test( "reduce()", function t48(assert){
 		if (
 			arr === list &&
 			typeof acc == "string" && typeof v == "string" &&
-			typeof i == "number" && Array.isArray( arr ) &&
+			typeof i == "number" && _isArray( arr ) &&
 			Number( v ) === (i + 1) && arr[i] === v
 		) {
 			return acc + v;
@@ -1130,7 +1130,7 @@ QUnit.test( "std.reduce()", function t49(assert){
 		if (
 			arr === list &&
 			typeof acc == "string" && typeof v == "string" &&
-			typeof i == "number" && Array.isArray( arr ) &&
+			typeof i == "number" && _isArray( arr ) &&
 			Number( v ) === (i + 1) && arr[i] === v
 		) {
 			return acc + v;
@@ -1169,7 +1169,7 @@ QUnit.test( "reduceRight()", function t50(assert){
 		if (
 			arr === list &&
 			typeof acc == "string" && typeof v == "string" &&
-			typeof i == "number" && Array.isArray( arr ) &&
+			typeof i == "number" && _isArray( arr ) &&
 			Number( v ) === (i + 1) && arr[i] === v
 		) {
 			return acc + v;
@@ -1208,7 +1208,7 @@ QUnit.test( "std.reduceRight()", function t51(assert){
 		if (
 			arr === list &&
 			typeof acc == "string" && typeof v == "string" &&
-			typeof i == "number" && Array.isArray( arr ) &&
+			typeof i == "number" && _isArray( arr ) &&
 			Number( v ) === (i + 1) && arr[i] === v
 		) {
 			return acc + v;
@@ -1242,587 +1242,174 @@ QUnit.test( "std.reduceRight()", function t51(assert){
 	assert.strictEqual( uActual, uExpected, "reducer params check" );
 } );
 
-QUnit.test( "flatten()", function t28(assert){
-	assert.expect( 102 );
-
+QUnit.test( "flatten()", function t52(assert){
 	var list = [1,2,[3,[4,5]]];
 
-	var r = FPO.flatten( {v: list} );
-	assert.ok( r && Array.isArray( r ), "r is an array" );
-	assert.ok(
-		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ) &&
-		_hasProp( r, "3" ) && _hasProp( r, "4" ),
-		"r has filled slots as indexes 0, 1, 2, 3, and 4"
-	);
-	assert.ok( Object.keys( r ).length == 5 && r.length == 5, "r has only 5 slots" );
-	assert.ok(
-		r[0] === 1 && r[1] === 2 && r[2] === 3 && r[3] === 4 && r[4] === 5,
-		"r is [1,2,3,4,5]"
-	);
+	var rExpected = [1,2,3,4,5];
+	var pExpected = [1,2,3,4,5];
+	var qExpected = [1,2,3,4,5];
+	var tExpected = [1,2,3,4,5];
+	var sExpected = [1,2,3,4,5];
+	var uExpected = [1,2,3,[4,5]];
+	var hExpected = [1,2,[3,[4,5]]];
+	var jExpected = [1,2,[3,[4,5]]];
+	var kExpected = [];
+	var mExpected = [];
 
-	var p = FPO.flatten()( {} )( {v: list} );
-	assert.ok( p && Array.isArray( p ), "p is an array" );
-	assert.ok(
-		_hasProp( p, "0" ) && _hasProp( p, "1" ) && _hasProp( p, "2" ) &&
-		_hasProp( p, "3" ) && _hasProp( p, "4" ),
-		"p has filled slots as indexes 0, 1, 2, 3, and 4"
-	);
-	assert.ok( Object.keys( p ).length == 5 && p.length == 5, "p has only 5 slots" );
-	assert.ok(
-		p[0] === 1 && p[1] === 2 && p[2] === 3 && p[3] === 4 && p[4] === 5,
-		"p is [1,2,3,4,5]"
-	);
+	var rActual = FPO.flatten( {v: list} );
+	var pActual = FPO.flatten()( {} )( {v: list} );
+	var qActual = FPO.flatten( {n: undefined, v: list} );
+	var tActual = FPO.flatten( {n: 5, v: list} );
+	var sActual = FPO.flatten( {n: 2, v: list} );
+	var uActual = FPO.flatten( {n: 1, v: list} );
+	var hActual = FPO.flatten( {n: 0, v: list} );
+	var jActual = FPO.flatten( {n: "-whatever-", v: list} );
+	var kActual = FPO.flatten( {v: undefined} );
+	var mActual = FPO.flatten( {v: []} );
 
-	var q = FPO.flatten( {n: undefined, v: list} );
-	assert.ok( q && Array.isArray( q ), "q is an array" );
-	assert.ok(
-		_hasProp( q, "0" ) && _hasProp( q, "1" ) && _hasProp( q, "2" ) &&
-		_hasProp( q, "3" ) && _hasProp( q, "4" ),
-		"q has filled slots as indexes 0, 1, 2, 3, and 4"
-	);
-	assert.ok( Object.keys( q ).length == 5 && q.length == 5, "q has only 5 slots" );
-	assert.ok(
-		q[0] === 1 && q[1] === 2 && q[2] === 3 && q[3] === 4 && q[4] === 5,
-		"q is [1,2,3,4,5]"
-	);
-
-	var t = FPO.flatten( {n: 5, v: list} );
-	assert.ok( t && Array.isArray( t ), "t is an array" );
-	assert.ok(
-		_hasProp( t, "0" ) && _hasProp( t, "1" ) && _hasProp( t, "2" ) &&
-		_hasProp( t, "3" ) && _hasProp( t, "4" ),
-		"t has filled slots as indexes 0, 1, 2, 3, and 4"
-	);
-	assert.ok( Object.keys( t ).length == 5 && t.length == 5, "t has only 5 slots" );
-	assert.ok(
-		t[0] === 1 && t[1] === 2 && t[2] === 3 && t[3] === 4 && t[4] === 5,
-		"t is [1,2,3,4,5]"
-	);
-
-	var s = FPO.flatten( {n: 2, v: list} );
-	assert.ok( s && Array.isArray( s ), "s is an array" );
-	assert.ok(
-		_hasProp( s, "0" ) && _hasProp( s, "1" ) && _hasProp( s, "2" ) &&
-		_hasProp( s, "3" ) && _hasProp( s, "4" ),
-		"s has filled slots as indexes 0, 1, 2, 3, and 4"
-	);
-	assert.ok( Object.keys( s ).length == 5 && s.length == 5, "s has only 5 slots" );
-	assert.ok(
-		s[0] === 1 && s[1] === 2 && s[2] === 3 && s[3] === 4 && s[4] === 5,
-		"s is [1,2,3,4,5]"
-	);
-
-	var u = FPO.flatten( {n: 1, v: list} );
-	assert.ok( u && Array.isArray( u ), "u is an array" );
-	assert.ok(
-		_hasProp( u, "0" ) && _hasProp( u, "1" ) && _hasProp( u, "2" ) && _hasProp( u, "3" ),
-		"u has filled slots as indexes 0, 1, 2, and 3"
-	);
-	assert.ok( Object.keys( u ).length == 4 && u.length == 4, "u has only 4 slots" );
-	assert.ok( u[3] && Array.isArray( u[3] ), "u[3] is an array" );
-	assert.ok(
-		_hasProp( u[3], "0" ) && _hasProp( u[3], "1" ),
-		"u[3] has filled slots as indexes 0 and 1"
-	);
-	assert.ok( Object.keys( u[3] ).length == 2 && u[3].length == 2, "u[3] has only 2 slots" );
-	assert.ok(
-		u[0] === 1 && u[1] === 2 && u[2] === 3 && u[3][0] === 4 && u[3][1] === 5,
-		"u is [1,2,3,[4,5]]"
-	);
-
-	var h = FPO.flatten( {n: 0, v: list} );
-	assert.ok( h && Array.isArray( h ), "h is an array" );
-	assert.ok(
-		_hasProp( h, "0" ) && _hasProp( h, "1" ) && _hasProp( h, "2" ),
-		"h has filled slots as indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( h ).length == 3 && h.length == 3, "h has only 3 slots" );
-	assert.ok( h[2] && Array.isArray( h[2] ), "h[2] is an array" );
-	assert.ok(
-		_hasProp( h[2], "0" ) && _hasProp( h[2], "1" ),
-		"h[2] has filled slots as indexes 0 and 1"
-	);
-	assert.ok( Object.keys( h[2] ).length == 2 && h[2].length == 2, "h[2] has only 2 slots" );
-	assert.ok( h[2][1] && Array.isArray( h[2][1] ), "h[2][1] is an array" );
-	assert.ok(
-		_hasProp( h[2][1], "0" ) && _hasProp( h[2][1], "1" ),
-		"h[2][1] has filled slots as indexes 0 and 1"
-	);
-	assert.ok( Object.keys( h[2][1] ).length == 2 && h[2][1].length == 2, "h[2][1] has only 2 slots" );
-	assert.ok(
-		h[0] === 1 && h[1] === 2 && h[2][0] === 3 && h[2][1][0] === 4 && h[2][1][1] === 5,
-		"h is [1,2,[3,[4,5]]]"
-	);
-
-	var j = FPO.flatten( {n: "-whatever-", v: list} );
-	assert.ok( j && Array.isArray( j ), "j is an array" );
-	assert.ok(
-		_hasProp( j, "0" ) && _hasProp( j, "1" ) && _hasProp( j, "2" ),
-		"j has filled slots as indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( j ).length == 3 && j.length == 3, "j has only 3 slots" );
-	assert.ok( j[2] && Array.isArray( j[2] ), "j[2] is an array" );
-	assert.ok(
-		_hasProp( j[2], "0" ) && _hasProp( j[2], "1" ),
-		"j[2] has filled slots as indexes 0 and 1"
-	);
-	assert.ok( Object.keys( j[2] ).length == 2 && j[2].length == 2, "j[2] has only 2 slots" );
-	assert.ok( j[2][1] && Array.isArray( j[2][1] ), "j[2][1] is an array" );
-	assert.ok(
-		_hasProp( j[2][1], "0" ) && _hasProp( j[2][1], "1" ),
-		"j[2][1] has filled slots as indexes 0 and 1"
-	);
-	assert.ok( Object.keys( j[2][1] ).length == 2 && j[2][1].length == 2, "j[2][1] has only 2 slots" );
-	assert.ok(
-		j[0] === 1 && j[1] === 2 && j[2][0] === 3 && j[2][1][0] === 4 && j[2][1][1] === 5,
-		"j is [1,2,[3,[4,5]]]"
-	);
-
-	var k = FPO.flatten( {v: undefined} );
-	assert.ok( k && Array.isArray( k ), "k is an array" );
-	assert.ok( Object.keys( k ).length == 0 && k.length == 0, "k is []" );
-
-	var m = FPO.flatten( {v: []} );
-	assert.ok( m && Array.isArray( m ), "m is an array" );
-	assert.ok( Object.keys( m ).length == 0 && m.length == 0, "m is []" );
-
-	// **************************************
-
-	r = FPO.std.flatten( list );
-	assert.ok( r && Array.isArray( r ), "r is an array" );
-	assert.ok(
-		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ) &&
-		_hasProp( r, "3" ) && _hasProp( r, "4" ),
-		"r has filled slots as indexes 0, 1, 2, 3, and 4"
-	);
-	assert.ok( Object.keys( r ).length == 5 && r.length == 5, "r has only 5 slots" );
-	assert.ok(
-		r[0] === 1 && r[1] === 2 && r[2] === 3 && r[3] === 4 && r[4] === 5,
-		"r is [1,2,3,4,5]"
-	);
-
-	p = FPO.std.flatten()( list );
-	assert.ok( p && Array.isArray( p ), "p is an array" );
-	assert.ok(
-		_hasProp( p, "0" ) && _hasProp( p, "1" ) && _hasProp( p, "2" ) &&
-		_hasProp( p, "3" ) && _hasProp( p, "4" ),
-		"p has filled slots as indexes 0, 1, 2, 3, and 4"
-	);
-	assert.ok( Object.keys( p ).length == 5 && p.length == 5, "p has only 5 slots" );
-	assert.ok(
-		p[0] === 1 && p[1] === 2 && p[2] === 3 && p[3] === 4 && p[4] === 5,
-		"p is [1,2,3,4,5]"
-	);
-
-	q = FPO.std.flatten( list, undefined );
-	assert.ok( q && Array.isArray( q ), "q is an array" );
-	assert.ok(
-		_hasProp( q, "0" ) && _hasProp( q, "1" ) && _hasProp( q, "2" ) &&
-		_hasProp( q, "3" ) && _hasProp( q, "4" ),
-		"q has filled slots as indexes 0, 1, 2, 3, and 4"
-	);
-	assert.ok( Object.keys( q ).length == 5 && q.length == 5, "q has only 5 slots" );
-	assert.ok(
-		q[0] === 1 && q[1] === 2 && q[2] === 3 && q[3] === 4 && q[4] === 5,
-		"q is [1,2,3,4,5]"
-	);
-
-	t = FPO.std.flatten( list, 5 );
-	assert.ok( t && Array.isArray( t ), "t is an array" );
-	assert.ok(
-		_hasProp( t, "0" ) && _hasProp( t, "1" ) && _hasProp( t, "2" ) &&
-		_hasProp( t, "3" ) && _hasProp( t, "4" ),
-		"t has filled slots as indexes 0, 1, 2, 3, and 4"
-	);
-	assert.ok( Object.keys( t ).length == 5 && t.length == 5, "t has only 5 slots" );
-	assert.ok(
-		t[0] === 1 && t[1] === 2 && t[2] === 3 && t[3] === 4 && t[4] === 5,
-		"t is [1,2,3,4,5]"
-	);
-
-	s = FPO.std.flatten( list, 2 );
-	assert.ok( s && Array.isArray( s ), "s is an array" );
-	assert.ok(
-		_hasProp( s, "0" ) && _hasProp( s, "1" ) && _hasProp( s, "2" ) &&
-		_hasProp( s, "3" ) && _hasProp( s, "4" ),
-		"s has filled slots as indexes 0, 1, 2, 3, and 4"
-	);
-	assert.ok( Object.keys( s ).length == 5 && s.length == 5, "s has only 5 slots" );
-	assert.ok(
-		s[0] === 1 && s[1] === 2 && s[2] === 3 && s[3] === 4 && s[4] === 5,
-		"s is [1,2,3,4,5]"
-	);
-
-	u = FPO.std.flatten( list, 1 );
-	assert.ok( u && Array.isArray( u ), "u is an array" );
-	assert.ok(
-		_hasProp( u, "0" ) && _hasProp( u, "1" ) && _hasProp( u, "2" ) && _hasProp( u, "3" ),
-		"u has filled slots as indexes 0, 1, 2, and 3"
-	);
-	assert.ok( Object.keys( u ).length == 4 && u.length == 4, "u has only 4 slots" );
-	assert.ok( u[3] && Array.isArray( u[3] ), "u[3] is an array" );
-	assert.ok(
-		_hasProp( u[3], "0" ) && _hasProp( u[3], "1" ),
-		"u[3] has filled slots as indexes 0 and 1"
-	);
-	assert.ok( Object.keys( u[3] ).length == 2 && u[3].length == 2, "u[3] has only 2 slots" );
-	assert.ok(
-		u[0] === 1 && u[1] === 2 && u[2] === 3 && u[3][0] === 4 && u[3][1] === 5,
-		"u is [1,2,3,[4,5]]"
-	);
-
-	h = FPO.std.flatten( list, 0 );
-	assert.ok( h && Array.isArray( h ), "h is an array" );
-	assert.ok(
-		_hasProp( h, "0" ) && _hasProp( h, "1" ) && _hasProp( h, "2" ),
-		"h has filled slots as indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( h ).length == 3 && h.length == 3, "h has only 3 slots" );
-	assert.ok( h[2] && Array.isArray( h[2] ), "h[2] is an array" );
-	assert.ok(
-		_hasProp( h[2], "0" ) && _hasProp( h[2], "1" ),
-		"h[2] has filled slots as indexes 0 and 1"
-	);
-	assert.ok( Object.keys( h[2] ).length == 2 && h[2].length == 2, "h[2] has only 2 slots" );
-	assert.ok( h[2][1] && Array.isArray( h[2][1] ), "h[2][1] is an array" );
-	assert.ok(
-		_hasProp( h[2][1], "0" ) && _hasProp( h[2][1], "1" ),
-		"h[2][1] has filled slots as indexes 0 and 1"
-	);
-	assert.ok( Object.keys( h[2][1] ).length == 2 && h[2][1].length == 2, "h[2][1] has only 2 slots" );
-	assert.ok(
-		h[0] === 1 && h[1] === 2 && h[2][0] === 3 && h[2][1][0] === 4 && h[2][1][1] === 5,
-		"h is [1,2,[3,[4,5]]]"
-	);
-
-	j = FPO.std.flatten( list, "-whatever-" );
-	assert.ok( j && Array.isArray( j ), "j is an array" );
-	assert.ok(
-		_hasProp( j, "0" ) && _hasProp( j, "1" ) && _hasProp( j, "2" ),
-		"j has filled slots as indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( j ).length == 3 && j.length == 3, "j has only 3 slots" );
-	assert.ok( j[2] && Array.isArray( j[2] ), "j[2] is an array" );
-	assert.ok(
-		_hasProp( j[2], "0" ) && _hasProp( j[2], "1" ),
-		"j[2] has filled slots as indexes 0 and 1"
-	);
-	assert.ok( Object.keys( j[2] ).length == 2 && j[2].length == 2, "j[2] has only 2 slots" );
-	assert.ok( j[2][1] && Array.isArray( j[2][1] ), "j[2][1] is an array" );
-	assert.ok(
-		_hasProp( j[2][1], "0" ) && _hasProp( j[2][1], "1" ),
-		"j[2][1] has filled slots as indexes 0 and 1"
-	);
-	assert.ok( Object.keys( j[2][1] ).length == 2 && j[2][1].length == 2, "j[2][1] has only 2 slots" );
-	assert.ok(
-		j[0] === 1 && j[1] === 2 && j[2][0] === 3 && j[2][1][0] === 4 && j[2][1][1] === 5,
-		"j is [1,2,[3,[4,5]]]"
-	);
-
-	k = FPO.std.flatten( undefined );
-	assert.ok( k && Array.isArray( k ), "k is an array" );
-	assert.ok( Object.keys( k ).length == 0 && k.length == 0, "k is []" );
-
-	m = FPO.std.flatten( [] );
-	assert.ok( m && Array.isArray( m ), "m is an array" );
-	assert.ok( Object.keys( m ).length == 0 && m.length == 0, "m is []" );
+	assert.expect( 10 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "depth undefined" );
+	assert.deepEqual( tActual, tExpected, "depth larger" );
+	assert.deepEqual( sActual, sExpected, "depth equal" );
+	assert.deepEqual( uActual, uExpected, "depth less" );
+	assert.deepEqual( hActual, hExpected, "depth zero" );
+	assert.deepEqual( jActual, jExpected, "depth not-a-number" );
+	assert.deepEqual( kActual, kExpected, "array undefined" );
+	assert.deepEqual( mActual, mExpected, "array empty" );
 } );
 
-QUnit.test( "zip()", function t29(assert){
-	assert.expect( 68 );
+QUnit.test( "std.flatten()", function t53(assert){
+	var list = [1,2,[3,[4,5]]];
 
+	var rExpected = [1,2,3,4,5];
+	var pExpected = [1,2,3,4,5];
+	var qExpected = [1,2,3,4,5];
+	var tExpected = [1,2,3,4,5];
+	var sExpected = [1,2,3,4,5];
+	var uExpected = [1,2,3,[4,5]];
+	var hExpected = [1,2,[3,[4,5]]];
+	var jExpected = [1,2,[3,[4,5]]];
+	var kExpected = [];
+	var mExpected = [];
+
+	var rActual = FPO.std.flatten( list );
+	var pActual = FPO.std.flatten()( list );
+	var qActual = FPO.std.flatten( list, undefined );
+	var tActual = FPO.std.flatten( list, 5 );
+	var sActual = FPO.std.flatten( list, 2 );
+	var uActual = FPO.std.flatten( list, 1 );
+	var hActual = FPO.std.flatten( list, 0 );
+	var jActual = FPO.std.flatten( list, "-whatever-" );
+	var kActual = FPO.std.flatten( undefined );
+	var mActual = FPO.std.flatten( [] );
+
+	assert.expect( 10 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "depth undefined" );
+	assert.deepEqual( tActual, tExpected, "depth larger" );
+	assert.deepEqual( sActual, sExpected, "depth equal" );
+	assert.deepEqual( uActual, uExpected, "depth less" );
+	assert.deepEqual( hActual, hExpected, "depth zero" );
+	assert.deepEqual( jActual, jExpected, "depth not-a-number" );
+	assert.deepEqual( kActual, kExpected, "array undefined" );
+	assert.deepEqual( mActual, mExpected, "array empty" );
+} );
+
+QUnit.test( "zip()", function t54(assert){
 	var list1 = [1,4,7];
 	var list2 = [2,5,8];
 	var list3 = [3,6];
 
-	var r = FPO.zip( {arr1: list1, arr2: list2} );
-	assert.ok( r && Array.isArray( r ), "r is an array" );
-	assert.ok(
-		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
-		"r has filled slots at indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "r has only 3 slots" );
-	assert.ok(
-		r[0] && Array.isArray( r[0] ) &&
-		r[1] && Array.isArray( r[1] ) &&
-		r[2] && Array.isArray( r[2] ),
-		"r[0]/r[1]/r[2] are each arrays"
-	);
-	assert.ok(
-		_hasProp( r[0], "0" ) && _hasProp( r[0], "1" ) &&
-		_hasProp( r[1], "0" ) && _hasProp( r[1], "1" ) &&
-		_hasProp( r[2], "0" ) && _hasProp( r[2], "1" ),
-		"r[0]/r[1]/r[2] each have filled slots at indexes 0 and 1"
-	);
-	assert.ok(
-		Object.keys( r[0] ).length == 2 && r[0].length == 2 &&
-		Object.keys( r[1] ).length == 2 && r[1].length == 2 &&
-		Object.keys( r[2] ).length == 2 && r[2].length == 2,
-		"r[0]/r[1]/r[2] each have only 2 slots"
-	);
-	assert.ok(
-		r[0][0] === 1 && r[0][1] === 2 &&
-		r[1][0] === 4 && r[1][1] === 5 &&
-		r[2][0] === 7 && r[2][1] === 8,
-		"r is [[1,2],[4,5],[7,8]]"
-	);
+	var rExpected = [[1,2],[4,5],[7,8]];
+	var pExpected = [[1,2],[4,5],[7,8]];
+	var qExpected = [[1,3],[4,6]];
+	var tExpected = [[3,1],[6,4]];
+	var sExpected = [];
+	var uExpected = [];
+	var hExpected = [];
 
-	var p = FPO.zip()( {} )( {arr1: list1} )()( {} )( {arr2: list2} );
-	assert.ok( p && Array.isArray( p ), "p is an array" );
-	assert.ok(
-		_hasProp( p, "0" ) && _hasProp( p, "1" ) && _hasProp( p, "2" ),
-		"p has filled slots at indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( p ).length == 3 && p.length == 3, "p has only 3 slots" );
-	assert.ok(
-		p[0] && Array.isArray( p[0] ) &&
-		p[1] && Array.isArray( p[1] ) &&
-		p[2] && Array.isArray( p[2] ),
-		"p[0]/p[1]/p[2] are each arrays"
-	);
-	assert.ok(
-		_hasProp( p[0], "0" ) && _hasProp( p[0], "1" ) &&
-		_hasProp( p[1], "0" ) && _hasProp( p[1], "1" ) &&
-		_hasProp( p[2], "0" ) && _hasProp( p[2], "1" ),
-		"p[0]/p[1]/p[2] each have filled slots at indexes 0 and 1"
-	);
-	assert.ok(
-		Object.keys( p[0] ).length == 2 && p[0].length == 2 &&
-		Object.keys( p[1] ).length == 2 && p[1].length == 2 &&
-		Object.keys( p[2] ).length == 2 && p[2].length == 2,
-		"p[0]/p[1]/p[2] each have only 2 slots"
-	);
-	assert.ok(
-		p[0][0] === 1 && p[0][1] === 2 &&
-		p[1][0] === 4 && p[1][1] === 5 &&
-		p[2][0] === 7 && p[2][1] === 8,
-		"p is [[1,2],[4,5],[7,8]]"
-	);
+	var rActual = FPO.zip( {arr1: list1, arr2: list2} );
+	var pActual = FPO.zip()( {} )( {arr1: list1} )()( {} )( {arr2: list2} );
+	var qActual = FPO.zip( {arr1: list1, arr2: list3} );
+	var tActual = FPO.zip( {arr1: list3, arr2: list1} );
+	var sActual = FPO.zip( {arr1: list1, arr2: undefined} );
+	var uActual = FPO.zip( {arr1: undefined, arr2: undefined} );
+	var hActual = FPO.zip( {arr1: [], arr2: []} );
 
-	var q = FPO.zip( {arr1: list1, arr2: list3} );
-	assert.ok( q && Array.isArray( q ), "q is an array" );
-	assert.ok(
-		_hasProp( q, "0" ) && _hasProp( q, "1" ),
-		"q has filled slots at indexes 0 and 1"
-	);
-	assert.ok( Object.keys( q ).length == 2 && q.length == 2, "q has only 2 slots" );
-	assert.ok(
-		q[0] && Array.isArray( q[0] ) &&
-		q[1] && Array.isArray( q[1] ),
-		"q[0]/q[1] are each arrays"
-	);
-	assert.ok(
-		_hasProp( q[0], "0" ) && _hasProp( q[0], "1" ) &&
-		_hasProp( q[1], "0" ) && _hasProp( q[1], "1" ),
-		"q[0]/q[1] each have filled slots at indexes 0 and 1"
-	);
-	assert.ok(
-		Object.keys( q[0] ).length == 2 && q[0].length == 2 &&
-		Object.keys( q[1] ).length == 2 && q[1].length == 2,
-		"q[0]/q[1] each have only 2 slots"
-	);
-	assert.ok(
-		q[0][0] === 1 && q[0][1] === 3 &&
-		q[1][0] === 4 && q[1][1] === 6,
-		"q is [[1,3],[4,6]]"
-	);
-
-	var t = FPO.zip( {arr1: list3, arr2: list1} );
-	assert.ok( t && Array.isArray( t ), "t is an array" );
-	assert.ok(
-		_hasProp( t, "0" ) && _hasProp( t, "1" ),
-		"t has filled slots at indexes 0 and 1"
-	);
-	assert.ok( Object.keys( t ).length == 2 && t.length == 2, "t has only 2 slots" );
-	assert.ok(
-		t[0] && Array.isArray( t[0] ) &&
-		t[1] && Array.isArray( t[1] ),
-		"t[0]/t[1] are each arrays"
-	);
-	assert.ok(
-		_hasProp( t[0], "0" ) && _hasProp( t[0], "1" ) &&
-		_hasProp( t[1], "0" ) && _hasProp( t[1], "1" ),
-		"t[0]/t[1] each have filled slots at indexes 0 and 1"
-	);
-	assert.ok(
-		Object.keys( t[0] ).length == 2 && t[0].length == 2 &&
-		Object.keys( t[1] ).length == 2 && t[1].length == 2,
-		"t[0]/t[1] each have only 2 slots"
-	);
-	assert.ok(
-		t[0][0] === 3 && t[0][1] === 1 &&
-		t[1][0] === 6 && t[1][1] === 4,
-		"t is [[3,1],[6,4]]"
-	);
-
-	var s = FPO.zip( {arr1: list1, arr2: undefined} );
-	assert.ok( s && Array.isArray( s ), "s is an array" );
-	assert.ok( Object.keys( s ).length == 0 && s.length == 0, "s is []" );
-
-	var u = FPO.zip( {arr1: undefined, arr2: undefined} );
-	assert.ok( u && Array.isArray( u ), "u is an array" );
-	assert.ok( Object.keys( u ).length == 0 && u.length == 0, "u is []" );
-
-	var h = FPO.zip( {arr1: [], arr2: []} );
-	assert.ok( h && Array.isArray( h ), "h is an array" );
-	assert.ok( Object.keys( h ).length == 0 && h.length == 0, "h is []" );
-
-	// **************************************
-
-	r = FPO.std.zip( list1, list2 );
-	assert.ok( r && Array.isArray( r ), "r is an array" );
-	assert.ok(
-		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
-		"r has filled slots at indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "r has only 3 slots" );
-	assert.ok(
-		r[0] && Array.isArray( r[0] ) &&
-		r[1] && Array.isArray( r[1] ) &&
-		r[2] && Array.isArray( r[2] ),
-		"r[0]/r[1]/r[2] are each arrays"
-	);
-	assert.ok(
-		_hasProp( r[0], "0" ) && _hasProp( r[0], "1" ) &&
-		_hasProp( r[1], "0" ) && _hasProp( r[1], "1" ) &&
-		_hasProp( r[2], "0" ) && _hasProp( r[2], "1" ),
-		"r[0]/r[1]/r[2] each have filled slots at indexes 0 and 1"
-	);
-	assert.ok(
-		Object.keys( r[0] ).length == 2 && r[0].length == 2 &&
-		Object.keys( r[1] ).length == 2 && r[1].length == 2 &&
-		Object.keys( r[2] ).length == 2 && r[2].length == 2,
-		"r[0]/r[1]/r[2] each have only 2 slots"
-	);
-	assert.ok(
-		r[0][0] === 1 && r[0][1] === 2 &&
-		r[1][0] === 4 && r[1][1] === 5 &&
-		r[2][0] === 7 && r[2][1] === 8,
-		"r is [[1,2],[4,5],[7,8]]"
-	);
-
-	p = FPO.std.zip()( list1 )()( list2 );
-	assert.ok( p && Array.isArray( p ), "p is an array" );
-	assert.ok(
-		_hasProp( p, "0" ) && _hasProp( p, "1" ) && _hasProp( p, "2" ),
-		"p has filled slots at indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( p ).length == 3 && p.length == 3, "p has only 3 slots" );
-	assert.ok(
-		p[0] && Array.isArray( p[0] ) &&
-		p[1] && Array.isArray( p[1] ) &&
-		p[2] && Array.isArray( p[2] ),
-		"p[0]/p[1]/p[2] are each arrays"
-	);
-	assert.ok(
-		_hasProp( p[0], "0" ) && _hasProp( p[0], "1" ) &&
-		_hasProp( p[1], "0" ) && _hasProp( p[1], "1" ) &&
-		_hasProp( p[2], "0" ) && _hasProp( p[2], "1" ),
-		"p[0]/p[1]/p[2] each have filled slots at indexes 0 and 1"
-	);
-	assert.ok(
-		Object.keys( p[0] ).length == 2 && p[0].length == 2 &&
-		Object.keys( p[1] ).length == 2 && p[1].length == 2 &&
-		Object.keys( p[2] ).length == 2 && p[2].length == 2,
-		"p[0]/p[1]/p[2] each have only 2 slots"
-	);
-	assert.ok(
-		p[0][0] === 1 && p[0][1] === 2 &&
-		p[1][0] === 4 && p[1][1] === 5 &&
-		p[2][0] === 7 && p[2][1] === 8,
-		"p is [[1,2],[4,5],[7,8]]"
-	);
-
-	q = FPO.std.zip( list1, list3 );
-	assert.ok( q && Array.isArray( q ), "q is an array" );
-	assert.ok(
-		_hasProp( q, "0" ) && _hasProp( q, "1" ),
-		"q has filled slots at indexes 0 and 1"
-	);
-	assert.ok( Object.keys( q ).length == 2 && q.length == 2, "q has only 2 slots" );
-	assert.ok(
-		q[0] && Array.isArray( q[0] ) &&
-		q[1] && Array.isArray( q[1] ),
-		"q[0]/q[1] are each arrays"
-	);
-	assert.ok(
-		_hasProp( q[0], "0" ) && _hasProp( q[0], "1" ) &&
-		_hasProp( q[1], "0" ) && _hasProp( q[1], "1" ),
-		"q[0]/q[1] each have filled slots at indexes 0 and 1"
-	);
-	assert.ok(
-		Object.keys( q[0] ).length == 2 && q[0].length == 2 &&
-		Object.keys( q[1] ).length == 2 && q[1].length == 2,
-		"q[0]/q[1] each have only 2 slots"
-	);
-	assert.ok(
-		q[0][0] === 1 && q[0][1] === 3 &&
-		q[1][0] === 4 && q[1][1] === 6,
-		"q is [[1,3],[4,6]]"
-	);
-
-	t = FPO.std.zip( list3, list1 );
-	assert.ok( t && Array.isArray( t ), "t is an array" );
-	assert.ok(
-		_hasProp( t, "0" ) && _hasProp( t, "1" ),
-		"t has filled slots at indexes 0 and 1"
-	);
-	assert.ok( Object.keys( t ).length == 2 && t.length == 2, "t has only 2 slots" );
-	assert.ok(
-		t[0] && Array.isArray( t[0] ) &&
-		t[1] && Array.isArray( t[1] ),
-		"t[0]/t[1] are each arrays"
-	);
-	assert.ok(
-		_hasProp( t[0], "0" ) && _hasProp( t[0], "1" ) &&
-		_hasProp( t[1], "0" ) && _hasProp( t[1], "1" ),
-		"t[0]/t[1] each have filled slots at indexes 0 and 1"
-	);
-	assert.ok(
-		Object.keys( t[0] ).length == 2 && t[0].length == 2 &&
-		Object.keys( t[1] ).length == 2 && t[1].length == 2,
-		"t[0]/t[1] each have only 2 slots"
-	);
-	assert.ok(
-		t[0][0] === 3 && t[0][1] === 1 &&
-		t[1][0] === 6 && t[1][1] === 4,
-		"t is [[3,1],[6,4]]"
-	);
-
-	s = FPO.std.zip( list1, undefined );
-	assert.ok( s && Array.isArray( s ), "s is an array" );
-	assert.ok( Object.keys( s ).length == 0 && s.length == 0, "s is []" );
-
-	u = FPO.std.zip( undefined, undefined );
-	assert.ok( u && Array.isArray( u ), "u is an array" );
-	assert.ok( Object.keys( u ).length == 0 && u.length == 0, "u is []" );
-
-	h = FPO.std.zip( [], [] );
-	assert.ok( h && Array.isArray( h ), "h is an array" );
-	assert.ok( Object.keys( h ).length == 0 && h.length == 0, "h is []" );
+	assert.expect( 7 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "longer list, shorter list" );
+	assert.deepEqual( tActual, tExpected, "shorter list, longer list" );
+	assert.deepEqual( sActual, sExpected, "one list undefined" );
+	assert.deepEqual( uActual, uExpected, "both lists undefined" );
+	assert.deepEqual( hActual, hExpected, "both lists empty" );
 } );
 
-QUnit.test( "trampoline()", function t30(assert){
-	assert.expect( 4 );
+QUnit.test( "std.zip()", function t55(assert){
+	var list1 = [1,4,7];
+	var list2 = [2,5,8];
+	var list3 = [3,6];
 
+	var rExpected = [[1,2],[4,5],[7,8]];
+	var pExpected = [[1,2],[4,5],[7,8]];
+	var qExpected = [[1,3],[4,6]];
+	var tExpected = [[3,1],[6,4]];
+	var sExpected = [];
+	var uExpected = [];
+	var hExpected = [];
+
+	var rActual = FPO.std.zip( list1, list2 );
+	var pActual = FPO.std.zip()( list1 )()( list2 );
+	var qActual = FPO.std.zip( list1, list3 );
+	var tActual = FPO.std.zip( list3, list1 );
+	var sActual = FPO.std.zip( list1, undefined );
+	var uActual = FPO.std.zip( undefined, undefined );
+	var hActual = FPO.std.zip( [], [] );
+
+	assert.expect( 7 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "longer list, shorter list" );
+	assert.deepEqual( tActual, tExpected, "shorter list, longer list" );
+	assert.deepEqual( sActual, sExpected, "one list undefined" );
+	assert.deepEqual( uActual, uExpected, "both lists undefined" );
+	assert.deepEqual( hActual, hExpected, "both lists empty" );
+} );
+
+QUnit.test( "trampoline()", function t56(assert){
 	function sum(total,x) {
 		if (x <= 1) return total + x;
 		return () => sum( total + x, x - 1 );
 	}
 
-	var r = FPO.trampoline( {fn: sum} )( 0, 5 );
-	assert.strictEqual( r, 15, "r === 15" );
+	var args = [0,5];
 
-	var p = FPO.trampoline()( {} )( {fn: sum} )( 0, 5 );
-	assert.strictEqual( p, 15, "p === 15" );
+	var rActual = FPO.trampoline( {fn: sum} )( ...args );
+	var pActual = FPO.trampoline()( {} )( {fn: sum} )( ...args );
 
-	// **************************************
+	assert.expect( 2 );
+	assert.strictEqual( rActual, 15, "regular call" );
+	assert.strictEqual( pActual, 15, "curried" );
+} );
 
-	r = FPO.std.trampoline( sum )( 0, 5 );
-	assert.strictEqual( r, 15, "r === 15" );
+QUnit.test( "std.trampoline()", function t57(assert){
+	function sum(total,x) {
+		if (x <= 1) return total + x;
+		return () => sum( total + x, x - 1 );
+	}
 
-	p = FPO.std.trampoline()( sum )( 0, 5 );
-	assert.strictEqual( p, 15, "p === 15" );
+	var args = [0,5];
+
+	var rActual = FPO.std.trampoline( sum )( ...args );
+	var pActual = FPO.std.trampoline()( sum )( ...args );
+
+	assert.expect( 2 );
+	assert.strictEqual( rActual, 15, "regular call" );
+	assert.strictEqual( pActual, 15, "curried" );
 } );
 
 
