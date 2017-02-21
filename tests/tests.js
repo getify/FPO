@@ -331,284 +331,212 @@ QUnit.test( "std.binary()", function t17(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "curry()", function t11(assert){
-	assert.expect( 32 );
-
+QUnit.test( "curry()", function t18(assert){
 	function foo(argsObj) { return argsObj; }
 
-	var r = FPO.curry( {fn: foo, n: 3} )( {x: 1} )( {y: 2, z: 3} )( {w: 4} );
-	assert.ok( r && typeof r == "object", "r is an object" );
-	assert.ok(
-		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "w" ),
-		"r has 'x', 'y', and 'w' properties"
-	);
-	assert.ok( !_hasProp( r, "z" ), "r does not have 'z' property" );
-	assert.ok( Object.keys( r ).length == 3, "r has only 3 properties" );
-	assert.ok( r.x === 1 && r.y === 2 && r.w === 4, "r.x === 1, r.y === 2, r.w === 4" );
+	var X = { x: 1 };
+	var XY = { x: 1, y: 2 };
+	var YZ = { y: 2, z: 3 };
+	var W = { w: 4 };
+	var rExpected = { x: 1, y: 2, w: 4 };
+	var pExpected = { x: 1 };
+	var qExpected = { x: 1 };
+	var tExpected = { x: 1 };
 
-	var p = FPO.curry()( {} )( {fn: foo} )()( {} )( {x: 1, y: 2} );
-	assert.ok( p && typeof p == "object", "p is an object" );
-	assert.ok( _hasProp( p, "x" ), "p has 'x' property" );
-	assert.ok( !_hasProp( p, "y" ), "p does not have 'y' property" );
-	assert.ok( Object.keys( p ).length == 1, "p has only 1 property" );
-	assert.strictEqual( p.x, 1, "p.x === 1" );
+	var rActual = FPO.curry( {fn: foo, n: 3} )( X )( YZ )( W );
+	var pActual = FPO.curry()( {} )( {fn: foo} )()( {} )( XY );
+	var qActual = FPO.curry( {fn: foo, n: undefined} )( XY );
+	var tActual = FPO.curry( {fn: foo, n: 0} )( XY );
 
-	var q = FPO.curry()( {} )( {fn: foo, n: undefined} )( {x: 1, y: 2} );
-	assert.ok( q && typeof q == "object", "q is an object" );
-	assert.ok( _hasProp( q, "x" ), "q has 'x' property" );
-	assert.ok( !_hasProp( q, "y" ), "q does not have 'y' property" );
-	assert.ok( Object.keys( q ).length == 1, "q has only 1 property" );
-	assert.strictEqual( q.x, 1, "q.x === 1" );
-
-	var t = FPO.curry()( {} )( {fn: foo, n: 0} )( {x: 1, y: 2} );
-	assert.ok( t && typeof t == "object", "t is an object" );
-	assert.ok( _hasProp( t, "x" ), "t has 'x' property" );
-	assert.ok( !_hasProp( t, "y" ), "t does not have 'y' property" );
-	assert.ok( Object.keys( t ).length == 1, "t has only 1 property" );
-	assert.strictEqual( t.x, 1, "t.x === 1" );
-
-	// **************************************
-
-	function bar(...args) { return args; }
-
-	r = FPO.std.curry( bar, 3 )( 1 )( 2, 3 )( 4 );
-	assert.ok( r && Array.isArray( r ), "r is an array" );
-	assert.ok(
-		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
-		"r has filled slots at indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "r has only 3 slots" );
-	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 4, "r is [1,2,4]" );
-
-	p = FPO.std.curry()( bar )()( 1, 2 );
-	assert.ok( p && Array.isArray( p ), "p is an array" );
-	assert.ok( _hasProp( p, "0" ), "p has a filled slot at index 0" );
-	assert.ok( Object.keys( p ).length == 1 && p.length == 1, "p has only 1 slot" );
-	assert.strictEqual( p[0], 1, "p is [1]" );
-
-	q = FPO.std.curry( bar, 0 )( 1, 2 );
-	assert.ok( q && Array.isArray( q ), "q is an array" );
-	assert.ok( _hasProp( q, "0" ), "q has a filled slot at index 0" );
-	assert.ok( Object.keys( q ).length == 1 && q.length == 1, "q has only 1 slot" );
-	assert.strictEqual( q[0], 1, "q is [1]" );
-} );
-
-
-QUnit.test( "curryMultiple()", function t12(assert){
-	assert.expect( 28 );
-
-	function foo(argsObj) { return argsObj; }
-
-	var r = FPO.curryMultiple( {fn: foo, n: 3} )( {x: 1} )( {y: 2, z: 3} );
-	assert.ok( r && typeof r == "object", "r is an object" );
-	assert.ok(
-		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "z" ),
-		"r has 'x', 'y', and 'z' properties"
-	);
-	assert.ok( Object.keys( r ).length == 3, "r has only 3 properties" );
-	assert.ok( r.x === 1 && r.y === 2 && r.z === 3, "r.x === 1, r.y === 2, r.z === 3" );
-
-	var p = FPO.curryMultiple()( {} )( {fn: foo} )()( {} )( {x: 1, y: 2} );
-	assert.ok( p && typeof p == "object", "p is an object" );
-	assert.ok(
-		_hasProp( p, "x" ) && _hasProp( p, "y" ),
-		"p has 'x' and 'y' properties"
-	);
-	assert.ok( Object.keys( p ).length == 2, "p has only 2 properties" );
-	assert.ok( p.x === 1 && p.y === 2, "p.x === 1, p.y === 2" );
-
-	var q = FPO.curryMultiple()( {} )( {fn: foo, n: undefined} )( {x: 1, y: 2} );
-	assert.ok( q && typeof q == "object", "q is an object" );
-	assert.ok(
-		_hasProp( q, "x" ) && _hasProp( q, "y" ),
-		"q has 'x' and 'y' properties"
-	);
-	assert.ok( Object.keys( q ).length == 2, "q has only 2 properties" );
-	assert.ok( q.x === 1 && q.y === 2, "q.x === 1, q.y === 2" );
-
-	var t = FPO.curryMultiple()( {} )( {fn: foo, n: 0} )( {x: 1, y: 2} );
-	assert.ok( t && typeof t == "object", "t is an object" );
-	assert.ok(
-		_hasProp( t, "x" ) && _hasProp( t, "y" ),
-		"t has 'x' and 'y' properties"
-	);
-	assert.ok( Object.keys( t ).length == 2, "t has only 2 properties" );
-	assert.ok( t.x === 1 && t.y === 2, "t.x === 1, t.y === 2" );
-
-	// **************************************
-
-	function bar(...args) { return args; }
-
-	r = FPO.std.curryMultiple( bar, 3 )( 1 )( 2, 3 );
-	assert.ok( r && Array.isArray( r ), "r is an array" );
-	assert.ok(
-		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
-		"r has filled slots at indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "r has only 3 slots" );
-	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 3, "r is [1,2,3]" );
-
-	p = FPO.std.curryMultiple()( bar )()( 1, 2 );
-	assert.ok( p && Array.isArray( p ), "p is an array" );
-	assert.ok(
-		_hasProp( p, "0" ) && _hasProp( p, "1" ),
-		"p has a filled slots at indexes 0 and 1"
-	);
-	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "p has only 2 slots" );
-	assert.ok( p[0] === 1 && p[1] === 2, "p is [1,2]" );
-
-	q = FPO.std.curryMultiple( bar, 0 )( 1, 2 );
-	assert.ok( q && Array.isArray( q ), "q is an array" );
-	assert.ok(
-		_hasProp( q, "0" ) && _hasProp( q, "1" ),
-		"q has filled slots at indexes 0 and 1"
-	);
-	assert.ok( Object.keys( q ).length == 2 && q.length == 2, "q has only 2 slots" );
-	assert.ok( q[0] === 1 && q[1] === 2, "q is [1,2]" );
-} );
-
-QUnit.test( "uncurry()", function t13(assert){
-	assert.expect( 16 );
-
-	function foo(argsObj) { return argsObj; }
-
-	var r = FPO.uncurry( {fn: FPO.curry( {fn: foo, n: 3} )} )( {x: 1, y: 2, z: 3} );
-	assert.ok( r && typeof r == "object", "r is an object" );
-	assert.ok(
-		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "z" ),
-		"r has 'x', 'y', and 'z' properties"
-	);
-	assert.ok( Object.keys( r ).length == 3, "r has only 3 properties" );
-	assert.ok( r.x === 1 && r.y === 2 && r.z === 3, "r.x === 1, r.y === 2, r.z === 3" );
-
-	var p = FPO.uncurry()( {} )( {fn: FPO.curry( {fn: foo, n: 2} )} )( {x: 1, y: 2} );
-	assert.ok( p && typeof p == "object", "p is an object" );
-	assert.ok(
-		_hasProp( p, "x" ) && _hasProp( p, "y" ),
-		"p has 'x' and 'y' properties"
-	);
-	assert.ok( Object.keys( p ).length == 2, "p has only 2 properties" );
-	assert.ok( p.x === 1 && p.y === 2, "p.x === 1, p.y === 2" );
-
-	// **************************************
-
-	function bar(...args) { return args; }
-
-	r = FPO.std.uncurry( FPO.std.curry( bar, 3 ) )( 1, 2, 3 );
-	assert.ok( r && Array.isArray( r ), "r is an array" );
-	assert.ok(
-		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
-		"r has filled slots at indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "r has only 3 slots" );
-	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 3, "r is [1,2,3]" );
-
-	p = FPO.std.uncurry()( FPO.std.curry( bar, 2 ) )( 1, 2 );
-	assert.ok( p && Array.isArray( p ), "p is an array" );
-	assert.ok(
-		_hasProp( p, "0" ) && _hasProp( p, "1" ),
-		"p has a filled slots at indexes 0 and 1"
-	);
-	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "p has only 2 slots" );
-	assert.ok( p[0] === 1 && p[1] === 2, "p is [1,2]" );
-} );
-
-QUnit.test( "partial()", function t14(assert){
-	assert.expect( 32 );
-
-	function foo(argsObj) { return argsObj; }
-
-	var r = FPO.partial( {fn: foo, args: {z:3}} )( {x: 1, y: 2} );
-	assert.ok( r && typeof r == "object", "r is an object" );
-	assert.ok(
-		_hasProp( r, "x" ) && _hasProp( r, "y" ) && _hasProp( r, "z" ),
-		"r has 'x', 'y', and 'z' properties"
-	);
-	assert.ok( Object.keys( r ).length == 3, "r has only 3 properties" );
-	assert.ok( r.x === 1 && r.y === 2 && r.z === 3, "r.x === 1, r.y === 2, r.z === 3" );
-
-	var p = FPO.partial()( {} )( {fn: foo} )( {args: {y:2}} )( {x: 1} );
-	assert.ok( p && typeof p == "object", "p is an object" );
-	assert.ok(
-		_hasProp( p, "x" ) && _hasProp( p, "y" ),
-		"p has 'x' and 'y' properties"
-	);
-	assert.ok( Object.keys( p ).length == 2, "p has only 2 properties" );
-	assert.ok( p.x === 1 && p.y === 2, "p.x === 1, p.y === 2" );
-
-	var q = FPO.partial()( {} )( {fn: foo} )( {args: undefined} )( {x: 1} );
-	assert.ok( q && typeof q == "object", "q is an object" );
-	assert.ok( _hasProp( q, "x" ), "q has 'x' property" );
-	assert.ok( Object.keys( q ).length == 1, "q has only 1 property" );
-	assert.strictEqual( q.x, 1, "q.x === 1" );
-
-	var t = FPO.partial()( {} )( {fn: foo} )( {args: {}} )( {x: 1} );
-	assert.ok( t && typeof t == "object", "t is an object" );
-	assert.ok( _hasProp( t, "x" ), "t has 'x' property" );
-	assert.ok( Object.keys( t ).length == 1, "t has only 1 property" );
-	assert.strictEqual( t.x, 1, "t.x === 1" );
-
-	// **************************************
-
-	function bar(...args) { return args; }
-
-	r = FPO.std.partial( bar, [1] )( 2, 3 );
-	assert.ok( r && Array.isArray( r ), "r is an array" );
-	assert.ok(
-		_hasProp( r, "0" ) && _hasProp( r, "1" ) && _hasProp( r, "2" ),
-		"r has filled slots at indexes 0, 1, and 2"
-	);
-	assert.ok( Object.keys( r ).length == 3 && r.length == 3, "r has only 3 slots" );
-	assert.ok( r[0] === 1 && r[1] === 2 && r[2] === 3, "r is [1,2,3]" );
-
-	p = FPO.std.partial()( bar )( [1] )( 2 );
-	assert.ok( p && Array.isArray( p ), "p is an array" );
-	assert.ok(
-		_hasProp( p, "0" ) && _hasProp( p, "1" ),
-		"p has a filled slots at indexes 0 and 1"
-	);
-	assert.ok( Object.keys( p ).length == 2 && p.length == 2, "p has only 2 slots" );
-	assert.ok( p[0] === 1 && p[1] === 2, "p is [1,2]" );
-
-	q = FPO.std.partial( bar, undefined )( 1, 2 );
-	assert.ok( q && Array.isArray( q ), "q is an array" );
-	assert.ok(
-		_hasProp( q, "0" ) && _hasProp( q, "1" ),
-		"p has a filled slots at indexes 0 and 1"
-	);
-	assert.ok( Object.keys( q ).length == 2 && q.length == 2, "q has only 2 slots" );
-	assert.ok( q[0] === 1 && q[1] === 2, "q is [1,2]" );
-
-	t = FPO.std.partial( bar, [] )( 1, 2 );
-	assert.ok( t && Array.isArray( t ), "t is an array" );
-	assert.ok(
-		_hasProp( t, "0" ) && _hasProp( t, "1" ),
-		"p has a filled slots at indexes 0 and 1"
-	);
-	assert.ok( Object.keys( t ).length == 2 && t.length == 2, "t has only 2 slots" );
-	assert.ok( t[0] === 1 && t[1] === 2, "t is [1,2]" );
-} );
-
-QUnit.test( "complement()", function t15(assert){
 	assert.expect( 4 );
+	assert.deepEqual( rActual, rExpected, "curried with arity 3" );
+	assert.deepEqual( pActual, pExpected, "curried without arity" );
+	assert.deepEqual( qActual, qExpected, "curried with undefined arity" );
+	assert.deepEqual( tActual, tExpected, "curried with zero arity" );
+} );
 
+QUnit.test( "std.curry()", function t19(assert){
+	function foo(...args) { return args; }
+
+	var a1 = [1];
+	var a12 = [1,2];
+	var a23 = [2,3];
+	var a4 = [4];
+	var rExpected = [1,2,4];
+	var pExpected = [1];
+	var qExpected = [1];
+	var tExpected = [1];
+
+	var rActual = FPO.std.curry( foo, 3 )( ...a1 )( ...a23 )( ...a4 );
+	var pActual = FPO.std.curry()( foo )()( ...a12 );
+	var qActual = FPO.std.curry( foo, undefined )( ...a12 );
+	var tActual = FPO.std.curry( foo, 0 )( ...a12 );
+
+	assert.expect( 4 );
+	assert.deepEqual( rActual, rExpected, "curried with arity 3" );
+	assert.deepEqual( pActual, pExpected, "curried without arity" );
+	assert.deepEqual( qActual, qExpected, "curried with undefined arity" );
+	assert.deepEqual( tActual, tExpected, "curried with zero arity" );
+} );
+
+QUnit.test( "curryMultiple()", function t20(assert){
+	function foo(argsObj) { return argsObj; }
+
+	var X = { x: 1 };
+	var XY = { x: 1, y: 2 };
+	var YZ = { y: 2, z: 3 };
+	var W = { w: 4 };
+	var rExpected = { x: 1, y: 2, z: 3 };
+	var pExpected = { x: 1, y: 2 };
+	var qExpected = { x: 1, y: 2 };
+	var tExpected = { x: 1, y: 2 };
+
+	var rActual = FPO.curryMultiple( {fn: foo, n: 3} )( X )( YZ );
+	var pActual = FPO.curryMultiple()( {} )( {fn: foo} )()( {} )( XY );
+	var qActual = FPO.curryMultiple( {fn: foo, n: undefined} )( XY );
+	var tActual = FPO.curryMultiple( {fn: foo, n: 0} )( XY );
+
+	assert.expect( 4 );
+	assert.deepEqual( rActual, rExpected, "curried with arity 3" );
+	assert.deepEqual( pActual, pExpected, "curried without arity" );
+	assert.deepEqual( qActual, qExpected, "curried with undefined arity" );
+	assert.deepEqual( tActual, tExpected, "curried with zero arity" );
+} );
+
+QUnit.test( "std.curryMultiple()", function t21(assert){
+	function foo(...args) { return args; }
+
+	var a1 = [1];
+	var a12 = [1,2];
+	var a23 = [2,3];
+	var a4 = [4];
+	var rExpected = [1,2,3];
+	var pExpected = [1,2];
+	var qExpected = [1,2];
+	var tExpected = [1,2];
+
+	var rActual = FPO.std.curryMultiple( foo, 3 )( ...a1 )( ...a23 );
+	var pActual = FPO.std.curryMultiple()( foo )()( ...a12 );
+	var qActual = FPO.std.curryMultiple( foo, undefined )( ...a12 );
+	var tActual = FPO.std.curryMultiple( foo, 0 )( ...a12 );
+
+	assert.expect( 4 );
+	assert.deepEqual( rActual, rExpected, "curried with arity 3" );
+	assert.deepEqual( pActual, pExpected, "curried without arity" );
+	assert.deepEqual( qActual, qExpected, "curried with undefined arity" );
+	assert.deepEqual( tActual, tExpected, "curried with zero arity" );
+} );
+
+QUnit.test( "uncurry()", function t22(assert){
+	function foo(argsObj) { return argsObj; }
+
+	var XYZ = { x: 1, y: 2, z: 3 };
+	var XY = { x: 1, y: 2 };
+	var rFn = FPO.curry( {fn: foo, n: 3} );
+	var pFn = FPO.curry( {fn: foo, n: 2} );
+	var rExpected = { x: 1, y: 2, z: 3 };
+	var pExpected = { x: 1, y: 2 };
+
+	var rActual = FPO.uncurry( {fn: rFn} )( XYZ );
+	var pActual = FPO.uncurry()( {} )( {fn: pFn} )( XY );
+
+	assert.expect( 2 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+} );
+
+QUnit.test( "std.uncurry()", function t23(assert){
+	function foo(...args) { return args; }
+
+	var a123 = [1,2,3];
+	var a12 = [1,2];
+	var rFn = FPO.std.curry( foo, 3 );
+	var pFn = FPO.std.curry( foo, 2 );
+	var rExpected = [1,2,3];
+	var pExpected = [1,2];
+
+	var rActual = FPO.std.uncurry( rFn )( ...a123 );
+	var pActual = FPO.std.uncurry()( pFn )( ...a12 );
+
+	assert.expect( 2 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+} );
+
+QUnit.test( "partial()", function t24(assert){
+	function foo(argsObj) { return argsObj; }
+
+	var X = { x: 1 };
+	var Y = { y: 2 };
+	var Z = { z: 3 };
+	var XY = { x: 1, y: 2 };
+	var rExpected = { x: 1, y: 2, z: 3 };
+	var pExpected = { x: 1, y: 2 };
+	var qExpected = { x: 1 };
+	var tExpected = { x: 1 };
+
+	var rActual = FPO.partial( {fn: foo, args: Z} )( XY );
+	var pActual = FPO.partial()( {} )( {fn: foo} )( {args: Y} )( X );
+	var qActual = FPO.partial( {fn: foo, args: undefined} )( X );
+	var tActual = FPO.partial( {fn: foo, args: {}} )( X );
+
+	assert.expect( 4 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried with partial args" );
+	assert.deepEqual( qActual, qExpected, "regular with undefined partial args" );
+	assert.deepEqual( tActual, tExpected, "regular with empty partial args" );
+} );
+
+QUnit.test( "std.partial()", function t25(assert){
+	function foo(...args) { return args; }
+
+	var a1 = [1];
+	var a12 = [1,2];
+	var a23 = [2,3];
+	var a3 = [3];
+	var rExpected = [1,2,3];
+	var pExpected = [1,2,3];
+	var qExpected = [3];
+	var tExpected = [3];
+
+	var rActual = FPO.std.partial( foo, a1 )( ...a23 );
+	var pActual = FPO.std.partial()( foo )()( a12 )( ...a3 );
+	var qActual = FPO.std.partial( foo, undefined )( ...a3 );
+	var tActual = FPO.std.partial( foo, [] )( ...a3 );
+
+	assert.expect( 4 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried with partial args" );
+	assert.deepEqual( qActual, qExpected, "regular with undefined partial args" );
+	assert.deepEqual( tActual, tExpected, "regular with empty partial args" );
+} );
+
+QUnit.test( "complement()", function t26(assert){
 	function xPlusYEven(argsObj) { return (argsObj.x + argsObj.y) % 2 == 0; }
 
-	var xPlusYOdd = FPO.complement( {fn: xPlusYEven} );
-	assert.ok( xPlusYOdd( {x: 1, y: 2} ) === true, "xPlusYOdd({x:1,y:2}) === true" );
+	var XY12 = { x: 1, y: 2 };
+	var XY24 = { x: 2, y: 4 };
 
-	xPlusYOdd = FPO.complement()( {} )( {fn: xPlusYEven} );
-	assert.ok( xPlusYOdd( {x: 2, y: 4} ) === false, "xPlusYOdd({x:2,y:4}) === false" );
+	var rActual = FPO.complement( {fn: xPlusYEven} )( XY12 );
+	var pActual = FPO.complement()( {} )( { fn: xPlusYEven } )( XY24 );
 
-	// **************************************
+	assert.expect( 2 );
+	assert.strictEqual( rActual, true, "regular call" );
+	assert.strictEqual( pActual, false, "curried" );
+} );
 
+QUnit.test( "std.complement()", function t27(assert){
 	function argPlusArgEven(...args) { return (args[0] + args[1]) % 2 == 0; }
 
-	var argPlusArgOdd = FPO.std.complement( argPlusArgEven );
-	assert.ok( argPlusArgOdd( 1, 2 ) === true, "argPlusArgOdd(1,2) === true" );
+	var a12 = [1,2];
+	var a24 = [2,4];
 
-	argPlusArgOdd = FPO.std.complement()( argPlusArgEven );
-	assert.ok( argPlusArgOdd( 2, 4 ) === false, "argPlusArgOdd(2,4) === false" );
+	var rActual = FPO.std.complement( argPlusArgEven )( ...a12 );
+	var pActual = FPO.std.complement()( argPlusArgEven )( ...a24 );
+
+	assert.expect( 2 );
+	assert.strictEqual( rActual, true, "regular call" );
+	assert.strictEqual( pActual, false, "curried" );
 } );
 
 QUnit.test( "apply()", function t16(assert){
