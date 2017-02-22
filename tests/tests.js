@@ -1412,6 +1412,61 @@ QUnit.test( "std.trampoline()", function t57(assert){
 	assert.strictEqual( pActual, 15, "curried" );
 } );
 
+QUnit.test( "transducers.transduce()", function t58(assert){
+	function isSmallEnough({v: num}) { return num <= 10; }
+	function isBigEnough({v: num}) { return num >= 5; }
+	function decrement({v: num}) { return num - 1; }
+	function mult({acc: product, v: num}) { return product * num; }
+	function passThruReducer({ acc, v}) { acc.push( v ); return acc; }
+
+	var nums = [3,7,2,5,11,10,4,6];
+	var transducer = FPO.compose( {fns: [
+		FPO.transducers.filter( {fn: isSmallEnough} ),
+		FPO.transducers.filter( {fn: isBigEnough} ),
+		FPO.transducers.map( {fn: decrement} )
+	]} );
+
+	var rExpected = 1080;
+	var pExpected = 1080;
+	var qExpected = [6,4,9,5];
+
+	var rActual = FPO.transducers.transduce( {fn: transducer, co: mult, v: 1, arr: nums} );
+	var pActual = FPO.transducers.transduce()( {} )( {fn: transducer, co: mult} )( {v: 1, arr: nums} );
+	var qActual = FPO.transducers.transduce( {fn: transducer, co: passThruReducer, v: [], arr: nums} );
+
+	assert.expect( 3 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried call" );
+	assert.deepEqual( qActual, qExpected, "pass-thru reducer" );
+} );
+
+QUnit.test( "std.transducers.transduce()", function t59(assert){
+	function isSmallEnough(num) { return num <= 10; }
+	function isBigEnough(num) { return num >= 5; }
+	function decrement(num) { return num - 1; }
+	function mult(product,num) { return product * num; }
+	function passThruReducer(acc,v) { acc.push( v ); return acc; }
+
+	var nums = [3,7,2,5,11,10,4,6];
+	var transducer = FPO.std.compose( [
+		FPO.std.transducers.filter( isSmallEnough ),
+		FPO.std.transducers.filter( isBigEnough ),
+		FPO.std.transducers.map( decrement )
+	] );
+
+	var rExpected = 1080;
+	var pExpected = 1080;
+	var qExpected = [6,4,9,5];
+
+	var rActual = FPO.std.transducers.transduce( transducer, mult, 1, nums );
+	var pActual = FPO.std.transducers.transduce()( transducer, mult )( 1, nums );
+	var qActual = FPO.std.transducers.transduce( transducer, passThruReducer, [], nums );
+
+	assert.expect( 3 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried call" );
+	assert.deepEqual( qActual, qExpected, "pass-thru reducer" );
+} );
 
 
 
