@@ -1,7 +1,7 @@
 "use strict";
 
-QUnit.test( "core API methods present", function t1(assert){
-	assert.expect( 35 );
+QUnit.test( "core: API methods", function t1(assert){
+	assert.expect( 38 );
 
 	assert.ok( _isFunction( FPO.identity ), "identity()" );
 	assert.ok( _isFunction( FPO.constant ), "constant()" );
@@ -37,11 +37,14 @@ QUnit.test( "core API methods present", function t1(assert){
 	assert.ok( _isFunction( FPO.transducers.filter ), "transducers.filter()" );
 	assert.ok( _isFunction( FPO.transducers.string ), "transducers.string()" );
 	assert.ok( _isFunction( FPO.transducers.array ), "transducers.array()" );
+	assert.ok( _isFunction( FPO.transducers.number ), "transducers.number()" );
+	assert.ok( _isFunction( FPO.transducers.booleanAnd ), "transducers.booleanAnd()" );
+	assert.ok( _isFunction( FPO.transducers.booleanOr ), "transducers.booleanOr()" );
 	assert.ok( _isFunction( FPO.transducers.default ), "transducers.default()" );
 } );
 
-QUnit.test( "std API methods present", function t2(assert){
-	assert.expect( 35 );
+QUnit.test( "std: API methods", function t2(assert){
+	assert.expect( 38 );
 
 	assert.ok( _isFunction( FPO.std.identity ), "identity()" );
 	assert.ok( _isFunction( FPO.std.constant ), "constant()" );
@@ -77,34 +80,39 @@ QUnit.test( "std API methods present", function t2(assert){
 	assert.ok( _isFunction( FPO.std.transducers.filter ), "transducers.filter()" );
 	assert.ok( _isFunction( FPO.std.transducers.string ), "transducers.string()" );
 	assert.ok( _isFunction( FPO.std.transducers.array ), "transducers.array()" );
+	assert.ok( _isFunction( FPO.std.transducers.number ), "transducers.number()" );
+	assert.ok( _isFunction( FPO.std.transducers.booleanAnd ), "transducers.booleanAnd()" );
+	assert.ok( _isFunction( FPO.std.transducers.booleanOr ), "transducers.booleanOr()" );
 	assert.ok( _isFunction( FPO.std.transducers.default ), "transducers.default()" );
 } );
 
-QUnit.test( "API aliases present", function t3(assert){
-	assert.expect( 22 );
+QUnit.test( "API method aliases", function t3(assert){
+	assert.expect( 24 );
 
 	assert.strictEqual( FPO.always, FPO.constant, "always -> constant" );
-	assert.strictEqual( FPO.std.always, FPO.std.constant, "always -> constant" );
+	assert.strictEqual( FPO.std.always, FPO.std.constant, "std: always -> constant" );
 	assert.strictEqual( FPO.flow, FPO.pipe, "flow -> pipe" );
-	assert.strictEqual( FPO.std.flow, FPO.std.pipe, "flow -> pipe" );
+	assert.strictEqual( FPO.std.flow, FPO.std.pipe, "std: flow -> pipe" );
 	assert.strictEqual( FPO.flowRight, FPO.compose, "flowRight -> compose" );
-	assert.strictEqual( FPO.std.flowRight, FPO.std.compose, "flowRight -> compose" );
+	assert.strictEqual( FPO.std.flowRight, FPO.std.compose, "std: flowRight -> compose" );
 	assert.strictEqual( FPO.spread, FPO.apply, "spread -> apply" );
-	assert.strictEqual( FPO.std.spread, FPO.std.apply, "spread -> apply" );
+	assert.strictEqual( FPO.std.spread, FPO.std.apply, "std: spread -> apply" );
 	assert.strictEqual( FPO.gather, FPO.unapply, "gather -> unapply" );
-	assert.strictEqual( FPO.std.gather, FPO.std.unapply, "gather -> unapply" );
+	assert.strictEqual( FPO.std.gather, FPO.std.unapply, "std: gather -> unapply" );
 	assert.strictEqual( FPO.assoc, FPO.setProp, "assoc -> setProp" );
-	assert.strictEqual( FPO.std.assoc, FPO.std.setProp, "assoc -> setProp" );
+	assert.strictEqual( FPO.std.assoc, FPO.std.setProp, "std: assoc -> setProp" );
 	assert.strictEqual( FPO.filter, FPO.filterIn, "filter -> filterIn" );
-	assert.strictEqual( FPO.std.filter, FPO.std.filterIn, "filter -> filterIn" );
+	assert.strictEqual( FPO.std.filter, FPO.std.filterIn, "std: filter -> filterIn" );
 	assert.strictEqual( FPO.chain, FPO.flatMap, "chain -> flatMap" );
-	assert.strictEqual( FPO.std.chain, FPO.std.flatMap, "chain -> flatMap" );
+	assert.strictEqual( FPO.std.chain, FPO.std.flatMap, "std: chain -> flatMap" );
 	assert.strictEqual( FPO.fold, FPO.reduce, "fold -> reduce" );
-	assert.strictEqual( FPO.std.fold, FPO.std.reduce, "fold -> reduce" );
+	assert.strictEqual( FPO.std.fold, FPO.std.reduce, "std: fold -> reduce" );
 	assert.strictEqual( FPO.foldL, FPO.reduce, "foldL -> reduce" );
-	assert.strictEqual( FPO.std.foldL, FPO.std.reduce, "foldL -> reduce" );
+	assert.strictEqual( FPO.std.foldL, FPO.std.reduce, "std: foldL -> reduce" );
 	assert.strictEqual( FPO.foldR, FPO.reduceRight, "foldR -> reduceRight" );
-	assert.strictEqual( FPO.std.foldR, FPO.std.reduceRight, "foldR -> reduceRight" );
+	assert.strictEqual( FPO.std.foldR, FPO.std.reduceRight, "std: foldR -> reduceRight" );
+	assert.strictEqual( FPO.transducers.boolean, FPO.transducers.booleanAnd, "transducers.boolean -> transducers.booleanAnd" );
+	assert.strictEqual( FPO.std.transducers.boolean, FPO.std.transducers.booleanAnd, "std: transducers.boolean -> transducers.booleanAnd" );
 } );
 
 QUnit.test( "identity()", function t4(assert){
@@ -1542,7 +1550,121 @@ QUnit.test( "std.transducers.array", function t65(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "transducers.default", function t66(assert){
+QUnit.test( "transducers.number", function t66(assert){
+	var num1 = 4;
+	var num2 = 3;
+	var rExpected = 7;
+	var pExpected = 7;
+
+	var rActual = FPO.transducers.number( {acc: num1, v: num2} );
+	var pActual = FPO.transducers.number()( {} )( {acc: num1} )( {v: num2} );
+
+	assert.expect( 2 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+} );
+
+QUnit.test( "std.transducers.number", function t67(assert){
+	var num1 = 4;
+	var num2 = 3;
+	var rExpected = 7;
+	var pExpected = 7;
+
+	var rActual = FPO.std.transducers.number( num1, num2 );
+	var pActual = FPO.std.transducers.number()( num1 )( num2 );
+
+	assert.expect( 2 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+} );
+
+QUnit.test( "transducers.booleanAnd", function t68(assert){
+	var bool1 = true;
+	var bool2 = true;
+	var bool3 = false;
+	var rExpected = true;
+	var pExpected = true;
+	var qExpected = false;
+	var tExpected = false;
+
+	var rActual = FPO.transducers.booleanAnd( {acc: bool1, v: bool2} );
+	var pActual = FPO.transducers.booleanAnd()( {} )( {acc: bool1} )( {v: bool2} );
+	var qActual = FPO.transducers.booleanAnd( {acc: bool1, v: bool3} );
+	var tActual = FPO.transducers.booleanAnd( {acc: bool3, v: bool3} );
+
+	assert.expect( 4 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+	assert.strictEqual( qActual, qExpected, "mixed parity" );
+	assert.strictEqual( tActual, tExpected, "both false" );
+} );
+
+QUnit.test( "std.transducers.booleanAnd", function t69(assert){
+	var bool1 = true;
+	var bool2 = true;
+	var bool3 = false;
+	var rExpected = true;
+	var pExpected = true;
+	var qExpected = false;
+	var tExpected = false;
+
+	var rActual = FPO.std.transducers.booleanAnd( bool1, bool2 );
+	var pActual = FPO.std.transducers.booleanAnd()( bool1 )( bool2 );
+	var qActual = FPO.std.transducers.booleanAnd( bool1, bool3 );
+	var tActual = FPO.std.transducers.booleanAnd( bool3, bool3 );
+
+	assert.expect( 4 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+	assert.strictEqual( qActual, qExpected, "mixed parity" );
+	assert.strictEqual( tActual, tExpected, "both false" );
+} );
+
+QUnit.test( "transducers.booleanOr", function t70(assert){
+	var bool1 = true;
+	var bool2 = true;
+	var bool3 = false;
+	var rExpected = true;
+	var pExpected = true;
+	var qExpected = true;
+	var tExpected = false;
+
+	var rActual = FPO.transducers.booleanOr( {acc: bool1, v: bool2} );
+	var pActual = FPO.transducers.booleanOr()( {} )( {acc: bool1} )( {v: bool2} );
+	var qActual = FPO.transducers.booleanOr( {acc: bool1, v: bool3} );
+	var tActual = FPO.transducers.booleanOr( {acc: bool3, v: bool3} );
+
+	assert.expect( 4 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+	assert.strictEqual( qActual, qExpected, "mixed parity" );
+	assert.strictEqual( tActual, tExpected, "both false" );
+} );
+
+QUnit.test( "std.transducers.booleanOr", function t71(assert){
+	var bool1 = true;
+	var bool2 = true;
+	var bool3 = false;
+	var rExpected = true;
+	var pExpected = true;
+	var qExpected = true;
+	var tExpected = false;
+
+	var rActual = FPO.std.transducers.booleanOr( bool1, bool2 );
+	var pActual = FPO.std.transducers.booleanOr()( bool1 )( bool2 );
+	var qActual = FPO.std.transducers.booleanOr( bool1, bool3 );
+	var tActual = FPO.std.transducers.booleanOr( bool3, bool3 );
+
+	assert.expect( 4 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+	assert.strictEqual( qActual, qExpected, "mixed parity" );
+	assert.strictEqual( tActual, tExpected, "both false" );
+} );
+
+
+
+QUnit.test( "transducers.default", function t72(assert){
 	var arr = [1,2];
 	var rExpected = [1,2];
 	var pExpected = [1,2];
@@ -1555,7 +1677,7 @@ QUnit.test( "transducers.default", function t66(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "std.transducers.default", function t67(assert){
+QUnit.test( "std.transducers.default", function t73(assert){
 	var arr = [1,2];
 	var rExpected = [1,2];
 	var pExpected = [1,2];
@@ -1568,7 +1690,7 @@ QUnit.test( "std.transducers.default", function t67(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "transducers.transduce()", function t68(assert){
+QUnit.test( "transducers.transduce()", function t74(assert){
 	function isSmallEnough({v: num}) { return num <= 10; }
 	function isBigEnough({v: num}) { return num >= 5; }
 	function decrement({v: num}) { return num - 1; }
@@ -1596,7 +1718,7 @@ QUnit.test( "transducers.transduce()", function t68(assert){
 	assert.deepEqual( qActual, qExpected, "pass-thru reducer" );
 } );
 
-QUnit.test( "std.transducers.transduce()", function t69(assert){
+QUnit.test( "std.transducers.transduce()", function t75(assert){
 	function isSmallEnough(num) { return num <= 10; }
 	function isBigEnough(num) { return num >= 5; }
 	function decrement(num) { return num - 1; }
@@ -1624,12 +1746,13 @@ QUnit.test( "std.transducers.transduce()", function t69(assert){
 	assert.deepEqual( qActual, qExpected, "pass-thru reducer" );
 } );
 
-QUnit.test( "transducers.into()", function t70(assert){
+QUnit.test( "transducers.into()", function t76(assert){
 	function isSmallEnough({v: num}) { return num <= 10; }
 	function isBigEnough({v: num}) { return num >= 5; }
 	function decrement({v: num}) { return num - 1; }
 
 	var nums = [3,7,2,5,11,10,4,6];
+	var bools = [true,true,true,true];
 	var transducer = FPO.compose( {fns: [
 		FPO.transducers.filter( {fn: isSmallEnough} ),
 		FPO.transducers.filter( {fn: isBigEnough} ),
@@ -1639,26 +1762,33 @@ QUnit.test( "transducers.into()", function t70(assert){
 	var rExpected = "6495";
 	var pExpected = "6495";
 	var qExpected = [6,4,9,5];
-	var tExpected = [6,4,9,5];
+	var tExpected = 24;
+	var sExpected = true;
+	var uExpected = false;
 
 	var rActual = FPO.transducers.into( {fn: transducer, v: "", arr: nums} );
 	var pActual = FPO.transducers.into()( {} )( {fn: transducer} )({ v: "", arr: nums} );
 	var qActual = FPO.transducers.into( {fn: transducer, v: [], arr: nums} );
-	var tActual = FPO.transducers.into()( {} )( {fn: transducer, v: []} )({ arr: nums} );
+	var tActual = FPO.transducers.into( {fn: transducer, v: 0, arr: nums} );
+	var sActual = FPO.transducers.into( {fn: transducer, v: true, arr: bools} );
+	var uActual = FPO.transducers.into( {fn: transducer, v: false, arr: bools} );
 
-	assert.expect( 4 );
+	assert.expect( 6 );
 	assert.strictEqual( rActual, rExpected, "regular call, string" );
 	assert.strictEqual( pActual, pExpected, "curried, string" );
-	assert.deepEqual( qActual, qExpected, "regular call, array" );
-	assert.deepEqual( tActual, tExpected, "curried, array" );
+	assert.deepEqual( qActual, qExpected, "array" );
+	assert.strictEqual( tActual, tExpected, "number" );
+	assert.strictEqual( sActual, sExpected, "boolean true" );
+	assert.strictEqual( uActual, uExpected, "boolean false" );
 } );
 
-QUnit.test( "std.transducers.into()", function t71(assert){
+QUnit.test( "std.transducers.into()", function t77(assert){
 	function isSmallEnough(num) { return num <= 10; }
 	function isBigEnough(num) { return num >= 5; }
 	function decrement(num) { return num - 1; }
 
 	var nums = [3,7,2,5,11,10,4,6];
+	var bools = [true,true,true,true];
 	var transducer = FPO.std.compose( [
 		FPO.std.transducers.filter( isSmallEnough ),
 		FPO.std.transducers.filter( isBigEnough ),
@@ -1668,18 +1798,24 @@ QUnit.test( "std.transducers.into()", function t71(assert){
 	var rExpected = "6495";
 	var pExpected = "6495";
 	var qExpected = [6,4,9,5];
-	var tExpected = [6,4,9,5];
+	var tExpected = 24;
+	var sExpected = true;
+	var uExpected = false;
 
 	var rActual = FPO.std.transducers.into( transducer, "", nums );
 	var pActual = FPO.std.transducers.into()( transducer )( "", nums );
 	var qActual = FPO.std.transducers.into( transducer, [], nums );
-	var tActual = FPO.std.transducers.into( transducer, [] )( nums );
+	var tActual = FPO.std.transducers.into( transducer, 0, nums );
+	var sActual = FPO.std.transducers.into( transducer, true, bools );
+	var uActual = FPO.std.transducers.into( transducer, false, bools );
 
-	assert.expect( 4 );
+	assert.expect( 6 );
 	assert.strictEqual( rActual, rExpected, "regular call, string" );
 	assert.strictEqual( pActual, pExpected, "curried, string" );
-	assert.deepEqual( qActual, qExpected, "regular call, array" );
-	assert.deepEqual( tActual, tExpected, "curried, array" );
+	assert.deepEqual( qActual, qExpected, "array" );
+	assert.strictEqual( tActual, tExpected, "number" );
+	assert.strictEqual( sActual, sExpected, "boolean true" );
+	assert.strictEqual( uActual, uExpected, "boolean false" );
 } );
 
 
