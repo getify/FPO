@@ -44,7 +44,7 @@ QUnit.test( "core: API methods", function t1(assert){
 } );
 
 QUnit.test( "std: API methods", function t2(assert){
-	assert.expect( 38 );
+	assert.expect( 41 );
 
 	assert.ok( _isFunction( FPO.std.identity ), "identity()" );
 	assert.ok( _isFunction( FPO.std.constant ), "constant()" );
@@ -57,6 +57,7 @@ QUnit.test( "std: API methods", function t2(assert){
 	assert.ok( _isFunction( FPO.std.curryMultiple ), "curryMultiple()" );
 	assert.ok( _isFunction( FPO.std.uncurry ), "uncurry()" );
 	assert.ok( _isFunction( FPO.std.partial ), "partial()" );
+	assert.ok( _isFunction( FPO.std.partialRight ), "partialRight()" );
 	assert.ok( _isFunction( FPO.std.complement ), "complement()" );
 	assert.ok( _isFunction( FPO.std.apply ), "apply()" );
 	assert.ok( _isFunction( FPO.std.unapply ), "unapply()" );
@@ -84,17 +85,20 @@ QUnit.test( "std: API methods", function t2(assert){
 	assert.ok( _isFunction( FPO.std.transducers.booleanAnd ), "transducers.booleanAnd()" );
 	assert.ok( _isFunction( FPO.std.transducers.booleanOr ), "transducers.booleanOr()" );
 	assert.ok( _isFunction( FPO.std.transducers.default ), "transducers.default()" );
+	assert.ok( _isFunction( FPO.std.flip ), "flip()" );
+	assert.ok( _isFunction( FPO.std.reverseArgs ), "reverseArgs()" );
 } );
 
 QUnit.test( "API method aliases", function t3(assert){
-	assert.expect( 24 );
+	assert.expect( 25 );
 
 	assert.strictEqual( FPO.always, FPO.constant, "always -> constant" );
 	assert.strictEqual( FPO.std.always, FPO.std.constant, "std: always -> constant" );
-	assert.strictEqual( FPO.flow, FPO.pipe, "flow -> pipe" );
-	assert.strictEqual( FPO.std.flow, FPO.std.pipe, "std: flow -> pipe" );
+	assert.strictEqual( FPO.partialRight, FPO.partial, "partialRight -> partial" );
 	assert.strictEqual( FPO.flowRight, FPO.compose, "flowRight -> compose" );
 	assert.strictEqual( FPO.std.flowRight, FPO.std.compose, "std: flowRight -> compose" );
+	assert.strictEqual( FPO.flow, FPO.pipe, "flow -> pipe" );
+	assert.strictEqual( FPO.std.flow, FPO.std.pipe, "std: flow -> pipe" );
 	assert.strictEqual( FPO.spread, FPO.apply, "spread -> apply" );
 	assert.strictEqual( FPO.std.spread, FPO.std.apply, "std: spread -> apply" );
 	assert.strictEqual( FPO.gather, FPO.unapply, "gather -> unapply" );
@@ -519,6 +523,30 @@ QUnit.test( "std.partial()", function t25(assert){
 	assert.deepEqual( tActual, tExpected, "empty partial args" );
 } );
 
+QUnit.test( "std.partialRight()", function t25b(assert){
+	function foo(...args) { return args; }
+
+	var a1 = [1];
+	var a12 = [1,2];
+	var a23 = [2,3];
+	var a3 = [3];
+	var rExpected = [2,3,1];
+	var pExpected = [3,1,2];
+	var qExpected = [3];
+	var tExpected = [3];
+
+	var rActual = FPO.std.partialRight( foo, a1 )( ...a23 );
+	var pActual = FPO.std.partialRight()( foo )()( a12 )( ...a3 );
+	var qActual = FPO.std.partialRight( foo, undefined )( ...a3 );
+	var tActual = FPO.std.partialRight( foo, [] )( ...a3 );
+
+	assert.expect( 4 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried with partial args" );
+	assert.deepEqual( qActual, qExpected, "undefined partial args" );
+	assert.deepEqual( tActual, tExpected, "empty partial args" );
+} );
+
 QUnit.test( "complement()", function t26(assert){
 	function xPlusYEven(argsObj) { return (argsObj.x + argsObj.y) % 2 == 0; }
 
@@ -772,11 +800,12 @@ QUnit.test( "setProp()", function t38(assert){
 	var qActual = FPO.setProp( v10 )( {prop: undefined, o: undefined} );
 	var tActual = FPO.setProp( v10 )( {prop: "", o: {}} );
 
-	assert.expect( 4 );
+	assert.expect( 5 );
 	assert.deepEqual( rActual, rExpected, "regular call" );
 	assert.deepEqual( pActual, pExpected, "curried" );
 	assert.deepEqual( qActual, qExpected, "prop and object undefined" );
 	assert.deepEqual( tActual, tExpected, "prop and object empty" );
+	assert.notStrictEqual( rActual, obj1, "object is cloned, not mutated" );
 } );
 
 QUnit.test( "std.setProp()", function t39(assert){
@@ -793,11 +822,12 @@ QUnit.test( "std.setProp()", function t39(assert){
 	var qActual = FPO.std.setProp( undefined, undefined, 10 );
 	var tActual = FPO.std.setProp( "", {}, 10 );
 
-	assert.expect( 4 );
+	assert.expect( 5 );
 	assert.deepEqual( rActual, rExpected, "regular call" );
 	assert.deepEqual( pActual, pExpected, "curried" );
 	assert.deepEqual( qActual, qExpected, "prop and object undefined" );
 	assert.deepEqual( tActual, tExpected, "prop and object empty" );
+	assert.notStrictEqual( rActual, obj1, "object is cloned, not mutated" );
 } );
 
 QUnit.test( "filterIn()", function t40(assert){
@@ -1816,6 +1846,36 @@ QUnit.test( "std.transducers.into()", function t77(assert){
 	assert.strictEqual( tActual, tExpected, "number" );
 	assert.strictEqual( sActual, sExpected, "boolean true" );
 	assert.strictEqual( uActual, uExpected, "boolean false" );
+} );
+
+QUnit.test( "std.flip()", function t78(assert){
+	function foo(...args) { return args; }
+
+	var args = [1,2,3,4];
+	var rExpected = [2,1,3,4];
+	var pExpected = [2,1,3,4];
+
+	var rActual = FPO.std.flip( foo )( ...args );
+	var pActual = FPO.std.flip()( foo )( ...args );
+
+	assert.expect( 2 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+} );
+
+QUnit.test( "std.reverseArgs()", function t79(assert){
+	function foo(...args) { return args; }
+
+	var args = [1,2,3,4];
+	var rExpected = [4,3,2,1];
+	var pExpected = [4,3,2,1];
+
+	var rActual = FPO.std.reverseArgs( foo )( ...args );
+	var pActual = FPO.std.reverseArgs()( foo )( ...args );
+
+	assert.expect( 2 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
 
