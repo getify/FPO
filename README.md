@@ -6,7 +6,7 @@ Not only do named-arguments eliminate having to remember a method signature's pa
 
 This elimination of ordering concern and/or skipping arguments particularly comes in handy when you're currying. You don't have to juggle the parameter order at all; just pass in whichever named argument(s) you want, in whatever sequence you need!
 
-The other benefit is that these API methods will automatically work with your program's named-argument style functions. If you need to interoperate between both styles of function parameters in your program, adapt either style to the other using the [`FPO.apply(..)`](core-API.md#apply) and [`FPO.unapply(..)`](core-API.md#unapply) methods.
+The other benefit is that these API methods will automatically work with your program's named-argument style functions. If you need to interoperate between both styles of function parameters in your program, adapt either style to the other using the [`FPO.apply(..)`](core-API.md#fpoapply) and [`FPO.unapply(..)`](core-API.md#fpounapply) methods.
 
 For convenience and familiarity sake, FPO also exposes all its methods in the traditional positional argument form, under [`FPO.std.*`](std-API.md). These methods are very similar to their equivalents in Ramda, for example.
 
