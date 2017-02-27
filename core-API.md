@@ -327,7 +327,7 @@ Similar to [`FPO.map(..)`], produces a new list by calling a mapper function wit
 Flattens an array of nested arrays. Optionally, specify how many levels of nesting to flatten out.
 
 * **Arguments:**
-	- `arr`: array to flat-map against
+	- `v`: array to flat-map against
 	- `n`: (optional) the number of levels of nesting to flatten out; if omitted, defaults to Infinity (to flatten any nested depth).
 
 * **Returns:** *array*
