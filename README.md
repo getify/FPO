@@ -125,10 +125,13 @@ The named argument naming conventions (in order of precedence):
 
 Some exceptions to these naming conventions:
 
-* [`setProp(..)`](core-API.md#fposetprop) expects: `prop` (object-property name), `o` (object), `v` (value).
-* [`partial(..)`](core-API.md#fpopartial) expects: `fn` (function), `args` (object containing the named-argument/value pairs to partially apply).
-* [`flatten(..)`](core-API.md#fpoflatten) expects: `v` (array), `n` (count of nesting levels to flatten out).
-* [`transduce(..)`](core-API.md#fpotransduce) expects: `fn` (transducer function), `co` (combination function), `v` (initial value), `arr` (array).
+* [`FPO.setProp(..)`](core-API.md#fposetprop) expects: `prop` (object-property name), `o` (object), `v` (value).
+* [`FPO.partial(..)`](core-API.md#fpopartial) expects: `fn` (function), `args` (object containing the named-argument/value pairs to partially apply).
+* [`FPO.flatten(..)`](core-API.md#fpoflatten) expects: `v` (array), `n` (count of nesting levels to flatten out).
+* [`FPO.transduce(..)`](core-API.md#fpotransduce) expects: `fn` (transducer function), `co` (combination function), `v` (initial value), `arr` (array).
+* [`FPO.compose(..)`](core-API.md#fpocompose) and [`FPO.pipe(..)`](core.API.md#fpopipe) produce functions that expect a `{ v: .. }` object argument. These utilities further assume that each function in the composition expects the output of the previous function to be rewrapped in a `{ v: .. }`-style object argument.
+
+	This also applies to transducers. [`FPO.transducers.filter(..)`](core-API.md#fpotransducersfilter) and [`FPO.transducers.map(..)`](core-API.md#fpotransducersmap), whether composed together or used standalone, are curried to expect the combination function to be passed to them as a `{ v: .. }`-style object argument.
 
 ## Arity
 

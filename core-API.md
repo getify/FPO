@@ -138,12 +138,12 @@ Produces a new function that's the composition of a list of functions. Functions
 
 	```js
 	var f = FPO.compose( {fns: [
-		v => v + "3",
-		v => v + "2",
-		v => v + "1"
+		({v}) => v + "3",
+		({v}) => v + "2",
+		({v}) => v + "1"
 	]} );
 
-	f( "0" );  // "0123"
+	f( {v: "0"} );  // "0123"
 	```
 
 * **Alias:** `FPO.flowRight(..)`
@@ -524,12 +524,12 @@ Produces a new function that's the composition of a list of functions. Functions
 
 	```js
 	var f = FPO.pipe( {fns: [
-		v => v + "3",
-		v => v + "2",
-		v => v + "1"
+		({v}) => v + "3",
+		({v}) => v + "2",
+		({v}) => v + "1"
 	]} );
 
-	f( "4" );  // "4321"
+	f( {v: "4"} );  // "4321"
 	```
 
 * **Alias:** `FPO.flow(..)`
@@ -803,8 +803,6 @@ For transducing purposes, wraps a predicate function as a filter-transducer. Typ
 
 The filter-transducer is not a reducer itself; it's expecting a combination function (reducer), which will then produce a filter-reducer. So alternately, you can manually create the filter-reducer and use it directly with a regular [`FPO.reduce(..)`](#fporeduce) reduction.
 
-**Note:** The filter-transducer is a normally-curried function, meaning the argument it expects is not in the object-parameter form, but just the combination function all by itself (see below).
-
 * **Arguments:**
 	- `fn`: predicate function
 
@@ -827,9 +825,7 @@ The filter-transducer is not a reducer itself; it's expecting a combination func
 
 	// ******************
 
-	// NOTE: `transducer(..)` is just a normally curried function,
-	// expecting a combination function as a simple argument
-	var filterReducer = filterTransducer( arrayPush );
+	var filterReducer = filterTransducer( {v: arrayPush} );
 
 	filterReducer( {acc: [], v: 3} );
 	// [3]
@@ -897,8 +893,6 @@ For transducing purposes, wraps a mapper function as a map-transducer. Typically
 
 The map-transducer is not a reducer itself; it's expecting a combination function (reducer), which will then produce a filter-reducer. So alternately, you can manually create the map-reducer and use it directly with a regular [`FPO.reduce(..)`](#fporeduce) reduction.
 
-**Note:** The map-transducer is a normally-curried function, meaning the argument it expects is not in the object-parameter form, but just the combination function all by itself (see below).
-
 * **Arguments:**
 	- `fn`: mapper function
 
@@ -921,15 +915,13 @@ The map-transducer is not a reducer itself; it's expecting a combination functio
 
 	// ******************
 
-	// NOTE: `transducer(..)` is just a normally curried function,
-	// expecting a combination function as a simple argument
-	var mapReducer = mapTransducer( arrayPush );
+	var mapReducer = mapTransducer( {v: arrayPush} );
 
 	mapReducer( {acc: [], v: 3} );
 	// [6]
 
 	FPO.reduce( {fn: mapReducer, v: [], arr: nums} );
-	// [1,3,5]
+	// [2,4,6,8,10]
 	```
 
 * **See Also:** [`FPO.transducers.filter(..)`](#fpotransducersfilter)

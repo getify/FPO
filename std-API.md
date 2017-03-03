@@ -1002,7 +1002,7 @@ The map-transducer is not a reducer itself; it's expecting a combination functio
 	// [6]
 
 	FPO.std.reduce( mapReducer, [], nums );
-	// [1,3,5]
+	// [2,4,6,8,10]
 	```
 
 * **See Also:** [`FPO.std.transducers.filter(..)`](#fpostdtransducersfilter)

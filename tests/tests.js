@@ -650,20 +650,20 @@ QUnit.test( "std.unapply()", function t31(assert){
 } );
 
 QUnit.test( "compose()", function t32(assert){
-	function foo(x) { return `foo,${x}`; }
-	function bar(x) { return `bar,${x}`; }
-	function baz(x) { return `baz,${x}`; }
+	function foo({v}) { return `foo,${v}`; }
+	function bar({v}) { return `bar,${v}`; }
+	function baz({v}) { return `baz,${v}`; }
 
-	var arr = [3,4];
+	var v = 3;
 	var rExpected = "foo,bar,baz,3";
 	var pExpected = "foo,3";
 	var qExpected = 3;
 	var tExpected = 3;
 
-	var rActual = FPO.compose( {fns: [foo,bar,baz]} )( ...arr );
-	var pActual = FPO.compose()( {} )( {fns: [foo]} )( ...arr );
-	var qActual = FPO.compose( {fns: undefined} )( ...arr );
-	var tActual = FPO.compose( {fns: []} )( ...arr );
+	var rActual = FPO.compose( {fns: [foo,bar,baz]} )( {v} );
+	var pActual = FPO.compose()( {} )( {fns: [foo]} )( {v} );
+	var qActual = FPO.compose( {fns: undefined} )( {v} );
+	var tActual = FPO.compose( {fns: []} )( {v} );
 
 	assert.expect( 4 );
 	assert.strictEqual( rActual, rExpected, "regular call" );
@@ -673,9 +673,9 @@ QUnit.test( "compose()", function t32(assert){
 } );
 
 QUnit.test( "std.compose()", function t33(assert){
-	function foo(x) { return `foo,${x}`; }
-	function bar(x) { return `bar,${x}`; }
-	function baz(x) { return `baz,${x}`; }
+	function foo(v) { return `foo,${v}`; }
+	function bar(v) { return `bar,${v}`; }
+	function baz(v) { return `baz,${v}`; }
 
 	var arr = [3,4];
 	var rExpected = "foo,bar,baz,3";
@@ -696,20 +696,20 @@ QUnit.test( "std.compose()", function t33(assert){
 } );
 
 QUnit.test( "pipe()", function t34(assert){
-	function foo(x) { return `foo,${x}`; }
-	function bar(x) { return `bar,${x}`; }
-	function baz(x) { return `baz,${x}`; }
+	function foo({v}) { return `foo,${v}`; }
+	function bar({v}) { return `bar,${v}`; }
+	function baz({v}) { return `baz,${v}`; }
 
-	var arr = [3,4];
+	var v = 3;
 	var rExpected = "foo,bar,baz,3";
 	var pExpected = "foo,3";
 	var qExpected = 3;
 	var tExpected = 3;
 
-	var rActual = FPO.pipe( {fns: [baz,bar,foo]} )( ...arr );
-	var pActual = FPO.pipe()( {} )( {fns: [foo]} )( ...arr );
-	var qActual = FPO.pipe( {fns: undefined} )( ...arr );
-	var tActual = FPO.pipe( {fns: []} )( ...arr );
+	var rActual = FPO.pipe( {fns: [baz,bar,foo]} )( {v} );
+	var pActual = FPO.pipe()( {} )( {fns: [foo]} )( {v} );
+	var qActual = FPO.pipe( {fns: undefined} )( {v} );
+	var tActual = FPO.pipe( {fns: []} )( {v} );
 
 	assert.expect( 4 );
 	assert.strictEqual( rActual, rExpected, "regular call" );
@@ -719,9 +719,9 @@ QUnit.test( "pipe()", function t34(assert){
 } );
 
 QUnit.test( "std.pipe()", function t35(assert){
-	function foo(x) { return `foo,${x}`; }
-	function bar(x) { return `bar,${x}`; }
-	function baz(x) { return `baz,${x}`; }
+	function foo(v) { return `foo,${v}`; }
+	function bar(v) { return `bar,${v}`; }
+	function baz(v) { return `baz,${v}`; }
 
 	var arr = [3,4];
 	var rExpected = "foo,bar,baz,3";
@@ -1458,8 +1458,8 @@ QUnit.test( "transducers.map()", function t58(assert){
 	var rExpected = 10;
 	var pExpected = 10;
 
-	var rActual = FPO.transducers.map( {fn: decrement} )( sum )( args );
-	var pActual = FPO.transducers.map()( {} )( {fn: decrement} )( sum )( args );
+	var rActual = FPO.transducers.map( {fn: decrement} )( {v: sum} )( args );
+	var pActual = FPO.transducers.map()( {} )( {fn: decrement} )( {v: sum} )( args );
 
 	assert.expect( 2 );
 	assert.strictEqual( rActual, rExpected, "regular call" );
@@ -1492,9 +1492,9 @@ QUnit.test( "transducers.filter()", function t60(assert){
 	var pExpected = 4;
 	var qExpected = undefined;
 
-	var rActual = FPO.transducers.filter( {fn: isSmallEnough} )( passThru )( args );
-	var pActual = FPO.transducers.filter()( {} )( {fn: isSmallEnough} )( passThru )( args );
-	var qActual = FPO.transducers.filter( {fn: alwaysFalse} )( passThru )( args );
+	var rActual = FPO.transducers.filter( {fn: isSmallEnough} )( {v: passThru} )( args );
+	var pActual = FPO.transducers.filter()( {} )( {fn: isSmallEnough} )( {v: passThru} )( args );
+	var qActual = FPO.transducers.filter( {fn: alwaysFalse} )( {v: passThru} )( args );
 
 	assert.expect( 3 );
 	assert.strictEqual( rActual, rExpected, "regular call" );
@@ -1728,24 +1728,28 @@ QUnit.test( "transducers.transduce()", function t74(assert){
 	function passThruReducer({ acc, v}) { acc.push( v ); return acc; }
 
 	var nums = [3,7,2,5,11,10,4,6];
-	var transducer = FPO.compose( {fns: [
+	var mapTransducer = FPO.transducers.map( {fn: decrement} );
+	var composedTransducer = FPO.compose( {fns: [
 		FPO.transducers.filter( {fn: isSmallEnough} ),
 		FPO.transducers.filter( {fn: isBigEnough} ),
-		FPO.transducers.map( {fn: decrement} )
+		mapTransducer
 	]} );
 
 	var rExpected = 1080;
 	var pExpected = 1080;
 	var qExpected = [6,4,9,5];
+	var tExpected = [2,6,1,4,10,9,3,5];
 
-	var rActual = FPO.transducers.transduce( {fn: transducer, co: mult, v: 1, arr: nums} );
-	var pActual = FPO.transducers.transduce()( {} )( {fn: transducer, co: mult} )( {v: 1, arr: nums} );
-	var qActual = FPO.transducers.transduce( {fn: transducer, co: passThruReducer, v: [], arr: nums} );
+	var rActual = FPO.transducers.transduce( {fn: composedTransducer, co: mult, v: 1, arr: nums} );
+	var pActual = FPO.transducers.transduce()( {} )( {fn: composedTransducer, co: mult} )( {v: 1, arr: nums} );
+	var qActual = FPO.transducers.transduce( {fn: composedTransducer, co: passThruReducer, v: [], arr: nums} );
+	var tActual = FPO.transducers.transduce( {fn: mapTransducer, co: passThruReducer, v: [], arr: nums} );
 
-	assert.expect( 3 );
+	assert.expect( 4 );
 	assert.strictEqual( rActual, rExpected, "regular call" );
 	assert.strictEqual( pActual, pExpected, "curried call" );
 	assert.deepEqual( qActual, qExpected, "pass-thru reducer" );
+	assert.deepEqual( tActual, tExpected, "non-composed transducer" );
 } );
 
 QUnit.test( "std.transducers.transduce()", function t75(assert){
@@ -1756,24 +1760,28 @@ QUnit.test( "std.transducers.transduce()", function t75(assert){
 	function passThruReducer(acc,v) { acc.push( v ); return acc; }
 
 	var nums = [3,7,2,5,11,10,4,6];
-	var transducer = FPO.std.compose( [
+	var mapTransducer = FPO.std.transducers.map( decrement );
+	var composedTransducer = FPO.std.compose( [
 		FPO.std.transducers.filter( isSmallEnough ),
 		FPO.std.transducers.filter( isBigEnough ),
-		FPO.std.transducers.map( decrement )
+		mapTransducer
 	] );
 
 	var rExpected = 1080;
 	var pExpected = 1080;
 	var qExpected = [6,4,9,5];
+	var tExpected = [2,6,1,4,10,9,3,5];
 
-	var rActual = FPO.std.transducers.transduce( transducer, mult, 1, nums );
-	var pActual = FPO.std.transducers.transduce()( transducer, mult )( 1, nums );
-	var qActual = FPO.std.transducers.transduce( transducer, passThruReducer, [], nums );
+	var rActual = FPO.std.transducers.transduce( composedTransducer, mult, 1, nums );
+	var pActual = FPO.std.transducers.transduce()( composedTransducer, mult )( 1, nums );
+	var qActual = FPO.std.transducers.transduce( composedTransducer, passThruReducer, [], nums );
+	var tActual = FPO.std.transducers.transduce( mapTransducer, passThruReducer, [], nums );
 
-	assert.expect( 3 );
+	assert.expect( 4 );
 	assert.strictEqual( rActual, rExpected, "regular call" );
 	assert.strictEqual( pActual, pExpected, "curried call" );
 	assert.deepEqual( qActual, qExpected, "pass-thru reducer" );
+	assert.deepEqual( tActual, tExpected, "non-composed transducer" );
 } );
 
 QUnit.test( "transducers.into()", function t76(assert){
@@ -1783,10 +1791,11 @@ QUnit.test( "transducers.into()", function t76(assert){
 
 	var nums = [3,7,2,5,11,10,4,6];
 	var bools = [true,true,true,true];
-	var transducer = FPO.compose( {fns: [
+	var mapTransducer = FPO.transducers.map( {fn: decrement} );
+	var composedTransducer = FPO.compose( {fns: [
 		FPO.transducers.filter( {fn: isSmallEnough} ),
 		FPO.transducers.filter( {fn: isBigEnough} ),
-		FPO.transducers.map( {fn: decrement} )
+		mapTransducer
 	]} );
 
 	var rExpected = "6495";
@@ -1795,21 +1804,24 @@ QUnit.test( "transducers.into()", function t76(assert){
 	var tExpected = 24;
 	var sExpected = true;
 	var uExpected = false;
+	var hExpected = [2,6,1,4,10,9,3,5];
 
-	var rActual = FPO.transducers.into( {fn: transducer, v: "", arr: nums} );
-	var pActual = FPO.transducers.into()( {} )( {fn: transducer} )({ v: "", arr: nums} );
-	var qActual = FPO.transducers.into( {fn: transducer, v: [], arr: nums} );
-	var tActual = FPO.transducers.into( {fn: transducer, v: 0, arr: nums} );
-	var sActual = FPO.transducers.into( {fn: transducer, v: true, arr: bools} );
-	var uActual = FPO.transducers.into( {fn: transducer, v: false, arr: bools} );
+	var rActual = FPO.transducers.into( {fn: composedTransducer, v: "", arr: nums} );
+	var pActual = FPO.transducers.into()( {} )( {fn: composedTransducer} )({ v: "", arr: nums} );
+	var qActual = FPO.transducers.into( {fn: composedTransducer, v: [], arr: nums} );
+	var tActual = FPO.transducers.into( {fn: composedTransducer, v: 0, arr: nums} );
+	var sActual = FPO.transducers.into( {fn: composedTransducer, v: true, arr: bools} );
+	var uActual = FPO.transducers.into( {fn: composedTransducer, v: false, arr: bools} );
+	var hActual = FPO.transducers.into( {fn: mapTransducer, v: [], arr: nums} );
 
-	assert.expect( 6 );
+	assert.expect( 7 );
 	assert.strictEqual( rActual, rExpected, "regular call, string" );
 	assert.strictEqual( pActual, pExpected, "curried, string" );
 	assert.deepEqual( qActual, qExpected, "array" );
 	assert.strictEqual( tActual, tExpected, "number" );
 	assert.strictEqual( sActual, sExpected, "boolean true" );
 	assert.strictEqual( uActual, uExpected, "boolean false" );
+	assert.deepEqual( hActual, hExpected, "non-composed transducer" );
 } );
 
 QUnit.test( "std.transducers.into()", function t77(assert){
@@ -1819,10 +1831,11 @@ QUnit.test( "std.transducers.into()", function t77(assert){
 
 	var nums = [3,7,2,5,11,10,4,6];
 	var bools = [true,true,true,true];
-	var transducer = FPO.std.compose( [
+	var mapTransducer = FPO.std.transducers.map( decrement );
+	var composedTransducer = FPO.std.compose( [
 		FPO.std.transducers.filter( isSmallEnough ),
 		FPO.std.transducers.filter( isBigEnough ),
-		FPO.std.transducers.map( decrement )
+		mapTransducer
 	] );
 
 	var rExpected = "6495";
@@ -1831,21 +1844,24 @@ QUnit.test( "std.transducers.into()", function t77(assert){
 	var tExpected = 24;
 	var sExpected = true;
 	var uExpected = false;
+	var hExpected = [2,6,1,4,10,9,3,5];
 
-	var rActual = FPO.std.transducers.into( transducer, "", nums );
-	var pActual = FPO.std.transducers.into()( transducer )( "", nums );
-	var qActual = FPO.std.transducers.into( transducer, [], nums );
-	var tActual = FPO.std.transducers.into( transducer, 0, nums );
-	var sActual = FPO.std.transducers.into( transducer, true, bools );
-	var uActual = FPO.std.transducers.into( transducer, false, bools );
+	var rActual = FPO.std.transducers.into( composedTransducer, "", nums );
+	var pActual = FPO.std.transducers.into()( composedTransducer )( "", nums );
+	var qActual = FPO.std.transducers.into( composedTransducer, [], nums );
+	var tActual = FPO.std.transducers.into( composedTransducer, 0, nums );
+	var sActual = FPO.std.transducers.into( composedTransducer, true, bools );
+	var uActual = FPO.std.transducers.into( composedTransducer, false, bools );
+	var hActual = FPO.std.transducers.into( mapTransducer, [], nums );
 
-	assert.expect( 6 );
+	assert.expect( 7 );
 	assert.strictEqual( rActual, rExpected, "regular call, string" );
 	assert.strictEqual( pActual, pExpected, "curried, string" );
 	assert.deepEqual( qActual, qExpected, "array" );
 	assert.strictEqual( tActual, tExpected, "number" );
 	assert.strictEqual( sActual, sExpected, "boolean true" );
 	assert.strictEqual( uActual, uExpected, "boolean false" );
+	assert.deepEqual( hActual, hExpected, "non-composed transducer" );
 } );
 
 QUnit.test( "std.flip()", function t78(assert){
