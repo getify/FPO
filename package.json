@@ -1,12 +1,13 @@
 {
 	"name": "fpo",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"description": "FP library for JavaScript. Supports named-argument style methods.",
 	"main": "./lib/fpo.js",
 	"scripts": {
 		"test": "node tests/node-tests.js",
 		"build-core": "node build-core.js",
-		"build": "npm run build-core"
+		"build": "npm run build-core",
+		"prepublish": "npm run build-core"
 	},
 	"devDependencies": {
 		"qunitjs": "~2.1.1"
