@@ -29,6 +29,7 @@ These are the methods on the `FPO.std.*` namespace. For the `FPO.*` methods, con
 * [`FPO.std.reverseArgs(..)`](#fpostdreverseargs)
 * [`FPO.std.setProp(..)`](#fpostdsetprop) (aliases: `FPO.std.assoc(..)`)
 * [`FPO.std.tail(..)`](#fpostdtail)
+* [`FPO.std.take(..)`](#fpostdtake)
 * [`FPO.std.trampoline(..)`](#fpostdtrampoline)
 * **Transducers**:
 	- [`FPO.std.transducers.array(..)`](#fpostdtransducersarray)
@@ -422,39 +423,6 @@ Returns the element as accessed at index 0 of the value.
 
 ----
 
-### `FPO.std.head(..)`
-
-([back to top](#core-api))
-
-Returns the element as accessed at index 0 of the value.
-
-* **Arguments:**
-	- `v`: array, string, object
-
-* **Returns:** *any*
-
-* **Example:**
-
-	```js
-	var nums = [1,2,3,4];
-
-	FPO.std.head( nums );
-	// 1
-
-	FPO.std.head( [] );
-	// undefined
-
-	FPO.std.head( "abc" );
-	// "a"
-
-	FPO.std.head( {0: 42} );
-	// 42
-	```
-
-* **See Also:** [`FPO.std.tail(..)`](#fpostdtail)
-
-----
-
 ### `FPO.std.identity(..)`
 
 ([back to top](#core-api))
@@ -841,6 +809,40 @@ Returns everything else in the value except the element as accessed at index 0; 
 
 	FPO.std.tail( {0: 42, 1: 10} );
 	// {1: 10}
+	```
+
+* **See Also:** [`FPO.std.head(..)`](#fpostdhead)
+
+----
+
+### `FPO.std.take(..)`
+
+([back to top](#core-api))
+
+Returns the specified number of elements from the value, starting from the beginning.
+
+* **Arguments:**
+	- `v`: array / string
+	- `n`: number of elements to take from the beginning of the value; if omitted, defaults to `1`.
+
+* **Returns:** array / string
+
+* **Example:**
+
+	```js
+	var nums = [1,2,3,4];
+
+	FPO.std.take( nums, 2 );
+	// [1,2]
+
+	FPO.std.take( nums );
+	// [1]
+
+	FPO.std.take( "abc", 2 );
+	// "ab"
+
+	FPO.std.take( null );
+	// []
 	```
 
 * **See Also:** [`FPO.std.head(..)`](#fpostdhead)

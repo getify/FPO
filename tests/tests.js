@@ -1,7 +1,7 @@
 "use strict";
 
 QUnit.test( "core: API methods", function t1(assert){
-	assert.expect( 38 );
+	assert.expect( 41 );
 
 	assert.ok( _isFunction( FPO.identity ), "identity()" );
 	assert.ok( _isFunction( FPO.constant ), "constant()" );
@@ -41,10 +41,13 @@ QUnit.test( "core: API methods", function t1(assert){
 	assert.ok( _isFunction( FPO.transducers.booleanAnd ), "transducers.booleanAnd()" );
 	assert.ok( _isFunction( FPO.transducers.booleanOr ), "transducers.booleanOr()" );
 	assert.ok( _isFunction( FPO.transducers.default ), "transducers.default()" );
+	assert.ok( _isFunction( FPO.head ), "head()" );
+	assert.ok( _isFunction( FPO.tail ), "tail()" );
+	assert.ok( _isFunction( FPO.take ), "take()" );
 } );
 
 QUnit.test( "std: API methods", function t2(assert){
-	assert.expect( 41 );
+	assert.expect( 44 );
 
 	assert.ok( _isFunction( FPO.std.identity ), "identity()" );
 	assert.ok( _isFunction( FPO.std.constant ), "constant()" );
@@ -87,6 +90,9 @@ QUnit.test( "std: API methods", function t2(assert){
 	assert.ok( _isFunction( FPO.std.transducers.default ), "transducers.default()" );
 	assert.ok( _isFunction( FPO.std.flip ), "flip()" );
 	assert.ok( _isFunction( FPO.std.reverseArgs ), "reverseArgs()" );
+	assert.ok( _isFunction( FPO.std.head ), "head()" );
+	assert.ok( _isFunction( FPO.std.tail ), "tail()" );
+	assert.ok( _isFunction( FPO.std.take ), "take()" );
 } );
 
 QUnit.test( "API method aliases", function t3(assert){
@@ -1907,19 +1913,22 @@ QUnit.test( "head()", function t80(assert){
 	var qExpected = undefined;
 	var tExpected = "a";
 	var sExpected = 5;
+	var uExpected = null;
 
 	var rActual = FPO.head( {v: arr} );
 	var pActual = FPO.head()( {} )( {v: arr} );
 	var qActual = FPO.head( {v: []} );
 	var tActual = FPO.head( {v: str} );
 	var sActual = FPO.head( {v: obj} );
+	var uActual = FPO.head( {v: null} );
 
-	assert.expect( 5 );
+	assert.expect( 6 );
 	assert.strictEqual( rActual, rExpected, "regular call" );
 	assert.strictEqual( pActual, pExpected, "curried" );
 	assert.strictEqual( qActual, qExpected, "empty array" );
 	assert.strictEqual( tActual, tExpected, "string" );
 	assert.strictEqual( sActual, sExpected, "object" );
+	assert.strictEqual( uActual, uExpected, "null" );
 } );
 
 QUnit.test( "std.head()", function t81(assert){
@@ -1931,19 +1940,22 @@ QUnit.test( "std.head()", function t81(assert){
 	var qExpected = undefined;
 	var tExpected = "a";
 	var sExpected = 5;
+	var uExpected = null;
 
 	var rActual = FPO.std.head( arr );
 	var pActual = FPO.std.head()( arr );
 	var qActual = FPO.std.head( [] );
 	var tActual = FPO.std.head( str );
 	var sActual = FPO.std.head( obj );
+	var uActual = FPO.std.head( null );
 
-	assert.expect( 5 );
+	assert.expect( 6 );
 	assert.strictEqual( rActual, rExpected, "regular call" );
 	assert.strictEqual( pActual, pExpected, "curried" );
 	assert.strictEqual( qActual, qExpected, "empty array" );
 	assert.strictEqual( tActual, tExpected, "string" );
 	assert.strictEqual( sActual, sExpected, "object" );
+	assert.strictEqual( uActual, uExpected, "null" );
 } );
 
 QUnit.test( "tail()", function t82(assert){
@@ -1999,6 +2011,59 @@ QUnit.test( "std.tail()", function t83(assert){
 	assert.deepEqual( sActual, sExpected, "object" );
 	assert.strictEqual( uActual, uExpected, "null" );
 } );
+
+QUnit.test( "take()", function t84(assert){
+	var arr = [1,2,3,4];
+	var str = "abc";
+	var rExpected = [1,2];
+	var pExpected = [1,2];
+	var qExpected = [1];
+	var tExpected = [];
+	var sExpected = "ab";
+	var uExpected = [];
+
+	var rActual = FPO.take( {v: arr, n: 2} );
+	var pActual = FPO.take()( {} )( {v: arr, n: 2} );
+	var qActual = FPO.take( {v: arr} );
+	var tActual = FPO.take( {v: [], n: 2} );
+	var sActual = FPO.take( {v: str, n: 2} );
+	var uActual = FPO.take( {v: null} );
+
+	assert.expect( 6 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "default n" );
+	assert.deepEqual( tActual, tExpected, "empty array" );
+	assert.strictEqual( sActual, sExpected, "string" );
+	assert.deepEqual( uActual, uExpected, "null" );
+} );
+
+QUnit.test( "std.take()", function t85(assert){
+	var arr = [1,2,3,4];
+	var str = "abc";
+	var rExpected = [1,2];
+	var pExpected = [1,2];
+	var qExpected = [1];
+	var tExpected = [];
+	var sExpected = "ab";
+	var uExpected = [];
+
+	var rActual = FPO.std.take( arr, 2 );
+	var pActual = FPO.std.take()( arr, 2 );
+	var qActual = FPO.std.take( arr );
+	var tActual = FPO.std.take( [], undefined );
+	var sActual = FPO.std.take( str, 2 );
+	var uActual = FPO.std.take( null );
+
+	assert.expect( 6 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "default n" );
+	assert.deepEqual( tActual, tExpected, "empty array" );
+	assert.strictEqual( sActual, sExpected, "string" );
+	assert.deepEqual( uActual, uExpected, "null" );
+} );
+
 
 
 

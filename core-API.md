@@ -26,6 +26,7 @@ These are the methods on the `FPO.*` namespace. For the `FPO.std.*` methods, con
 * [`FPO.reduceRight(..)`](#fporeduceright) (aliases: `FPO.foldR(..)`)
 * [`FPO.setProp(..)`](#fposetprop) (aliases: `FPO.assoc(..)`)
 * [`FPO.tail(..)`](#fpotail)
+* [`FPO.take(..)`](#fpotake)
 * [`FPO.trampoline(..)`](#fpotrampoline)
 * **Transducers**:
 	- [`FPO.transducers.array(..)`](#fpotransducersarray)
@@ -725,6 +726,40 @@ Returns everything else in the value except the element as accessed at index 0; 
 
 	FPO.tail( {v: {0: 42, 1: 10}} );
 	// {1: 10}
+	```
+
+* **See Also:** [`FPO.head(..)`](#fpohead)
+
+----
+
+### `FPO.take(..)`
+
+([back to top](#core-api))
+
+Returns the specified number of elements from the value, starting from the beginning.
+
+* **Arguments:**
+	- `v`: array / string
+	- `n`: number of elements to take from the beginning of the value; if omitted, defaults to `1`.
+
+* **Returns:** array / string
+
+* **Example:**
+
+	```js
+	var nums = [1,2,3,4];
+
+	FPO.take( {v: nums, n: 2} );
+	// [1,2]
+
+	FPO.take( {v: nums} );
+	// [1]
+
+	FPO.take( {v: "abc", n: 2} );
+	// "ab"
+
+	FPO.take( {v: null} );
+	// []
 	```
 
 * **See Also:** [`FPO.head(..)`](#fpohead)
