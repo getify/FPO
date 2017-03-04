@@ -5,25 +5,27 @@ These are the methods on the `FPO.*` namespace. For the `FPO.std.*` methods, con
 * [`FPO.apply(..)`](#fpoapply) (aliases: `FPO.spread(..)`)
 * [`FPO.binary(..)`](#fpobinary)
 * [`FPO.complement(..)`](#fpocomplement)
-* [`FPO.compose(..)`](#fpocompose)
+* [`FPO.compose(..)`](#fpocompose) (aliases: `FPO.flowRight(..)`)
 * [`FPO.constant(..)`](#fpoconstant)
 * [`FPO.curry(..)`](#fpocurry)
 * [`FPO.curryMultiple(..)`](#fpocurrymultiple)
 * [`FPO.filterIn(..)`](#fpofilterin) (aliases: `FPO.filter(..)`)
-* [`FPO.filterOut(..)`](#fpofilterout)
+* [`FPO.filterOut(..)`](#fpofilterout) (aliases: `FPO.reject(..)`)
 * [`FPO.flatMap(..)`](#fpoflatmap) (aliases: `FPO.chain(..)`)
 * [`FPO.flatten(..)`](#fpoflatten)
+* [`FPO.head(..)`](#fpohead)
 * [`FPO.identity(..)`](#fpoidentity)
 * [`FPO.map(..)`](#fpomap)
 * [`FPO.nAry(..)`](#fponary)
 * [`FPO.partial(..)`](#fpopartial) (aliases: `FPO.partialRight(..)`)
 * [`FPO.pick(..)`](#fpopick)
 * [`FPO.pickAll(..)`](#fpopickall)
-* [`FPO.pipe(..)`](#fpopipe)
+* [`FPO.pipe(..)`](#fpopipe) (aliases: `FPO.flow(..)`, `FPO.sequence(..)`)
 * [`FPO.prop(..)`](#fpoprop)
 * [`FPO.reduce(..)`](#fporeduce) (aliases: `FPO.fold(..)`, `FPO.foldL(..)`)
 * [`FPO.reduceRight(..)`](#fporeduceright) (aliases: `FPO.foldR(..)`)
 * [`FPO.setProp(..)`](#fposetprop) (aliases: `FPO.assoc(..)`)
+* [`FPO.tail(..)`](#fpotail)
 * [`FPO.trampoline(..)`](#fpotrampoline)
 * **Transducers**:
 	- [`FPO.transducers.array(..)`](#fpotransducersarray)
@@ -69,7 +71,7 @@ Wraps a function to spread out the properties from an object argument as individ
 	p( {x: [1,2], y: 3} ));  // 6
 	```
 
-* **Alias:** `FPO.spread(..)`
+* **Aliases:** `FPO.spread(..)`
 
 * **See Also:** [`FPO.unapply(..)`](#fpounapply)
 
@@ -146,7 +148,7 @@ Produces a new function that's the composition of a list of functions. Functions
 	f( {v: "0"} );  // "0123"
 	```
 
-* **Alias:** `FPO.flowRight(..)`
+* **Aliases:** `FPO.flowRight(..)`
 
 * **See Also:** [`FPO.pipe(..)`](#fpopipe)
 
@@ -252,7 +254,7 @@ Commonly known as `filter(..)`, produces a new list by calling a predicate funct
 	// [1,3,5]
 	```
 
-* **Alias:** `FPO.filter(..)`
+* **Aliases:** `FPO.filter(..)`
 
 * **See Also:** [`FPO.filterOut(..)`](#fpofilterout)
 
@@ -280,6 +282,8 @@ The inverse of [`FPO.filterIn(..)`](#fpofilterin), produces a new list by callin
 	FPO.filterOut( {fn: isOdd, arr: nums} );
 	// [2,4]
 	```
+
+* **Aliases:** `FPO.reject(..)`
 
 * **See Also:** [`FPO.filterOut(..)`](#fpofilterout)
 
@@ -314,7 +318,7 @@ Similar to [`FPO.map(..)`], produces a new list by calling a mapper function wit
 	// ["h","e","l","l","o","w","o","r","l","d"]
 	```
 
-* **Alias:** `FPO.chain(..)`
+* **Aliases:** `FPO.chain(..)`
 
 * **See Also:** [`FPO.map(..)`](#fpomap), [`FPO.flatten(..)`](#fpoflatten)
 
@@ -348,6 +352,39 @@ Flattens an array of nested arrays. Optionally, specify how many levels of nesti
 	```
 
 * **See Also:** [`FPO.flatMap(..)`](#fpoflatmap)
+
+----
+
+### `FPO.head(..)`
+
+([back to top](#core-api))
+
+Returns the element as accessed at index 0 of the value.
+
+* **Arguments:**
+	- `v`: array, string, object
+
+* **Returns:** *any*
+
+* **Example:**
+
+	```js
+	var nums = [1,2,3,4];
+
+	FPO.head( {v: nums} );
+	// 1
+
+	FPO.head( {v: []} );
+	// undefined
+
+	FPO.head( {v: "abc"} );
+	// "a"
+
+	FPO.head( {v: {0: 42}} );
+	// 42
+	```
+
+* **See Also:** [`FPO.tail(..)`](#fpotail)
 
 ----
 
@@ -453,7 +490,7 @@ However, using named arguments style -- after all, that is the whole point of FP
 	// "ab!"
 	```
 
-* **Alias:** `FPO.partialRight(..)`
+* **Aliases:** `FPO.partialRight(..)`
 
 * **See Also:** [`FPO.curry(..)`](#fpocurry), [`FPO.curryMultiple(..)`](#fpocurrymultiple)
 
@@ -532,7 +569,7 @@ Produces a new function that's the composition of a list of functions. Functions
 	f( {v: "4"} );  // "4321"
 	```
 
-* **Alias:** `FPO.flow(..)`
+* **Aliases:** `FPO.flow(..)`, `FPO.sequence(..)`
 
 * **See Also:** [`FPO.compose(..)`](#fpocompose)
 
@@ -655,7 +692,42 @@ Creates a shallow clone of an object, assigning the specified property value to 
 	// { x:1, y:2, z:3 }
 	```
 
+* **Aliases:** `FPO.assoc(..)`
+
 * **See Also:** [`FPO.pick(..)`](#fpopick), [`FPO.setProp(..)`](#fposetprop)
+
+----
+
+### `FPO.tail(..)`
+
+([back to top](#core-api))
+
+Returns everything else in the value except the element as accessed at index 0; basically the inverse of [`FPO.head(..)`](#fpohead)).
+
+* **Arguments:**
+	- `v`: array, string, object
+
+* **Returns:** *any*
+
+* **Example:**
+
+	```js
+	var nums = [1,2,3,4];
+
+	FPO.tail( {v: nums} );
+	// [2,3,4]
+
+	FPO.tail( {v: []} );
+	// undefined
+
+	FPO.tail( {v: "abc"} );
+	// "bc"
+
+	FPO.tail( {v: {0: 42, 1: 10}} );
+	// {1: 10}
+	```
+
+* **See Also:** [`FPO.head(..)`](#fpohead)
 
 ----
 
@@ -1038,7 +1110,7 @@ Wraps a function to gather individual positional arguments into an object argume
 	f( 1, 2 );  // 3
 	```
 
-* **Alias:** `FPO.gather(..)`
+* **Aliases:** `FPO.gather(..)`
 
 * **See Also:** [`FPO.apply(..)`](#fpoapply)
 

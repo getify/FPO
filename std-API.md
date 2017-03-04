@@ -5,15 +5,16 @@ These are the methods on the `FPO.std.*` namespace. For the `FPO.*` methods, con
 * [`FPO.std.apply(..)`](#fpostdapply) (aliases: `FPO.std.spread(..)`)
 * [`FPO.std.binary(..)`](#fpostdbinary)
 * [`FPO.std.complement(..)`](#fpostdcomplement)
-* [`FPO.std.compose(..)`](#fpostdcompose)
+* [`FPO.std.compose(..)`](#fpostdcompose) (aliases: `FPO.std.flowRight(..)`)
 * [`FPO.std.constant(..)`](#fpostdconstant)
 * [`FPO.std.curry(..)`](#fpostdcurry)
 * [`FPO.std.curryMultiple(..)`](#fpostdcurrymultiple)
 * [`FPO.std.filterIn(..)`](#fpostdfilterin) (aliases: `FPO.std.filter(..)`)
-* [`FPO.std.filterOut(..)`](#fpostdfilterout)
+* [`FPO.std.filterOut(..)`](#fpostdfilterout) (aliases: `FPO.std.reject(..)`)
 * [`FPO.std.flatMap(..)`](#fpostdflatmap) (aliases: `FPO.std.chain(..)`)
 * [`FPO.std.flatten(..)`](#fpostdflatten)
 * [`FPO.std.flip(..)`](#fpostdflip)
+* [`FPO.std.head(..)`](#fpostdhead)
 * [`FPO.std.identity(..)`](#fpostdidentity)
 * [`FPO.std.map(..)`](#fpostdmap)
 * [`FPO.std.nAry(..)`](#fpostdnary)
@@ -21,12 +22,13 @@ These are the methods on the `FPO.std.*` namespace. For the `FPO.*` methods, con
 * [`FPO.std.partialRight(..)`](#fpostdpartialright)
 * [`FPO.std.pick(..)`](#fpostdpick)
 * [`FPO.std.pickAll(..)`](#fpostdpickall)
-* [`FPO.std.pipe(..)`](#fpostdpipe)
+* [`FPO.std.pipe(..)`](#fpostdpipe) (aliases: `FPO.std.flow(..)`, `FPO.std.sequence(..)`)
 * [`FPO.std.prop(..)`](#fpostdprop)
 * [`FPO.std.reduce(..)`](#fpostdreduce) (aliases: `FPO.std.fold(..)`, `FPO.std.foldL(..)`)
 * [`FPO.std.reduceRight(..)`](#fpostdreduceright) (aliases: `FPO.std.foldR(..)`)
 * [`FPO.std.reverseArgs(..)`](#fpostdreverseargs)
 * [`FPO.std.setProp(..)`](#fpostdsetprop) (aliases: `FPO.std.assoc(..)`)
+* [`FPO.std.tail(..)`](#fpostdtail)
 * [`FPO.std.trampoline(..)`](#fpostdtrampoline)
 * **Transducers**:
 	- [`FPO.std.transducers.array(..)`](#fpostdtransducersarray)
@@ -71,7 +73,7 @@ Wraps a function to spread out the elements from an array argument as individual
 	p( [[1,2],3] );  // 6
 	```
 
-* **Alias:** `FPO.std.spread(..)`
+* **Aliases:** `FPO.std.spread(..)`
 
 * **See Also:** [`FPO.std.unapply(..)`](#fpostdunapply)
 
@@ -146,7 +148,7 @@ Produces a new function that's the composition of a list of functions. Functions
 	f( "0" );  // "0123"
 	```
 
-* **Alias:** `FPO.std.flowRight(..)`
+* **Aliases:** `FPO.std.flowRight(..)`
 
 * **See Also:** [`FPO.std.pipe(..)`](#fpostdpipe)
 
@@ -260,7 +262,7 @@ Commonly known as `filter(..)`, produces a new list by calling a predicate funct
 	// [1,3,5]
 	```
 
-* **Alias:** `FPO.std.filter(..)`
+* **Aliases:** `FPO.std.filter(..)`
 
 * **See Also:** [`FPO.std.filterOut(..)`](#fpostdfilterout)
 
@@ -288,6 +290,8 @@ The inverse of [`FPO.std.filterIn(..)`](#fpostdfilterin), produces a new list by
 	FPO.std.filterOut( isOdd, nums );
 	// [2,4]
 	```
+
+* **Aliases:** `FPO.std.reject(..)`
 
 * **See Also:** [`FPO.std.filterOut(..)`](#fpostdfilterout)
 
@@ -322,7 +326,7 @@ Similar to [`FPO.std.map(..)`], produces a new list by calling a mapper function
 	// ["h","e","l","l","o","w","o","r","l","d"]
 	```
 
-* **Alias:** `FPO.std.chain(..)`
+* **Aliases:** `FPO.std.chain(..)`
 
 * **See Also:** [`FPO.std.map(..)`](#fpostdmap), [`FPO.std.flatten(..)`](#fpostdflatten)
 
@@ -382,6 +386,72 @@ Wraps a function to flip (transpose) the first two arguments it receives.
 	```
 
 * **See Also:** [`FPO.std.reverseArgs(..)`](#fpostdreverseargs)
+
+----
+
+### `FPO.std.head(..)`
+
+([back to top](#core-api))
+
+Returns the element as accessed at index 0 of the value.
+
+* **Arguments:**
+	- `v`: array, string, object
+
+* **Returns:** *any*
+
+* **Example:**
+
+	```js
+	var nums = [1,2,3,4];
+
+	FPO.std.head( nums );
+	// 1
+
+	FPO.std.head( [] );
+	// undefined
+
+	FPO.std.head( "abc" );
+	// "a"
+
+	FPO.std.head( {0: 42} );
+	// 42
+	```
+
+* **See Also:** [`FPO.tail(..)`](#fpotail)
+
+----
+
+### `FPO.std.head(..)`
+
+([back to top](#core-api))
+
+Returns the element as accessed at index 0 of the value.
+
+* **Arguments:**
+	- `v`: array, string, object
+
+* **Returns:** *any*
+
+* **Example:**
+
+	```js
+	var nums = [1,2,3,4];
+
+	FPO.std.head( nums );
+	// 1
+
+	FPO.std.head( [] );
+	// undefined
+
+	FPO.std.head( "abc" );
+	// "a"
+
+	FPO.std.head( {0: 42} );
+	// 42
+	```
+
+* **See Also:** [`FPO.std.tail(..)`](#fpostdtail)
 
 ----
 
@@ -589,7 +659,7 @@ Produces a new function that's the composition of a list of functions. Functions
 	f( "4" );  // "4321"
 	```
 
-* **Alias:** `FPO.std.flow(..)`
+* **Aliases:** `FPO.std.flow(..)`, `FPO.std.sequence(..)`
 
 * **See Also:** [`FPO.std.compose(..)`](#fpostdcompose)
 
@@ -738,7 +808,42 @@ Creates a shallow clone of an object, assigning the specified property value to 
 	// { x:1, y:2, z:3 }
 	```
 
+* **Aliases:** `FPO.std.assoc(..)`
+
 * **See Also:** [`FPO.std.pick(..)`](#fpostdpick), [`FPO.std.setProp(..)`](#fpostdsetprop)
+
+----
+
+### `FPO.std.tail(..)`
+
+([back to top](#core-api))
+
+Returns everything else in the value except the element as accessed at index 0; basically the inverse of [`FPO.std.head(..)`](#fpostdhead)).
+
+* **Arguments:**
+	- `v`: array, string, object
+
+* **Returns:** *any*
+
+* **Example:**
+
+	```js
+	var nums = [1,2,3,4];
+
+	FPO.std.tail( nums );
+	// [2,3,4]
+
+	FPO.std.tail( [] );
+	// []
+
+	FPO.std.tail( "abc" );
+	// "bc"
+
+	FPO.std.tail( {0: 42, 1: 10} );
+	// {1: 10}
+	```
+
+* **See Also:** [`FPO.std.head(..)`](#fpostdhead)
 
 ----
 
@@ -1117,7 +1222,7 @@ Wraps a function to gather individual positional arguments into an array argumen
 	f( 1, 2 );  // 3
 	```
 
-* **Alias:** `FPO.std.gather(..)`
+* **Aliases:** `FPO.std.gather(..)`
 
 * **See Also:** [`FPO.std.apply(..)`](#fpostdapply)
 

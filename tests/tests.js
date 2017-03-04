@@ -90,7 +90,7 @@ QUnit.test( "std: API methods", function t2(assert){
 } );
 
 QUnit.test( "API method aliases", function t3(assert){
-	assert.expect( 25 );
+	assert.expect( 29 );
 
 	assert.strictEqual( FPO.always, FPO.constant, "always -> constant" );
 	assert.strictEqual( FPO.std.always, FPO.std.constant, "std: always -> constant" );
@@ -99,6 +99,8 @@ QUnit.test( "API method aliases", function t3(assert){
 	assert.strictEqual( FPO.std.flowRight, FPO.std.compose, "std: flowRight -> compose" );
 	assert.strictEqual( FPO.flow, FPO.pipe, "flow -> pipe" );
 	assert.strictEqual( FPO.std.flow, FPO.std.pipe, "std: flow -> pipe" );
+	assert.strictEqual( FPO.sequence, FPO.pipe, "sequence -> pipe" );
+	assert.strictEqual( FPO.std.sequence, FPO.std.pipe, "std: sequence -> pipe" );
 	assert.strictEqual( FPO.spread, FPO.apply, "spread -> apply" );
 	assert.strictEqual( FPO.std.spread, FPO.std.apply, "std: spread -> apply" );
 	assert.strictEqual( FPO.gather, FPO.unapply, "gather -> unapply" );
@@ -107,6 +109,8 @@ QUnit.test( "API method aliases", function t3(assert){
 	assert.strictEqual( FPO.std.assoc, FPO.std.setProp, "std: assoc -> setProp" );
 	assert.strictEqual( FPO.filter, FPO.filterIn, "filter -> filterIn" );
 	assert.strictEqual( FPO.std.filter, FPO.std.filterIn, "std: filter -> filterIn" );
+	assert.strictEqual( FPO.reject, FPO.filterOut, "reject -> filterOut" );
+	assert.strictEqual( FPO.std.reject, FPO.std.filterOut, "std: reject -> filterOut" );
 	assert.strictEqual( FPO.chain, FPO.flatMap, "chain -> flatMap" );
 	assert.strictEqual( FPO.std.chain, FPO.std.flatMap, "std: chain -> flatMap" );
 	assert.strictEqual( FPO.fold, FPO.reduce, "fold -> reduce" );
@@ -1894,6 +1898,107 @@ QUnit.test( "std.reverseArgs()", function t79(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
+QUnit.test( "head()", function t80(assert){
+	var arr = [1,2,3,4];
+	var str = "abc";
+	var obj = { 0: 5 };
+	var rExpected = 1;
+	var pExpected = 1;
+	var qExpected = undefined;
+	var tExpected = "a";
+	var sExpected = 5;
+
+	var rActual = FPO.head( {v: arr} );
+	var pActual = FPO.head()( {} )( {v: arr} );
+	var qActual = FPO.head( {v: []} );
+	var tActual = FPO.head( {v: str} );
+	var sActual = FPO.head( {v: obj} );
+
+	assert.expect( 5 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+	assert.strictEqual( qActual, qExpected, "empty array" );
+	assert.strictEqual( tActual, tExpected, "string" );
+	assert.strictEqual( sActual, sExpected, "object" );
+} );
+
+QUnit.test( "std.head()", function t81(assert){
+	var arr = [1,2,3,4];
+	var str = "abc";
+	var obj = { 0: 5 };
+	var rExpected = 1;
+	var pExpected = 1;
+	var qExpected = undefined;
+	var tExpected = "a";
+	var sExpected = 5;
+
+	var rActual = FPO.std.head( arr );
+	var pActual = FPO.std.head()( arr );
+	var qActual = FPO.std.head( [] );
+	var tActual = FPO.std.head( str );
+	var sActual = FPO.std.head( obj );
+
+	assert.expect( 5 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+	assert.strictEqual( qActual, qExpected, "empty array" );
+	assert.strictEqual( tActual, tExpected, "string" );
+	assert.strictEqual( sActual, sExpected, "object" );
+} );
+
+QUnit.test( "tail()", function t82(assert){
+	var arr = [1,2,3,4];
+	var str = "abc";
+	var obj = {0: 5, 1: 6};
+	var rExpected = [2,3,4];
+	var pExpected = [2,3,4];
+	var qExpected = [];
+	var tExpected = "bc";
+	var sExpected = {1: 6};
+	var uExpected = null;
+
+	var rActual = FPO.tail( {v: arr} );
+	var pActual = FPO.tail()( {} )( {v: arr} );
+	var qActual = FPO.tail( {v: []} );
+	var tActual = FPO.tail( {v: str} );
+	var sActual = FPO.tail( {v: obj} );
+	var uActual = FPO.tail( {v: null} );
+
+	assert.expect( 6 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "empty array" );
+	assert.strictEqual( tActual, tExpected, "string" );
+	assert.deepEqual( sActual, sExpected, "object" );
+	assert.strictEqual( uActual, uExpected, "null" );
+} );
+
+QUnit.test( "std.tail()", function t83(assert){
+	var arr = [1,2,3,4];
+	var str = "abc";
+	var obj = {0: 5, 1: 6};
+	var rExpected = [2,3,4];
+	var pExpected = [2,3,4];
+	var qExpected = [];
+	var tExpected = "bc";
+	var sExpected = {1: 6};
+	var uExpected = null;
+
+	var rActual = FPO.std.tail( arr );
+	var pActual = FPO.std.tail()( arr );
+	var qActual = FPO.std.tail( [] );
+	var tActual = FPO.std.tail( str );
+	var sActual = FPO.std.tail( obj );
+	var uActual = FPO.std.tail( null );
+
+	assert.expect( 6 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "empty array" );
+	assert.strictEqual( tActual, tExpected, "string" );
+	assert.deepEqual( sActual, sExpected, "object" );
+	assert.strictEqual( uActual, uExpected, "null" );
+} );
 
 
 
