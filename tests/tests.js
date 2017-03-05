@@ -130,54 +130,72 @@ QUnit.test( "API method aliases", function t3(assert){
 } );
 
 QUnit.test( "identity()", function t4(assert){
+	var rExpected = 2;
+	var pExpected = undefined;
+	var qExpected = 3;
+
 	var rActual = FPO.identity( {v: 2} );
 	var pActual = FPO.identity()( {} )( { v: undefined } );
 	var qActual = FPO.identity()( {} )( {v: 3} );
 
 	assert.expect( 3 );
-	assert.strictEqual( rActual, 2, "regular call" );
-	assert.strictEqual( pActual, undefined, "curried with undefined" );
-	assert.strictEqual( qActual, 3, "curried with value" );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried with undefined" );
+	assert.strictEqual( qActual, qExpected, "curried with value" );
 } );
 
 QUnit.test( "std.identity()", function t5(assert){
+	var rExpected = 2;
+	var pExpected = undefined;
+	var qExpected = 3;
+
 	var rActual = FPO.std.identity( 2 );
 	var pActual = FPO.std.identity()( undefined );
 	var qActual = FPO.std.identity()( 3 );
 
 	assert.expect( 3 );
-	assert.strictEqual( rActual, 2, "regular call" );
-	assert.strictEqual( pActual, undefined, "curried with undefined" );
-	assert.strictEqual( qActual, 3, "curried with value" );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried with undefined" );
+	assert.strictEqual( qActual, qExpected, "curried with value" );
 } );
 
 QUnit.test( "constant()", function t6(assert){
+	var rExpected = 2;
+	var pExpected = undefined;
+	var qExpected = 3;
+
 	var rActual = FPO.constant( {v: 2} )();
 	var pActual = FPO.constant()( {} )( { v: undefined } )();
 	var qActual = FPO.constant()( {} )( {v: 3} )();
 
 	assert.expect( 3 );
-	assert.strictEqual( rActual, 2, "regular call" );
-	assert.strictEqual( pActual, undefined, "curried with undefined" );
-	assert.strictEqual( qActual, 3, "curried with value" );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried with undefined" );
+	assert.strictEqual( qActual, qExpected, "curried with value" );
 } );
 
 QUnit.test( "std.constant()", function t7(assert){
+	var rExpected = 2;
+	var pExpected = undefined;
+	var qExpected = 3;
+
 	var rActual = FPO.std.constant( 2 )();
 	var pActual = FPO.std.constant()( undefined )();
 	var qActual = FPO.std.constant()( 3 )();
 
 	assert.expect( 3 );
-	assert.strictEqual( rActual, 2, "regular call" );
-	assert.strictEqual( pActual, undefined, "curried with undefined" );
-	assert.strictEqual( qActual, 3, "curried with value" );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried with undefined" );
+	assert.strictEqual( qActual, qExpected, "curried with value" );
 } );
 
 QUnit.test( "pick()", function t8(assert){
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
+
 	var rExpected = { x: 1, z: 3 };
 	var pExpected = { y: 2 };
-	var emptyObj = {};
+	var qExpected = {};
+	var tExpected = {};
 
 	var rActual = FPO.pick( {v: obj, props: ["x","z","x","f"]} );
 	var pActual = FPO.pick()( {} )( {v: obj} )( {props: ["y"]} );
@@ -187,15 +205,17 @@ QUnit.test( "pick()", function t8(assert){
 	assert.expect( 4 );
 	assert.deepEqual( rActual, rExpected, "regular call" );
 	assert.deepEqual( pActual, pExpected, "curried" );
-	assert.deepEqual( qActual, emptyObj, "empty props" );
-	assert.deepEqual( tActual, emptyObj, "undefined props" );
+	assert.deepEqual( qActual, qExpected, "empty props" );
+	assert.deepEqual( tActual, tExpected, "undefined props" );
 } );
 
 QUnit.test( "std.pick()", function t9(assert){
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
+
 	var rExpected = { x: 1, z: 3 };
 	var pExpected = { y: 2 };
-	var emptyObj = {};
+	var qExpected = {};
+	var tExpected = {};
 
 	var rActual = FPO.std.pick( ["x","z","x","f"], obj );
 	var pActual = FPO.std.pick()( ["y"] )( obj );
@@ -205,15 +225,17 @@ QUnit.test( "std.pick()", function t9(assert){
 	assert.expect( 4 );
 	assert.deepEqual( rActual, rExpected, "regular call" );
 	assert.deepEqual( pActual, pExpected, "curried" );
-	assert.deepEqual( qActual, emptyObj, "empty props" );
-	assert.deepEqual( tActual, emptyObj, "undefined props" );
+	assert.deepEqual( qActual, qExpected, "empty props" );
+	assert.deepEqual( tActual, tExpected, "undefined props" );
 } );
 
 QUnit.test( "pickAll()", function t10(assert){
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
+
 	var rExpected = { x: 1, z: 3, f: undefined };
 	var pExpected = { y: 2 };
-	var emptyObj = {};
+	var qExpected = {};
+	var tExpected = {};
 
 	var rActual = FPO.pickAll( {v: obj, props: ["x","z","x","f"]} );
 	var pActual = FPO.pickAll()( {} )( {v: obj} )( {props: ["y"]} );
@@ -223,15 +245,16 @@ QUnit.test( "pickAll()", function t10(assert){
 	assert.expect( 4 );
 	assert.deepEqual( rActual, rExpected, "regular call" );
 	assert.deepEqual( pActual, pExpected, "curried" );
-	assert.deepEqual( qActual, emptyObj, "empty props" );
-	assert.deepEqual( tActual, emptyObj, "undefined props" );
+	assert.deepEqual( qActual, qExpected, "empty props" );
+	assert.deepEqual( tActual, tExpected, "undefined props" );
 } );
 
 QUnit.test( "std.pickAll()", function t11(assert){
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
 	var rExpected = { x: 1, z: 3, f: undefined };
 	var pExpected = { y: 2 };
-	var emptyObj = {};
+	var qExpected = {};
+	var tExpected = {};
 
 	var rActual = FPO.std.pickAll( ["x","z","x","f"], obj );
 	var pActual = FPO.std.pickAll()( ["y"] )( obj );
@@ -241,17 +264,19 @@ QUnit.test( "std.pickAll()", function t11(assert){
 	assert.expect( 4 );
 	assert.deepEqual( rActual, rExpected, "regular call" );
 	assert.deepEqual( pActual, pExpected, "curried" );
-	assert.deepEqual( qActual, emptyObj, "empty props" );
-	assert.deepEqual( tActual, emptyObj, "undefined props" );
+	assert.deepEqual( qActual, qExpected, "empty props" );
+	assert.deepEqual( tActual, tExpected, "undefined props" );
 } );
 
 QUnit.test( "nAry()", function t12(assert){
 	function foo(argsObj) { return argsObj; }
 
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
+
 	var rExpected = { x: 1, y: 2, w: 4 };
 	var pExpected = { z: 3, w: 4 };
-	var emptyObj = {};
+	var qExpected = {};
+	var tExpected = {};
 
 	var rActual = FPO.nAry( {fn: foo, props: ["x","y","w"]} )( obj );
 	var pActual = FPO.nAry()( {} )( {fn: foo} )( {props: ["w","z"]} )( obj );
@@ -261,17 +286,19 @@ QUnit.test( "nAry()", function t12(assert){
 	assert.expect( 4 );
 	assert.deepEqual( rActual, rExpected, "regular call" );
 	assert.deepEqual( pActual, pExpected, "curried" );
-	assert.deepEqual( qActual, emptyObj, "empty props (nullary)" );
-	assert.deepEqual( tActual, emptyObj, "undefined props (nullary)" );
+	assert.deepEqual( qActual, qExpected, "empty props (nullary)" );
+	assert.deepEqual( tActual, tExpected, "undefined props (nullary)" );
 } );
 
 QUnit.test( "std.nAry()", function t13(assert){
 	function foo(...args) { return args; }
 
 	var args = [1,2,3,4];
+
 	var rExpected = [1,2,3];
 	var pExpected = [1,2];
-	var emptyArr = [];
+	var qExpected = [];
+	var tExpected = [];
 
 	var rActual = FPO.std.nAry( foo, 3 )( ...args );
 	var pActual = FPO.std.nAry()( foo )( 2 )( ...args );
@@ -281,17 +308,18 @@ QUnit.test( "std.nAry()", function t13(assert){
 	assert.expect( 4 );
 	assert.deepEqual( rActual, rExpected, "regular call" );
 	assert.deepEqual( pActual, pExpected, "curried" );
-	assert.deepEqual( qActual, emptyArr, "arity 0 (nullary)" );
-	assert.deepEqual( tActual, emptyArr, "undefined arity (nullary)" );
+	assert.deepEqual( qActual, qExpected, "arity 0 (nullary)" );
+	assert.deepEqual( tActual, tExpected, "undefined arity (nullary)" );
 } );
 
 QUnit.test( "unary()", function t14(assert){
 	function foo(argsObj) { return argsObj; }
 
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
+
 	var rExpected = { y: 2 };
 	var pExpected = { w: 4 };
-	var emptyObj = {};
+	var qExpected = {};
 
 	var rActual = FPO.unary( {fn: foo, prop: "y"} )( obj );
 	var pActual = FPO.unary()( {} )( {fn: foo} )( {prop: "w"} )( obj );
@@ -300,13 +328,14 @@ QUnit.test( "unary()", function t14(assert){
 	assert.expect( 3 );
 	assert.deepEqual( rActual, rExpected, "regular call" );
 	assert.deepEqual( pActual, pExpected, "curried" );
-	assert.deepEqual( qActual, emptyObj, "undefined prop" );
+	assert.deepEqual( qActual, qExpected, "undefined prop" );
 } );
 
 QUnit.test( "std.unary()", function t15(assert){
 	function foo(...args) { return args; }
 
 	var args = [1,2,3,4];
+
 	var rExpected = [1];
 	var pExpected = [1];
 
@@ -322,9 +351,11 @@ QUnit.test( "binary()", function t16(assert){
 	function foo(argsObj) { return argsObj; }
 
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
+
 	var rExpected = { x: 1, y: 2 };
 	var pExpected = { z: 3, w: 4 };
-	var emptyObj = {};
+	var qExpected = {};
+	var tExpected = {};
 
 	var rActual = FPO.binary( {fn: foo, props: ["x","y"]} )( obj );
 	var pActual = FPO.binary()( {} )( {fn: foo} )( {props: ["w","z"]} )( obj );
@@ -334,14 +365,15 @@ QUnit.test( "binary()", function t16(assert){
 	assert.expect( 4 );
 	assert.deepEqual( rActual, rExpected, "regular call" );
 	assert.deepEqual( pActual, pExpected, "curried" );
-	assert.deepEqual( qActual, emptyObj, "empty props" );
-	assert.deepEqual( tActual, emptyObj, "undefined props" );
+	assert.deepEqual( qActual, qExpected, "empty props" );
+	assert.deepEqual( tActual, tExpected, "undefined props" );
 } );
 
 QUnit.test( "std.binary()", function t17(assert){
 	function foo(...args) { return args; }
 
 	var args = [1,2,3,4];
+
 	var rExpected = [1,2];
 	var pExpected = [1,2];
 
@@ -360,6 +392,7 @@ QUnit.test( "curry()", function t18(assert){
 	var XY = { x: 1, y: 2 };
 	var YZ = { y: 2, z: 3 };
 	var W = { w: 4 };
+
 	var rExpected = { x: 1, y: 2, w: 4 };
 	var pExpected = { x: 1 };
 	var qExpected = { x: 1 };
@@ -384,6 +417,7 @@ QUnit.test( "std.curry()", function t19(assert){
 	var a12 = [1,2];
 	var a23 = [2,3];
 	var a4 = [4];
+
 	var rExpected = [1,2,4];
 	var pExpected = [1];
 	var qExpected = [1];
@@ -408,6 +442,7 @@ QUnit.test( "curryMultiple()", function t20(assert){
 	var XY = { x: 1, y: 2 };
 	var YZ = { y: 2, z: 3 };
 	var W = { w: 4 };
+
 	var rExpected = { x: 1, y: 2, z: 3 };
 	var pExpected = { x: 1, y: 2 };
 	var qExpected = { x: 1, y: 2 };
@@ -432,6 +467,7 @@ QUnit.test( "std.curryMultiple()", function t21(assert){
 	var a12 = [1,2];
 	var a23 = [2,3];
 	var a4 = [4];
+
 	var rExpected = [1,2,3];
 	var pExpected = [1,2];
 	var qExpected = [1,2];
@@ -454,13 +490,14 @@ QUnit.test( "uncurry()", function t22(assert){
 
 	var XYZ = { x: 1, y: 2, z: 3 };
 	var XY = { x: 1, y: 2 };
-	var rFn = FPO.curry( {fn: foo, n: 3} );
-	var pFn = FPO.curry( {fn: foo, n: 2} );
+	var fn1 = FPO.curry( {fn: foo, n: 3} );
+	var fn2 = FPO.curry( {fn: foo, n: 2} );
+
 	var rExpected = { x: 1, y: 2, z: 3 };
 	var pExpected = { x: 1, y: 2 };
 
-	var rActual = FPO.uncurry( {fn: rFn} )( XYZ );
-	var pActual = FPO.uncurry()( {} )( {fn: pFn} )( XY );
+	var rActual = FPO.uncurry( {fn: fn1} )( XYZ );
+	var pActual = FPO.uncurry()( {} )( {fn: fn2} )( XY );
 
 	assert.expect( 2 );
 	assert.deepEqual( rActual, rExpected, "regular call" );
@@ -472,13 +509,14 @@ QUnit.test( "std.uncurry()", function t23(assert){
 
 	var a123 = [1,2,3];
 	var a12 = [1,2];
-	var rFn = FPO.std.curry( foo, 3 );
-	var pFn = FPO.std.curry( foo, 2 );
+	var fn1 = FPO.std.curry( foo, 3 );
+	var fn2 = FPO.std.curry( foo, 2 );
+
 	var rExpected = [1,2,3];
 	var pExpected = [1,2];
 
-	var rActual = FPO.std.uncurry( rFn )( ...a123 );
-	var pActual = FPO.std.uncurry()( pFn )( ...a12 );
+	var rActual = FPO.std.uncurry( fn1 )( ...a123 );
+	var pActual = FPO.std.uncurry()( fn2 )( ...a12 );
 
 	assert.expect( 2 );
 	assert.deepEqual( rActual, rExpected, "regular call" );
@@ -492,6 +530,7 @@ QUnit.test( "partial()", function t24(assert){
 	var Y = { y: 2 };
 	var Z = { z: 3 };
 	var XY = { x: 1, y: 2 };
+
 	var rExpected = { x: 1, y: 2, z: 3 };
 	var pExpected = { x: 1, y: 2 };
 	var qExpected = { x: 1 };
@@ -516,6 +555,7 @@ QUnit.test( "std.partial()", function t25(assert){
 	var a12 = [1,2];
 	var a23 = [2,3];
 	var a3 = [3];
+
 	var rExpected = [1,2,3];
 	var pExpected = [1,2,3];
 	var qExpected = [3];
@@ -540,6 +580,7 @@ QUnit.test( "std.partialRight()", function t25b(assert){
 	var a12 = [1,2];
 	var a23 = [2,3];
 	var a3 = [3];
+
 	var rExpected = [2,3,1];
 	var pExpected = [3,1,2];
 	var qExpected = [3];
@@ -563,12 +604,15 @@ QUnit.test( "complement()", function t26(assert){
 	var XY12 = { x: 1, y: 2 };
 	var XY24 = { x: 2, y: 4 };
 
+	var rExpected = true;
+	var pExpected = false;
+
 	var rActual = FPO.complement( {fn: xPlusYEven} )( XY12 );
 	var pActual = FPO.complement()( {} )( { fn: xPlusYEven } )( XY24 );
 
 	assert.expect( 2 );
-	assert.strictEqual( rActual, true, "regular call" );
-	assert.strictEqual( pActual, false, "curried" );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
 } );
 
 QUnit.test( "std.complement()", function t27(assert){
@@ -577,18 +621,22 @@ QUnit.test( "std.complement()", function t27(assert){
 	var a12 = [1,2];
 	var a24 = [2,4];
 
+	var rExpected = true;
+	var pExpected = false;
+
 	var rActual = FPO.std.complement( argPlusArgEven )( ...a12 );
 	var pActual = FPO.std.complement()( argPlusArgEven )( ...a24 );
 
 	assert.expect( 2 );
-	assert.strictEqual( rActual, true, "regular call" );
-	assert.strictEqual( pActual, false, "curried" );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
 } );
 
 QUnit.test( "apply()", function t28(assert){
 	function foo(x,y,z) { return {x,y,z}; }
 
 	var obj = { y: 2, z: 3, x: 1 };
+
 	var rExpected = { x: 1, y: 2, z: 3 };
 	var pExpected = { x: 3, y: 2, z: 1 };
 	var qExpected = { x: 1, y: 2, z: 3 };
@@ -611,6 +659,7 @@ QUnit.test( "std.apply(..)", function t29(assert){
 	function foo(...args) { return args; }
 
 	var arr = [1,2,3];
+
 	var rExpected = [1,2,3];
 	var pExpected = [1,2,3];
 
@@ -626,6 +675,7 @@ QUnit.test( "unapply()", function t30(assert){
 	function foo({x,y,z}) { return {x,y,z}; }
 
 	var args = [1,2,3];
+
 	var rExpected = { x: 1, y: 2, z: 3 };
 	var pExpected = { x: 3, y: 2, z: 1 };
 	var qExpected = { x: undefined, y: undefined, z: undefined };
@@ -648,6 +698,7 @@ QUnit.test( "std.unapply()", function t31(assert){
 	function foo(args) { return args; }
 
 	var arr = [1,2,3];
+
 	var rExpected = [1,2,3];
 	var pExpected = [1,2,3];
 
@@ -665,6 +716,7 @@ QUnit.test( "compose()", function t32(assert){
 	function baz({v}) { return `baz,${v}`; }
 
 	var v = 3;
+
 	var rExpected = "foo,bar,baz,3";
 	var pExpected = "foo,3";
 	var qExpected = 3;
@@ -688,6 +740,7 @@ QUnit.test( "std.compose()", function t33(assert){
 	function baz(v) { return `baz,${v}`; }
 
 	var arr = [3,4];
+
 	var rExpected = "foo,bar,baz,3";
 	var pExpected = "foo,3";
 	var qExpected = 3;
@@ -711,6 +764,7 @@ QUnit.test( "pipe()", function t34(assert){
 	function baz({v}) { return `baz,${v}`; }
 
 	var v = 3;
+
 	var rExpected = "foo,bar,baz,3";
 	var pExpected = "foo,3";
 	var qExpected = 3;
@@ -734,6 +788,7 @@ QUnit.test( "std.pipe()", function t35(assert){
 	function baz(v) { return `baz,${v}`; }
 
 	var arr = [3,4];
+
 	var rExpected = "foo,bar,baz,3";
 	var pExpected = "foo,3";
 	var qExpected = 3;
@@ -758,6 +813,9 @@ QUnit.test( "prop()", function t36(assert){
 	var rExpected = 1;
 	var pExpected = 2;
 	var qExpected = 3;
+	var tExpected = undefined;
+	var sExpected = undefined;
+	var uExpected = undefined;
 
 	var f = FPO.prop( {prop: "z"} );
 	var rActual = FPO.prop( {v: obj1, prop: "x"} );
@@ -771,9 +829,9 @@ QUnit.test( "prop()", function t36(assert){
 	assert.strictEqual( rActual, rExpected, "regular call" );
 	assert.strictEqual( pActual, pExpected, "curried" );
 	assert.strictEqual( qActual, qExpected, "with obj1" );
-	assert.strictEqual( tActual, undefined, "with obj2" );
-	assert.strictEqual( sActual, undefined, "prop and object undefined" );
-	assert.strictEqual( uActual, undefined, "prop and object empty" );
+	assert.strictEqual( tActual, tExpected, "with obj2" );
+	assert.strictEqual( sActual, sExpected, "prop and object undefined" );
+	assert.strictEqual( uActual, uExpected, "prop and object empty" );
 } );
 
 QUnit.test( "std.prop()", function t37(assert){
@@ -782,6 +840,8 @@ QUnit.test( "std.prop()", function t37(assert){
 
 	var rExpected = 1;
 	var pExpected = 2;
+	var qExpected = undefined;
+	var tExpected = undefined;
 
 	var rActual = FPO.std.prop( "x", obj1 );
 	var pActual = FPO.std.prop()( "y" )( obj1 );
@@ -791,8 +851,8 @@ QUnit.test( "std.prop()", function t37(assert){
 	assert.expect( 4 );
 	assert.strictEqual( rActual, rExpected, "regular call" );
 	assert.strictEqual( pActual, pExpected, "curried" );
-	assert.strictEqual( qActual, undefined, "prop and object undefined" );
-	assert.strictEqual( tActual, undefined, "prop and object empty" );
+	assert.strictEqual( qActual, qExpected, "prop and object undefined" );
+	assert.strictEqual( tActual, tExpected, "prop and object empty" );
 } );
 
 QUnit.test( "setProp()", function t38(assert){
@@ -858,7 +918,10 @@ QUnit.test( "filterIn()", function t40(assert){
 
 	var rExpected = [2,4];
 	var pExpected = [2,4];
-	var emptyArr = [];
+	var qExpected = [];
+	var tExpected = [];
+	var sExpected = [];
+	var uExpected = [];
 
 	var rActual = FPO.filterIn( {fn: isEven, arr: list} );
 	var pActual = FPO.filterIn()( {} )( {fn: isEven} )()( {arr: list} );
@@ -868,12 +931,12 @@ QUnit.test( "filterIn()", function t40(assert){
 	var uActual = FPO.filterIn( {fn: checkParams, arr: list} );
 
 	assert.expect( 6 );
-	assert.ok( rActual, rExpected, "regular call" );
-	assert.ok( pActual, pExpected, "curried" );
-	assert.ok( qActual, emptyArr, "always false predicate" );
-	assert.ok( tActual, emptyArr, "array undefined" );
-	assert.ok( sActual, emptyArr, "array empty" );
-	assert.ok( uActual, emptyArr, "predicate params check" );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "always false predicate" );
+	assert.deepEqual( tActual, tExpected, "array undefined" );
+	assert.deepEqual( sActual, sExpected, "array empty" );
+	assert.deepEqual( uActual, uExpected, "predicate params check" );
 } );
 
 QUnit.test( "std.filterIn()", function t41(assert){
@@ -894,22 +957,25 @@ QUnit.test( "std.filterIn()", function t41(assert){
 
 	var rExpected = [2,4];
 	var pExpected = [2,4];
-	var emptyArr = [];
+	var qExpected = [];
+	var tExpected = [];
+	var sExpected = [];
+	var uExpected = [];
 
-	var rActual = FPO.filterIn( isEven, list );
-	var pActual = FPO.filterIn()( isEven )()( list );
-	var qActual = FPO.filterIn( alwaysFalse, list );
-	var tActual = FPO.filterIn( isEven, undefined );
-	var sActual = FPO.filterIn( isEven, [] );
-	var uActual = FPO.filterIn( checkParams, list );
+	var rActual = FPO.std.filterIn( isEven, list );
+	var pActual = FPO.std.filterIn()( isEven )()( list );
+	var qActual = FPO.std.filterIn( alwaysFalse, list );
+	var tActual = FPO.std.filterIn( isEven, undefined );
+	var sActual = FPO.std.filterIn( isEven, [] );
+	var uActual = FPO.std.filterIn( checkParams, list );
 
 	assert.expect( 6 );
-	assert.ok( rActual, rExpected, "regular call" );
-	assert.ok( pActual, pExpected, "curried" );
-	assert.ok( qActual, emptyArr, "always false predicate" );
-	assert.ok( tActual, emptyArr, "array undefined" );
-	assert.ok( sActual, emptyArr, "array empty" );
-	assert.ok( uActual, emptyArr, "predicate params check" );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "always false predicate" );
+	assert.deepEqual( tActual, tExpected, "array undefined" );
+	assert.deepEqual( sActual, sExpected, "array empty" );
+	assert.deepEqual( uActual, uExpected, "predicate params check" );
 } );
 
 QUnit.test( "filterOut()", function t42(assert){
@@ -928,9 +994,12 @@ QUnit.test( "filterOut()", function t42(assert){
 
 	var list = [1,2,3,4,5];
 
-	var rExpected = [2,4];
-	var pExpected = [2,4];
-	var emptyArr = [];
+	var rExpected = [1,3,5];
+	var pExpected = [1,3,5];
+	var qExpected = [];
+	var tExpected = [];
+	var sExpected = [];
+	var uExpected = [];
 
 	var rActual = FPO.filterOut( {fn: isEven, arr: list} );
 	var pActual = FPO.filterOut()( {} )( {fn: isEven} )()( {arr: list} );
@@ -940,12 +1009,12 @@ QUnit.test( "filterOut()", function t42(assert){
 	var uActual = FPO.filterOut( {fn: checkParams, arr: list} );
 
 	assert.expect( 6 );
-	assert.ok( rActual, rExpected, "regular call" );
-	assert.ok( pActual, pExpected, "curried" );
-	assert.ok( qActual, emptyArr, "always true predicate" );
-	assert.ok( tActual, emptyArr, "array undefined" );
-	assert.ok( sActual, emptyArr, "array empty" );
-	assert.ok( uActual, emptyArr, "predicate params check" );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "always true predicate" );
+	assert.deepEqual( tActual, tExpected, "array undefined" );
+	assert.deepEqual( sActual, sExpected, "array empty" );
+	assert.deepEqual( uActual, uExpected, "predicate params check" );
 } );
 
 QUnit.test( "std.filterOut()", function t43(assert){
@@ -964,24 +1033,27 @@ QUnit.test( "std.filterOut()", function t43(assert){
 
 	var list = [1,2,3,4,5];
 
-	var rExpected = [2,4];
-	var pExpected = [2,4];
-	var emptyArr = [];
+	var rExpected = [1,3,5];
+	var pExpected = [1,3,5];
+	var qExpected = [];
+	var tExpected = [];
+	var sExpected = [];
+	var uExpected = [];
 
-	var rActual = FPO.filterIn( isEven, list );
-	var pActual = FPO.filterIn()( isEven )()( list );
-	var qActual = FPO.filterIn( alwaysTrue, list );
-	var tActual = FPO.filterIn( isEven, undefined );
-	var sActual = FPO.filterIn( isEven, [] );
-	var uActual = FPO.filterIn( checkParams, list );
+	var rActual = FPO.std.filterOut( isEven, list );
+	var pActual = FPO.std.filterOut()( isEven )()( list );
+	var qActual = FPO.std.filterOut( alwaysTrue, list );
+	var tActual = FPO.std.filterOut( isEven, undefined );
+	var sActual = FPO.std.filterOut( isEven, [] );
+	var uActual = FPO.std.filterOut( checkParams, list );
 
 	assert.expect( 6 );
-	assert.ok( rActual, rExpected, "regular call" );
-	assert.ok( pActual, pExpected, "curried" );
-	assert.ok( qActual, emptyArr, "always true predicate" );
-	assert.ok( tActual, emptyArr, "array undefined" );
-	assert.ok( sActual, emptyArr, "array empty" );
-	assert.ok( uActual, emptyArr, "predicate params check" );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "always true predicate" );
+	assert.deepEqual( tActual, tExpected, "array undefined" );
+	assert.deepEqual( sActual, sExpected, "array empty" );
+	assert.deepEqual( uActual, uExpected, "predicate params check" );
 } );
 
 QUnit.test( "map()", function t44(assert){
@@ -1436,12 +1508,15 @@ QUnit.test( "trampoline()", function t56(assert){
 
 	var args = [0,5];
 
+	var rExpected = 15;
+	var pExpected = 15;
+
 	var rActual = FPO.trampoline( {fn: sum} )( ...args );
 	var pActual = FPO.trampoline()( {} )( {fn: sum} )( ...args );
 
 	assert.expect( 2 );
-	assert.strictEqual( rActual, 15, "regular call" );
-	assert.strictEqual( pActual, 15, "curried" );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
 } );
 
 QUnit.test( "std.trampoline()", function t57(assert){
@@ -1452,12 +1527,15 @@ QUnit.test( "std.trampoline()", function t57(assert){
 
 	var args = [0,5];
 
+	var rExpected = 15;
+	var pExpected = 15;
+
 	var rActual = FPO.std.trampoline( sum )( ...args );
 	var pActual = FPO.std.trampoline()( sum )( ...args );
 
 	assert.expect( 2 );
-	assert.strictEqual( rActual, 15, "regular call" );
-	assert.strictEqual( pActual, 15, "curried" );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
 } );
 
 QUnit.test( "transducers.map()", function t58(assert){
@@ -1465,6 +1543,7 @@ QUnit.test( "transducers.map()", function t58(assert){
 	function sum({acc: total, v: num}) { return total + num; }
 
 	var args = {acc: 3, v: 8};
+
 	var rExpected = 10;
 	var pExpected = 10;
 
@@ -1481,6 +1560,7 @@ QUnit.test( "std.transducers.map()", function t59(assert){
 	function sum(total,num) { return total + num; }
 
 	var args = [3,8];
+
 	var rExpected = 10;
 	var pExpected = 10;
 
@@ -1498,6 +1578,7 @@ QUnit.test( "transducers.filter()", function t60(assert){
 	function alwaysFalse() { return false; }
 
 	var args = { v: 4 };
+
 	var rExpected = 4;
 	var pExpected = 4;
 	var qExpected = undefined;
@@ -1518,6 +1599,7 @@ QUnit.test( "std.transducers.filter()", function t61(assert){
 	function alwaysFalse() { return false; }
 
 	var args = [undefined,4];
+
 	var rExpected = 4;
 	var pExpected = 4;
 	var qExpected = undefined;
@@ -1535,6 +1617,7 @@ QUnit.test( "std.transducers.filter()", function t61(assert){
 QUnit.test( "transducers.string", function t62(assert){
 	var str1 = "hello";
 	var str2 = "world";
+
 	var rExpected = "helloworld";
 	var pExpected = "helloworld";
 
@@ -1549,6 +1632,7 @@ QUnit.test( "transducers.string", function t62(assert){
 QUnit.test( "std.transducers.string", function t63(assert){
 	var str1 = "hello";
 	var str2 = "world";
+
 	var rExpected = "helloworld";
 	var pExpected = "helloworld";
 
@@ -1564,6 +1648,7 @@ QUnit.test( "transducers.array", function t64(assert){
 	var arr1 = [];
 	var arr2 = [];
 	var str = "hello";
+
 	var rExpected = ["hello"];
 	var pExpected = ["hello"];
 
@@ -1579,6 +1664,7 @@ QUnit.test( "std.transducers.array", function t65(assert){
 	var arr1 = [];
 	var arr2 = [];
 	var str = "hello";
+
 	var rExpected = ["hello"];
 	var pExpected = ["hello"];
 
@@ -1593,6 +1679,7 @@ QUnit.test( "std.transducers.array", function t65(assert){
 QUnit.test( "transducers.number", function t66(assert){
 	var num1 = 4;
 	var num2 = 3;
+
 	var rExpected = 7;
 	var pExpected = 7;
 
@@ -1607,6 +1694,7 @@ QUnit.test( "transducers.number", function t66(assert){
 QUnit.test( "std.transducers.number", function t67(assert){
 	var num1 = 4;
 	var num2 = 3;
+
 	var rExpected = 7;
 	var pExpected = 7;
 
@@ -1622,6 +1710,7 @@ QUnit.test( "transducers.booleanAnd", function t68(assert){
 	var bool1 = true;
 	var bool2 = true;
 	var bool3 = false;
+
 	var rExpected = true;
 	var pExpected = true;
 	var qExpected = false;
@@ -1643,6 +1732,7 @@ QUnit.test( "std.transducers.booleanAnd", function t69(assert){
 	var bool1 = true;
 	var bool2 = true;
 	var bool3 = false;
+
 	var rExpected = true;
 	var pExpected = true;
 	var qExpected = false;
@@ -1664,6 +1754,7 @@ QUnit.test( "transducers.booleanOr", function t70(assert){
 	var bool1 = true;
 	var bool2 = true;
 	var bool3 = false;
+
 	var rExpected = true;
 	var pExpected = true;
 	var qExpected = true;
@@ -1685,6 +1776,7 @@ QUnit.test( "std.transducers.booleanOr", function t71(assert){
 	var bool1 = true;
 	var bool2 = true;
 	var bool3 = false;
+
 	var rExpected = true;
 	var pExpected = true;
 	var qExpected = true;
@@ -1702,10 +1794,9 @@ QUnit.test( "std.transducers.booleanOr", function t71(assert){
 	assert.strictEqual( tActual, tExpected, "both false" );
 } );
 
-
-
 QUnit.test( "transducers.default", function t72(assert){
 	var arr = [1,2];
+
 	var rExpected = [1,2];
 	var pExpected = [1,2];
 
@@ -1719,6 +1810,7 @@ QUnit.test( "transducers.default", function t72(assert){
 
 QUnit.test( "std.transducers.default", function t73(assert){
 	var arr = [1,2];
+
 	var rExpected = [1,2];
 	var pExpected = [1,2];
 
@@ -1878,6 +1970,7 @@ QUnit.test( "std.flip()", function t78(assert){
 	function foo(...args) { return args; }
 
 	var args = [1,2,3,4];
+
 	var rExpected = [2,1,3,4];
 	var pExpected = [2,1,3,4];
 
@@ -1893,6 +1986,7 @@ QUnit.test( "std.reverseArgs()", function t79(assert){
 	function foo(...args) { return args; }
 
 	var args = [1,2,3,4];
+
 	var rExpected = [4,3,2,1];
 	var pExpected = [4,3,2,1];
 
@@ -1908,6 +2002,7 @@ QUnit.test( "head()", function t80(assert){
 	var arr = [1,2,3,4];
 	var str = "abc";
 	var obj = { 0: 5 };
+
 	var rExpected = 1;
 	var pExpected = 1;
 	var qExpected = undefined;
@@ -1935,6 +2030,7 @@ QUnit.test( "std.head()", function t81(assert){
 	var arr = [1,2,3,4];
 	var str = "abc";
 	var obj = { 0: 5 };
+
 	var rExpected = 1;
 	var pExpected = 1;
 	var qExpected = undefined;
@@ -1962,6 +2058,7 @@ QUnit.test( "tail()", function t82(assert){
 	var arr = [1,2,3,4];
 	var str = "abc";
 	var obj = {0: 5, 1: 6};
+
 	var rExpected = [2,3,4];
 	var pExpected = [2,3,4];
 	var qExpected = [];
@@ -1989,6 +2086,7 @@ QUnit.test( "std.tail()", function t83(assert){
 	var arr = [1,2,3,4];
 	var str = "abc";
 	var obj = {0: 5, 1: 6};
+
 	var rExpected = [2,3,4];
 	var pExpected = [2,3,4];
 	var qExpected = [];
@@ -2015,6 +2113,7 @@ QUnit.test( "std.tail()", function t83(assert){
 QUnit.test( "take()", function t84(assert){
 	var arr = [1,2,3,4];
 	var str = "abc";
+
 	var rExpected = [1,2];
 	var pExpected = [1,2];
 	var qExpected = [1];
@@ -2041,6 +2140,7 @@ QUnit.test( "take()", function t84(assert){
 QUnit.test( "std.take()", function t85(assert){
 	var arr = [1,2,3,4];
 	var str = "abc";
+
 	var rExpected = [1,2];
 	var pExpected = [1,2];
 	var qExpected = [1];
