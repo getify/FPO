@@ -1,7 +1,7 @@
 "use strict";
 
 QUnit.test( "core: API methods", function t1(assert){
-	assert.expect( 41 );
+	assert.expect( 42 );
 
 	assert.ok( _isFunction( FPO.identity ), "identity()" );
 	assert.ok( _isFunction( FPO.constant ), "constant()" );
@@ -44,10 +44,11 @@ QUnit.test( "core: API methods", function t1(assert){
 	assert.ok( _isFunction( FPO.head ), "head()" );
 	assert.ok( _isFunction( FPO.tail ), "tail()" );
 	assert.ok( _isFunction( FPO.take ), "take()" );
+	assert.ok( _isFunction( FPO.memoize ), "memoize()" );
 } );
 
 QUnit.test( "std: API methods", function t2(assert){
-	assert.expect( 44 );
+	assert.expect( 45 );
 
 	assert.ok( _isFunction( FPO.std.identity ), "identity()" );
 	assert.ok( _isFunction( FPO.std.constant ), "constant()" );
@@ -93,6 +94,7 @@ QUnit.test( "std: API methods", function t2(assert){
 	assert.ok( _isFunction( FPO.std.head ), "head()" );
 	assert.ok( _isFunction( FPO.std.tail ), "tail()" );
 	assert.ok( _isFunction( FPO.std.take ), "take()" );
+	assert.ok( _isFunction( FPO.std.memoize ), "memoize()" );
 } );
 
 QUnit.test( "API method aliases", function t3(assert){
@@ -2164,7 +2166,91 @@ QUnit.test( "std.take()", function t85(assert){
 	assert.deepEqual( uActual, uExpected, "null" );
 } );
 
+QUnit.test( "memoize()", function t86(assert){
+	function increment(x) { counter++; return x + 1; }
+	function mult(x,y) { counter++; return x * y; }
+	function add({ x, y }) { counter++; return x + y; }
 
+	var counter = 0;
+	var fn1 = FPO.memoize( {fn: increment} );
+	var fn2 = FPO.memoize()( {} )( {fn: mult} );
+	var fn3 = FPO.memoize( {fn: mult, n: 1} );
+	var fn4 = FPO.memoize( {fn: add} );
+
+	var rExpected = 3;
+	var pExpected = 3;
+	var qExpected = 4;
+	var tExpected = 4;
+	var sExpected = 6;
+	var uExpected = 6;
+	var hExpected = 5;
+	var jExpected = 5;
+	var kExpected = 4;
+
+	var rActual = fn1( 2 );
+	var pActual = fn1( 2 );
+	var qActual = fn2( 2, 2 );
+	var tActual = fn2( 2, 2 );
+	var sActual = fn3( 2, 3 );
+	var uActual = fn3( 2, 4 );
+	var hActual = fn4( {x: 2, y: 3} );
+	var jActual = fn4( {x: 2, y: 3} );
+	var kActual = counter;
+
+	assert.expect( 9 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "regular call, repeated" );
+	assert.strictEqual( qActual, qExpected, "curried" );
+	assert.strictEqual( tActual, tExpected, "curried, repeated" );
+	assert.strictEqual( sActual, sExpected, "only one arg memoized" );
+	assert.strictEqual( uActual, uExpected, "only one arg memoized, repeated" );
+	assert.strictEqual( hActual, hExpected, "object" );
+	assert.strictEqual( jActual, jExpected, "object, repeated" );
+	assert.strictEqual( kActual, kExpected, "counter" );
+} );
+
+QUnit.test( "std.memoize()", function t87(assert){
+	function increment(x) { counter++; return x + 1; }
+	function mult(x,y) { counter++; return x * y; }
+	function add({ x, y }) { counter++; return x + y; }
+
+	var counter = 0;
+	var fn1 = FPO.std.memoize( increment );
+	var fn2 = FPO.std.memoize()( mult );
+	var fn3 = FPO.std.memoize( mult, 1 );
+	var fn4 = FPO.std.memoize( add );
+
+	var rExpected = 3;
+	var pExpected = 3;
+	var qExpected = 4;
+	var tExpected = 4;
+	var sExpected = 6;
+	var uExpected = 6;
+	var hExpected = 5;
+	var jExpected = 5;
+	var kExpected = 4;
+
+	var rActual = fn1( 2 );
+	var pActual = fn1( 2 );
+	var qActual = fn2( 2, 2 );
+	var tActual = fn2( 2, 2 );
+	var sActual = fn3( 2, 3 );
+	var uActual = fn3( 2, 4 );
+	var hActual = fn4( {x: 2, y: 3} );
+	var jActual = fn4( {x: 2, y: 3} );
+	var kActual = counter;
+
+	assert.expect( 9 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "regular call, repeated" );
+	assert.strictEqual( qActual, qExpected, "curried" );
+	assert.strictEqual( tActual, tExpected, "curried, repeated" );
+	assert.strictEqual( sActual, sExpected, "only one arg memoized" );
+	assert.strictEqual( uActual, uExpected, "only one arg memoized, repeated" );
+	assert.strictEqual( hActual, hExpected, "object" );
+	assert.strictEqual( jActual, jExpected, "object, repeated" );
+	assert.strictEqual( kActual, kExpected, "counter" );
+} );
 
 
 

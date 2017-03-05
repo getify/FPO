@@ -16,6 +16,7 @@ These are the methods on the `FPO.*` namespace. For the `FPO.std.*` methods, con
 * [`FPO.head(..)`](#fpohead)
 * [`FPO.identity(..)`](#fpoidentity)
 * [`FPO.map(..)`](#fpomap)
+* [`FPO.memoize(..)`](#fpomemoize)
 * [`FPO.nAry(..)`](#fponary)
 * [`FPO.partial(..)`](#fpopartial) (aliases: `FPO.partialRight(..)`)
 * [`FPO.pick(..)`](#fpopick)
@@ -434,6 +435,64 @@ Produces a new list by calling a mapper function with each value in the original
 	```
 
 * **See Also:** [`FPO.flatMap(..)`](#fpoflatmap)
+
+----
+
+### `FPO.memoize(..)`
+
+([back to top](#core-api))
+
+For performance optimization reasons, wraps a function such that it remembers each set of arguments passed to it, associated with that underlying return value. If the wrapped function is called subsequent times with the same set of arguments, the cached return value is returned instead of being recomputed. Each wrapped function instance has its own separate cache, even if wrapping the same original function multiple times.
+
+A set of arguments is "remembered" by being hashed to a string value to use as a cache key. This hashing is done internally with `JSON.stringify(..)`, which is fast and works with many common JS value types. However, this hashing is by no means bullet-proof for all types, and does not guarantee collision-free. **Use caution:** generally, you should only use primitives (number, string, boolean, null, and undefined) or simple objects (object, array) as arguments. If you use objects, always make sure to list properties in the same order to ensure proper hashing.
+
+By default, the function's arity (`fn.length`) will be detected as `n`. However, in JS certain techniques thwart this detection, such as the use of default parameters or parameter destructuring. Make sure to specify the correct `n` if detection is uncertain or unreliable.
+
+Unary functions (single argument; `n` of `1`) with a primitive argument are the fastest for memoization, so if possible, try to design functions that way. In these cases, specifying `n` as `1` will help ensure the best possible performance.
+
+**Warning:** Be aware that if `1` is initially specified (or detected) for `n`, additional arguments later passed to the wrapped function are **not considered** in the memoization hashing, though they will still be passed to the underlying function as-is. This may cause unexpected results (false-positives on cache hits); always make sure `n` matches the expected number of arguments.
+
+* **Arguments:**
+	- `fn`: function to wrap
+	- `n`: number of arguments to memoize; if omitted, tries to detect the arity (`fn.length`) to use.
+
+* **Returns:** *array*
+
+* **Example:**
+
+	```js
+	function sum(x,y) { console.log( "sum called!" ); return x + y; }
+	function mult({x, y}) { console.log( "mult called!" ); return x * y; }
+
+	var A = FPO.memoize( {fn: sum} );
+	var B = FPO.memoize( {fn: sum, n: 1} );   // be careful here!
+	var C = FPO.memoize( {fn: mult, n: 1} );
+
+	A( 2, 3 );
+	// sum called!
+	// 5
+
+	A( 2, 3 );     // no need to re-compute, value pulled from cache
+	// 5
+
+	B( 2, 3 );     // different instance, separate cache, re-computed
+	// sum called!
+	// 5
+
+	B( 2, 100 );   // oops, memoization fail here!
+	// 5
+
+	C( {x: 3, y: 4} );
+	// mult called!
+	// 12
+
+	C( {x: 3, y: 4} );
+	// 12
+
+	C( {y: 4, x: 3} );   // oops, cache hashing is different
+	// mult called!
+	// 12
+	```
 
 ----
 
