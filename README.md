@@ -1,5 +1,9 @@
 # FPO.js
 
+[![Build Status](https://travis-ci.org/getify/fpo.svg?branch=master)](https://travis-ci.org/getify/fpo)
+[![npm module](https://badge.fury.io/js/fpo.svg)](https://www.npmjs.org/package/fpo)
+[![dependencies](https://david-dm.org/getify/fpo.svg)](https://david-dm.org/getify/fpo)
+
 FPO (/ˈefpō/) is an FP Library for JavaScript. The main aesthetic difference is that the [`FPO.*` core API methods](docs/core-API.md) are all styled to use named-arguments (object parameter destructuring) instead of individual positional arguments. As with most FP libraries, all public FPO methods are curried.
 
 Not only do named-arguments eliminate having to remember a method signature's parameter order -- named arguments can be provided in any order! -- they also make skipping optional parameters (to apply defaults) simple.
@@ -155,18 +159,18 @@ All FPO methods are multiple-curried for convenience.
 
 ## Builds
 
-The distribution library file (`fpo.js`) can be built (~~minified~~) with an included utility. **Note:** Minification is currently disabled.
+The distribution library file (`dist/fpo.js`) can be built (~~minified~~) with an included utility. **Note:** Minification is currently disabled.
 
 With `npm`, run:
 
 ```
-npm run build-core
+npm run build
 ```
 
 Or, manually:
 
 ```
-node build-core.js
+node scripts/build-core.js
 ```
 
 **The build utility expects Node.js version 6+.**
@@ -184,12 +188,12 @@ npm test
 Or, manually:
 
 ```
-node tests/node-tests.js
+node scripts/node-tests.js
 ```
 
 **The unit test utility expects Node.js version 6+.**
 
-You can also run the tests in your browser by opening up `tests.html` (requires ES6+ environment).
+You can also run the tests in your browser by opening up `tests/index.html` (requires ES6+ environment).
 
 ## License
 
