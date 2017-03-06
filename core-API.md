@@ -185,6 +185,10 @@ Wraps a value in a function that returns the value.
 
 Curries a function so that you can pass one argument at a time, each time getting back another function to receive the next argument. Once all arguments are passed, the underlying function is called with the arguments.
 
+Unlike [`FPO.curryMultiple(..)`](#fpocurrymultiple), you can only pass one property argument at a time to each curried function (see example below). If multiple properties are passed to a curried call, only the first property (in enumeration order) will be passed.
+
+**Note:** Enumeration order of properties is not strictly guaranteed cross-environment. However, it's generally reliable as the order that properties were listed/added to the object in its definition.
+
 * **Arguments:**
 	- `fn`: function to curry
 	- `n`: number of arguments to curry for
