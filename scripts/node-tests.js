@@ -1,6 +1,14 @@
 #!/usr/bin/env node
 
-global.FPO = require("../src/fpo.src.js");
+var path = require("path");
+
+if (process.env.TEST_DIST) {
+	global.FPO = require(path.join("..","dist","fpo.js"));
+}
+else {
+	global.FPO = require(path.join("..","src","fpo.src.js"));
+}
+
 global.QUnit = require("qunitjs");
 
 require("../tests/qunit.config.js");

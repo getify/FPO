@@ -10,6 +10,8 @@ var testLogEntries = {};
 // ******************************
 
 function begin(details){
+	printEnvNotification();
+
 	if (details.totalTests > 0) {
 		console.log(`FPO Test Suite (${details.totalTests})`);
 		console.log("");
@@ -54,13 +56,17 @@ function done(results){
 
 	if (results.failed > 0) {
 		console.log(`Failed (${results.failed}/${results.total})`);
+		printEnvNotification();
 		process.exit(1);
 	}
 	else if (results.passed > 0) {
 		console.log(`Passed (${results.passed}/${results.total})`);
+		printEnvNotification();
+		process.exit(0);
 	}
 	else {
 		console.log("No tests run!");
+		printEnvNotification();
 		process.exit(1);
 	}
 }
@@ -78,4 +84,21 @@ function prettyPrint(v) {
 		});
 	}
 	return String(v);
+}
+
+function printEnvNotification() {
+	if (process.env.TEST_DIST) {
+		console.log("");
+		console.log("**********************************");
+		console.log("********** TESTING DIST **********");
+		console.log("**********************************");
+		console.log("");
+	}
+	else {
+		console.log("");
+		console.log("**********************************");
+		console.log("********** TESTING SRC ***********");
+		console.log("**********************************");
+		console.log("");
+	}
 }
