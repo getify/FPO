@@ -1,7 +1,7 @@
 "use strict";
 
 QUnit.test( "core: API methods", function t1(assert){
-	assert.expect( 42 );
+	assert.expect( 46 );
 
 	assert.ok( _isFunction( FPO.identity ), "identity()" );
 	assert.ok( _isFunction( FPO.constant ), "constant()" );
@@ -22,10 +22,14 @@ QUnit.test( "core: API methods", function t1(assert){
 	assert.ok( _isFunction( FPO.prop ), "prop()" );
 	assert.ok( _isFunction( FPO.setProp ), "setProp()" );
 	assert.ok( _isFunction( FPO.filterIn ), "filterIn()" );
+	assert.ok( _isFunction( FPO.filterInObj ), "filterInObj()" );
 	assert.ok( _isFunction( FPO.filterOut ), "filterOut()" );
+	assert.ok( _isFunction( FPO.filterOutObj ), "filterOutObj()" );
 	assert.ok( _isFunction( FPO.map ), "map()" );
+	assert.ok( _isFunction( FPO.mapObj ), "mapObj()" );
 	assert.ok( _isFunction( FPO.flatMap ), "flatMap()" );
 	assert.ok( _isFunction( FPO.reduce ), "reduce()" );
+	assert.ok( _isFunction( FPO.reduceObj ), "reduceObj()" );
 	assert.ok( _isFunction( FPO.reduceRight ), "reduceRight()" );
 	assert.ok( _isFunction( FPO.flatten ), "flatten()" );
 	assert.ok( _isFunction( FPO.zip ), "zip()" );
@@ -48,7 +52,7 @@ QUnit.test( "core: API methods", function t1(assert){
 } );
 
 QUnit.test( "std: API methods", function t2(assert){
-	assert.expect( 45 );
+	assert.expect( 49 );
 
 	assert.ok( _isFunction( FPO.std.identity ), "identity()" );
 	assert.ok( _isFunction( FPO.std.constant ), "constant()" );
@@ -70,10 +74,14 @@ QUnit.test( "std: API methods", function t2(assert){
 	assert.ok( _isFunction( FPO.std.prop ), "prop()" );
 	assert.ok( _isFunction( FPO.std.setProp ), "setProp()" );
 	assert.ok( _isFunction( FPO.std.filterIn ), "filterIn()" );
+	assert.ok( _isFunction( FPO.std.filterInObj ), "filterInObj()" );
 	assert.ok( _isFunction( FPO.std.filterOut ), "filterOut()" );
+	assert.ok( _isFunction( FPO.std.filterOutObj ), "filterOutObj()" );
 	assert.ok( _isFunction( FPO.std.map ), "map()" );
+	assert.ok( _isFunction( FPO.std.mapObj ), "mapObj()" );
 	assert.ok( _isFunction( FPO.std.flatMap ), "flatMap()" );
 	assert.ok( _isFunction( FPO.std.reduce ), "reduce()" );
+	assert.ok( _isFunction( FPO.std.reduceObj ), "reduceObj()" );
 	assert.ok( _isFunction( FPO.std.reduceRight ), "reduceRight()" );
 	assert.ok( _isFunction( FPO.std.flatten ), "flatten()" );
 	assert.ok( _isFunction( FPO.std.zip ), "zip()" );
@@ -98,7 +106,7 @@ QUnit.test( "std: API methods", function t2(assert){
 } );
 
 QUnit.test( "API method aliases", function t3(assert){
-	assert.expect( 29 );
+	assert.expect( 33 );
 
 	assert.strictEqual( FPO.always, FPO.constant, "always -> constant" );
 	assert.strictEqual( FPO.std.always, FPO.std.constant, "std: always -> constant" );
@@ -117,6 +125,8 @@ QUnit.test( "API method aliases", function t3(assert){
 	assert.strictEqual( FPO.std.assoc, FPO.std.setProp, "std: assoc -> setProp" );
 	assert.strictEqual( FPO.filter, FPO.filterIn, "filter -> filterIn" );
 	assert.strictEqual( FPO.std.filter, FPO.std.filterIn, "std: filter -> filterIn" );
+	assert.strictEqual( FPO.filterObj, FPO.filterInObj, "filterObj -> filterInObj" );
+	assert.strictEqual( FPO.std.filterObj, FPO.std.filterInObj, "std: filterObj -> filterInObj" );
 	assert.strictEqual( FPO.reject, FPO.filterOut, "reject -> filterOut" );
 	assert.strictEqual( FPO.std.reject, FPO.std.filterOut, "std: reject -> filterOut" );
 	assert.strictEqual( FPO.chain, FPO.flatMap, "chain -> flatMap" );
@@ -125,6 +135,8 @@ QUnit.test( "API method aliases", function t3(assert){
 	assert.strictEqual( FPO.std.fold, FPO.std.reduce, "std: fold -> reduce" );
 	assert.strictEqual( FPO.foldL, FPO.reduce, "foldL -> reduce" );
 	assert.strictEqual( FPO.std.foldL, FPO.std.reduce, "std: foldL -> reduce" );
+	assert.strictEqual( FPO.foldObj, FPO.reduceObj, "foldObj -> reduceObj" );
+	assert.strictEqual( FPO.std.foldObj, FPO.std.reduceObj, "std: foldObj -> reduceObj" );
 	assert.strictEqual( FPO.foldR, FPO.reduceRight, "foldR -> reduceRight" );
 	assert.strictEqual( FPO.std.foldR, FPO.std.reduceRight, "std: foldR -> reduceRight" );
 	assert.strictEqual( FPO.transducers.boolean, FPO.transducers.booleanAnd, "transducers.boolean -> transducers.booleanAnd" );
@@ -980,6 +992,84 @@ QUnit.test( "std.filterIn()", function t41(assert){
 	assert.deepEqual( uActual, uExpected, "predicate params check" );
 } );
 
+QUnit.test( "filterInObj()", function t41b(assert){
+	function checkParams({ v, i, o }) {
+		if (
+			o === obj &&
+			typeof v == "number" && typeof i == "string" && _isObject( o ) &&
+			o[i] === v
+		) {
+			return false;
+		}
+		return true;
+	}
+	function isEven({ v }) { return v % 2 == 0; }
+	function alwaysFalse() { return false; }
+
+	var obj = {a: 1, b: 2, c: 3, d: 4, e: 5};
+
+	var rExpected = {b: 2, d: 4};
+	var pExpected = {b: 2, d: 4};
+	var qExpected = {};
+	var tExpected = {};
+	var sExpected = {};
+	var uExpected = {};
+
+	var rActual = FPO.filterInObj( {fn: isEven, o: obj} );
+	var pActual = FPO.filterInObj()( {} )( {fn: isEven} )()( {o: obj} );
+	var qActual = FPO.filterInObj( {fn: alwaysFalse, o: obj} );
+	var tActual = FPO.filterInObj( {fn: isEven, o: undefined} );
+	var sActual = FPO.filterInObj( {fn: isEven, o: []} );
+	var uActual = FPO.filterInObj( {fn: checkParams, o: obj} );
+
+	assert.expect( 6 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "always false predicate" );
+	assert.deepEqual( tActual, tExpected, "array undefined" );
+	assert.deepEqual( sActual, sExpected, "array empty" );
+	assert.deepEqual( uActual, uExpected, "predicate params check" );
+} );
+
+QUnit.test( "std.filterInObj()", function t41c(assert){
+	function checkParams(v,i,o) {
+		if (
+			o === obj &&
+			typeof v == "number" && typeof i == "string" && _isObject( o ) &&
+			o[i] === v
+		) {
+			return false;
+		}
+		return true;
+	}
+	function isEven(v) { return v % 2 == 0; }
+	function alwaysFalse() { return false; }
+
+	var obj = {a: 1, b: 2, c: 3, d: 4, e: 5};
+
+	var rExpected = {b: 2, d: 4};
+	var pExpected = {b: 2, d: 4};
+	var qExpected = {};
+	var tExpected = {};
+	var sExpected = {};
+	var uExpected = {};
+
+	var rActual = FPO.std.filterInObj( isEven, obj );
+	var pActual = FPO.std.filterInObj()( isEven )()( obj );
+	var qActual = FPO.std.filterInObj( alwaysFalse, obj );
+	var tActual = FPO.std.filterInObj( isEven, undefined );
+	var sActual = FPO.std.filterInObj( isEven, {} );
+	var uActual = FPO.std.filterInObj( checkParams, obj );
+
+	assert.expect( 6 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "always false predicate" );
+	assert.deepEqual( tActual, tExpected, "array undefined" );
+	assert.deepEqual( sActual, sExpected, "array empty" );
+	assert.deepEqual( uActual, uExpected, "predicate params check" );
+} );
+
 QUnit.test( "filterOut()", function t42(assert){
 	function checkParams({ v, i, arr }) {
 		if (
@@ -1058,6 +1148,84 @@ QUnit.test( "std.filterOut()", function t43(assert){
 	assert.deepEqual( uActual, uExpected, "predicate params check" );
 } );
 
+QUnit.test( "filterOutObj()", function t43b(assert){
+	function checkParams({ v, i, o }) {
+		if (
+			o === obj &&
+			typeof v == "number" && typeof i == "string" && _isObject( o ) &&
+			o[i] === v
+		) {
+			return true;
+		}
+		return false;
+	}
+	function isEven({ v }) { return v % 2 == 0; }
+	function alwaysTrue() { return true; }
+
+	var obj = {a: 1, b: 2, c: 3, d: 4, e: 5};
+
+	var rExpected = {a: 1, c: 3, e: 5};
+	var pExpected = {a: 1, c: 3, e: 5};
+	var qExpected = {};
+	var tExpected = {};
+	var sExpected = {};
+	var uExpected = {};
+
+	var rActual = FPO.filterOutObj( {fn: isEven, o: obj} );
+	var pActual = FPO.filterOutObj()( {} )( {fn: isEven} )()( {o: obj} );
+	var qActual = FPO.filterOutObj( {fn: alwaysTrue, o: obj} );
+	var tActual = FPO.filterOutObj( {fn: isEven, o: undefined} );
+	var sActual = FPO.filterOutObj( {fn: isEven, o: {}} );
+	var uActual = FPO.filterOutObj( {fn: checkParams, o: obj} );
+
+	assert.expect( 6 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "always true predicate" );
+	assert.deepEqual( tActual, tExpected, "array undefined" );
+	assert.deepEqual( sActual, sExpected, "array empty" );
+	assert.deepEqual( uActual, uExpected, "predicate params check" );
+} );
+
+QUnit.test( "std.filterOutObj()", function t43c(assert){
+	function checkParams(v,i,o) {
+		if (
+			o === obj &&
+			typeof v == "number" && typeof i == "string" && _isObject( o ) &&
+			o[i] === v
+		) {
+			return true;
+		}
+		return false;
+	}
+	function isEven(v) { return v % 2 == 0; }
+	function alwaysTrue() { return true; }
+
+	var obj = {a: 1, b: 2, c: 3, d: 4, e: 5};
+
+	var rExpected = {a: 1, c: 3, e: 5};
+	var pExpected = {a: 1, c: 3, e: 5};
+	var qExpected = {};
+	var tExpected = {};
+	var sExpected = {};
+	var uExpected = {};
+
+	var rActual = FPO.std.filterOutObj( isEven, obj );
+	var pActual = FPO.std.filterOutObj()( isEven )()( obj );
+	var qActual = FPO.std.filterOutObj( alwaysTrue, obj );
+	var tActual = FPO.std.filterOutObj( isEven, undefined );
+	var sActual = FPO.std.filterOutObj( isEven, {} );
+	var uActual = FPO.std.filterOutObj( checkParams, obj );
+
+	assert.expect( 6 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "always true predicate" );
+	assert.deepEqual( tActual, tExpected, "array undefined" );
+	assert.deepEqual( sActual, sExpected, "array empty" );
+	assert.deepEqual( uActual, uExpected, "predicate params check" );
+} );
+
 QUnit.test( "map()", function t44(assert){
 	function checkParams({ v, i, arr }) {
 		if (
@@ -1125,6 +1293,76 @@ QUnit.test( "std.map()", function t45(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 	assert.deepEqual( qActual, qExpected, "array undefined" );
 	assert.deepEqual( tActual, tExpected, "array empty" );
+	assert.deepEqual( sActual, sExpected, "mapper params check" );
+} );
+
+QUnit.test( "mapObj()", function t45b(assert){
+	function checkParams({ v, i, o }) {
+		if (
+			o === obj &&
+			typeof v == "number" && typeof i == "string" && _isObject( o ) &&
+			v === o[i]
+		) {
+			return true;
+		}
+		return false;
+	}
+	function mul10({ v }) { return v * 10; }
+
+	var obj = {a: 1, b: 2};
+
+	var rExpected = {a: 10, b: 20};
+	var pExpected = {a: 10, b: 20};
+	var qExpected = {};
+	var tExpected = {};
+	var sExpected = {a: true, b: true};
+
+	var rActual = FPO.mapObj( {fn: mul10, o: obj} );
+	var pActual = FPO.mapObj()( {} )( {fn: mul10} )()( {o: obj} );
+	var qActual = FPO.mapObj( {fn: mul10, o: undefined} );
+	var tActual = FPO.mapObj( {fn: mul10, o: {}} );
+	var sActual = FPO.mapObj( {fn: checkParams, o: obj} );
+
+	assert.expect( 5 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "o undefined" );
+	assert.deepEqual( tActual, tExpected, "o empty" );
+	assert.deepEqual( sActual, sExpected, "mapper params check" );
+} );
+
+QUnit.test( "std.mapObj()", function t45c(assert){
+	function checkParams(v,i,o) {
+		if (
+			o === obj &&
+			typeof v == "number" && typeof i == "string" && _isObject( o ) &&
+			v === o[i]
+		) {
+			return true;
+		}
+		return false;
+	}
+	function mul10(v) { return v * 10; }
+
+	var obj = {a: 1, b: 2};
+
+	var rExpected = {a: 10, b: 20};
+	var pExpected = {a: 10, b: 20};
+	var qExpected = {};
+	var tExpected = {};
+	var sExpected = {a: true, b: true};
+
+	var rActual = FPO.std.mapObj( mul10, obj );
+	var pActual = FPO.std.mapObj()( mul10 )()( obj );
+	var qActual = FPO.std.mapObj( mul10, undefined );
+	var tActual = FPO.std.mapObj( mul10, {} );
+	var sActual = FPO.std.mapObj( checkParams, obj );
+
+	assert.expect( 5 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "o undefined" );
+	assert.deepEqual( tActual, tExpected, "o empty" );
 	assert.deepEqual( sActual, sExpected, "mapper params check" );
 } );
 
@@ -1283,6 +1521,84 @@ QUnit.test( "std.reduce()", function t49(assert){
 	assert.strictEqual( qActual, qExpected, "initial value" );
 	assert.strictEqual( tActual, tExpected, "array undefined" );
 	assert.strictEqual( sActual, sExpected, "array empty, initial value" );
+	assert.strictEqual( uActual, uExpected, "reducer params check" );
+} );
+
+QUnit.test( "reduceObj()", function t49b(assert){
+	function checkParams({ acc, v, i, o }) {
+		if (
+			o === obj &&
+			typeof acc == "string" && typeof v == "string" &&
+			typeof i == "string" && _isObject( o ) &&
+			o[i] === v
+		) {
+			return acc + v;
+		}
+		return NaN;
+	}
+	function concat({ acc, v }) { return acc + v; }
+
+	var obj = {a: "1", b: "2", c: "3", d: "4", e: "5"};
+
+	var rExpected = "12345";
+	var pExpected = "12345";
+	var qExpected = "012345";
+	var tExpected = undefined;
+	var sExpected = "0";
+	var uExpected = "12345";
+
+	var rActual = FPO.reduceObj( {fn: concat, o: obj} );
+	var pActual = FPO.reduceObj()( {} )( {fn: concat} )()( {o: obj} );
+	var qActual = FPO.reduceObj( {fn: concat, o: obj, v: "0"} );
+	var tActual = FPO.reduceObj( {fn: concat, o: undefined} );
+	var sActual = FPO.reduceObj( {fn: concat, o: [], v: "0"} );
+	var uActual = FPO.reduceObj( {fn: checkParams, o: obj} );
+
+	assert.expect( 6 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+	assert.strictEqual( qActual, qExpected, "initial value" );
+	assert.strictEqual( tActual, tExpected, "array undefined" );
+	assert.strictEqual( sActual, sExpected, "array empty, initial value" );
+	assert.strictEqual( uActual, uExpected, "reducer params check" );
+} );
+
+QUnit.test( "std.reduceObj()", function t49c(assert){
+	function checkParams(acc,v,i,o) {
+		if (
+			o === obj &&
+			typeof acc == "string" && typeof v == "string" &&
+			typeof i == "string" && _isObject( o ) &&
+			o[i] === v
+		) {
+			return acc + v;
+		}
+		return NaN;
+	}
+	function concat(acc, v) { return acc + v; }
+
+	var obj = {a: "1", b: "2", c: "3", d: "4", e: "5"};
+
+	var rExpected = "12345";
+	var pExpected = "12345";
+	var qExpected = "012345";
+	var tExpected = undefined;
+	var sExpected = "0";
+	var uExpected = "12345";
+
+	var rActual = FPO.std.reduceObj( concat, undefined, obj );
+	var pActual = FPO.std.reduceObj()( concat )()( undefined )()( obj );
+	var qActual = FPO.std.reduceObj( concat, "0", obj );
+	var tActual = FPO.std.reduceObj( concat, undefined, undefined );
+	var sActual = FPO.std.reduceObj( concat, "0", {} );
+	var uActual = FPO.std.reduceObj( checkParams, undefined, obj );
+
+	assert.expect( 6 );
+	assert.strictEqual( rActual, rExpected, "regular call" );
+	assert.strictEqual( pActual, pExpected, "curried" );
+	assert.strictEqual( qActual, qExpected, "initial value" );
+	assert.strictEqual( tActual, tExpected, "o undefined" );
+	assert.strictEqual( sActual, sExpected, "o empty, initial value" );
 	assert.strictEqual( uActual, uExpected, "reducer params check" );
 } );
 
@@ -2251,6 +2567,9 @@ QUnit.test( "std.memoize()", function t87(assert){
 	assert.strictEqual( jActual, jExpected, "object, repeated" );
 	assert.strictEqual( kActual, kExpected, "counter" );
 } );
+
+
+
 
 
 

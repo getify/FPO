@@ -10,13 +10,16 @@ These are the methods on the `FPO.std.*` namespace. For the `FPO.*` methods, con
 * [`FPO.std.curry(..)`](#fpostdcurry)
 * [`FPO.std.curryMultiple(..)`](#fpostdcurrymultiple)
 * [`FPO.std.filterIn(..)`](#fpostdfilterin) (aliases: `FPO.std.filter(..)`)
+* [`FPO.std.filterInObj(..)`](#fpostdfilterinobj) (aliases: `FPO.std.filterObj(..)`)
 * [`FPO.std.filterOut(..)`](#fpostdfilterout) (aliases: `FPO.std.reject(..)`)
+* [`FPO.std.filterOutObj(..)`](#fpostdfilteroutobj) (aliases: `FPO.std.rejectObj(..)`)
 * [`FPO.std.flatMap(..)`](#fpostdflatmap) (aliases: `FPO.std.chain(..)`)
 * [`FPO.std.flatten(..)`](#fpostdflatten)
 * [`FPO.std.flip(..)`](#fpostdflip)
 * [`FPO.std.head(..)`](#fpostdhead)
 * [`FPO.std.identity(..)`](#fpostdidentity)
 * [`FPO.std.map(..)`](#fpostdmap)
+* [`FPO.std.mapObj(..)`](#fpostdmapobj)
 * [`FPO.std.memoize(..)`](#fpostdmemoize)
 * [`FPO.std.nAry(..)`](#fpostdnary)
 * [`FPO.std.partial(..)`](#fpostdpartial)
@@ -26,6 +29,7 @@ These are the methods on the `FPO.std.*` namespace. For the `FPO.*` methods, con
 * [`FPO.std.pipe(..)`](#fpostdpipe) (aliases: `FPO.std.flow(..)`, `FPO.std.sequence(..)`)
 * [`FPO.std.prop(..)`](#fpostdprop)
 * [`FPO.std.reduce(..)`](#fpostdreduce) (aliases: `FPO.std.fold(..)`, `FPO.std.foldL(..)`)
+* [`FPO.std.reduceObj(..)`](#fpostdreduceobj) (aliases: `FPO.std.foldObj(..)`)
 * [`FPO.std.reduceRight(..)`](#fpostdreduceright) (aliases: `FPO.std.foldR(..)`)
 * [`FPO.std.reverseArgs(..)`](#fpostdreverseargs)
 * [`FPO.std.setProp(..)`](#fpostdsetprop) (aliases: `FPO.std.assoc(..)`)
@@ -266,7 +270,36 @@ Commonly known as `filter(..)`, produces a new list by calling a predicate funct
 
 * **Aliases:** `FPO.std.filter(..)`
 
-* **See Also:** [`FPO.std.filterOut(..)`](#fpostdfilterout)
+* **See Also:** [`FPO.std.filterInObj(..)`](#fpostdfilterinobj), [`FPO.std.filterOut(..)`](#fpostdfilterout)
+
+----
+
+### `FPO.std.filterInObj(..)`
+
+([back to top](#core-api))
+
+Produces a new object by calling a predicate function with each property value in the original object. For each value, if the predicate function returns true (or truthy), the value is included in (aka, filtered into) the new object at the same property name. Otherwise, the value is omitted.
+
+* **Arguments:**
+	- `fn`: predicate function; called with `v` (value), `i` (property name), and `o` (object) arguments
+	- `o`: object to filter against
+
+* **Returns:** *object*
+
+* **Example:**
+
+	```js
+	function isOdd(v) { return v % 2 == 1; }
+
+	var nums = {a: 1, b: 2, c: 3, d: 4, e: 5};
+
+	FPO.std.filterInObj( isOdd, nums );
+	// {a: 1, c: 3, e: 5}
+	```
+
+* **Aliases:** `FPO.std.filterObj(..)`
+
+* **See Also:** [`FPO.std.filterIn(..)`](#fpostdfilterin), [`FPO.std.filterOutObj(..)`](#fpostdfilteroutobj)
 
 ----
 
@@ -295,7 +328,36 @@ The inverse of [`FPO.std.filterIn(..)`](#fpostdfilterin), produces a new list by
 
 * **Aliases:** `FPO.std.reject(..)`
 
-* **See Also:** [`FPO.std.filterOut(..)`](#fpostdfilterout)
+* **See Also:** [`FPO.std.filterOutObj(..)`](#fpostdfilteroutobj), [`FPO.std.filterIn(..)`](#fpostdfilterin)
+
+----
+
+### `FPO.std.filterOutObj(..)`
+
+([back to top](#core-api))
+
+The inverse of [`FPO.std.filterInObj(..)`](#fpostdfilterinobj), produces a new object by calling a predicate function with each property value in the original object. For each value, if the predicate function returns true (or truthy), the value is omitted from (aka, filtered out of) the new object. Otherwise, the value is included at the same property name.
+
+* **Arguments:**
+	- `fn`: predicate function; called with `v` (value), `i` (property name), and `o` (object) arguments
+	- `o`: object to filter against
+
+* **Returns:** *object*
+
+* **Example:**
+
+	```js
+	function isOdd(v) { return v % 2 == 1; }
+
+	var nums = {a: 1, b: 2, c: 3, d: 4, e: 5};
+
+	FPO.std.filterOutObj( isOdd, nums );
+	// {b: 2, d: 4}
+	```
+
+* **Aliases:** `FPO.std.rejectObj(..)`
+
+* **See Also:** [`FPO.std.filterOut(..)`](#fpostdfilterout), [`FPO.std.filterInObj(..)`](#fpostdfilterinobj)
 
 ----
 
@@ -468,7 +530,34 @@ Produces a new list by calling a mapper function with each value in the original
 	// [2,4,6,8,10]
 	```
 
-* **See Also:** [`FPO.std.flatMap(..)`](#fpostdflatmap)
+* **See Also:** [`FPO.std.mapObj(..)`](#fpostdmapobj), [`FPO.std.flatMap(..)`](#fpostdflatmap)
+
+----
+
+### `FPO.std.mapObj(..)`
+
+([back to top](#core-api))
+
+Produces a new object by calling a mapper function with each property value in the original object. The value the mapper function returns is inserted in the new object at that same property name. The new object will always have the same number of properties as the original object.
+
+* **Arguments:**
+	- `fn`: mapper function; called with `v` (value), `i` (property name), and `o` (object) arguments
+	- `o`: object to map against
+
+* **Returns:** *object*
+
+* **Example:**
+
+	```js
+	function double(v) { return v * 2; }
+
+	var nums = {a: 1, b: 2, c: 3, d: 4, e: 5};
+
+	FPO.mapObj(double, nums );
+	// {a: 2, b: 4, c: 6, d: 8, e: 10};
+	```
+
+* **See Also:** [`FPO.std.map(..)`](#fpostdmap)
 
 ----
 
@@ -745,7 +834,42 @@ Processes a list from left-to-right (unlike [`FPO.std.reduceRight(..)`](#fpostdr
 
 * **Aliases:** `FPO.std.fold(..)`, `FPO.std.foldL(..)`
 
-* **See Also:** [`FPO.std.reduceRight(..)`](#fpostdreduceright)
+* **See Also:** [`FPO.std.reduceObj(..)`](#fpostdreduceobj), [`FPO.std.reduceRight(..)`](#fpostdreduceright)
+
+----
+
+### `FPO.std.reduceObj(..)`
+
+([back to top](#core-api))
+
+Processes an object's properties (in enumeration order), successively combining (aka "reducing", "folding") two values into one, until all the object's properties have been reduced to a single value. An initial value for the reduction can optionally be provided.
+
+**Note:** Enumeration order of properties is not strictly guaranteed cross-environment. However, it's generally reliable as the order that properties were listed/added to the object in its definition.
+
+* **Arguments:**
+	- `fn`: reducer function; called with `acc` (accumulator), `v` (value), `i` (property name), and `o` (object) arguments
+	- `o`: object to reduce
+	- `v`: (optional) initial value to use for the reduction; if provided, the first reduction will pass to the reducer the initial value as the `acc` and the first property value (in enumeration order) from the object as `v`. Otherwise, the first reduction has the first property value (in enumeration order) of the object as `acc` and the second property value (in enumeration order) of the object as `v`.
+
+* **Returns:** *-any-*
+
+* **Example:**
+
+	```js
+	function strConcat(acc,v) { return acc + v; }
+
+	var vowels = {a: "a", b: "e", c: "i", d: "o", e: "u", f: "y"};
+
+	FPO.std.reduceObj( strConcat, undefined, vowels );
+	// "aeiouy"
+
+	FPO.std.reduceObj( strConcat, "vowels: ", vowels );
+	// "vowels: aeiouy"
+	```
+
+* **Aliases:** `FPO.std.foldObj(..)`
+
+* **See Also:** [`FPO.std.reduce(..)`](#fpostdreduce)
 
 ----
 
