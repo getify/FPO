@@ -197,6 +197,6 @@ You can also run the tests in your browser by opening up `tests/index.html` (req
 
 ## License
 
-The code and all the documentation are released under the MIT license.
+All code and documentation are (c) 2017 Kyle Simpson, and released under the MIT license.
 
 http://getify.mit-license.org/
