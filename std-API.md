@@ -445,6 +445,33 @@ Returns the value given to it. Useful as a default placeholder for certain opert
 
 ----
 
+### `FPO.std.map(..)`
+
+([back to top](#core-api))
+
+Produces a new list by calling a mapper function with each value in the original list. The value the mapper function returns is inserted in the new list at that same position. The new list will always be the same length as the original list.
+
+* **Arguments:**
+	- `fn`: mapper function; called with `v` (value), `i` (index), and `arr` (array) arguments
+	- `arr`: array to map against
+
+* **Returns:** *array*
+
+* **Example:**
+
+	```js
+	function double(v) { return v * 2; }
+
+	var nums = [1,2,3,4,5];
+
+	FPO.std.map( double, nums );
+	// [2,4,6,8,10]
+	```
+
+* **See Also:** [`FPO.std.flatMap(..)`](#fpostdflatmap)
+
+----
+
 ### `FPO.std.memoize(..)`
 
 ([back to top](#core-api))
@@ -500,33 +527,6 @@ Unary functions (single argument; `n` of `1`) with a primitive argument are the 
 	// mult called!
 	// 12
 	```
-
-----
-
-### `FPO.std.map(..)`
-
-([back to top](#core-api))
-
-Produces a new list by calling a mapper function with each value in the original list. The value the mapper function returns is inserted in the new list at that same position. The new list will always be the same length as the original list.
-
-* **Arguments:**
-	- `fn`: mapper function; called with `v` (value), `i` (index), and `arr` (array) arguments
-	- `arr`: array to map against
-
-* **Returns:** *array*
-
-* **Example:**
-
-	```js
-	function double(v) { return v * 2; }
-
-	var nums = [1,2,3,4,5];
-
-	FPO.std.map( double, nums );
-	// [2,4,6,8,10]
-	```
-
-* **See Also:** [`FPO.std.flatMap(..)`](#fpostdflatmap)
 
 ----
 
