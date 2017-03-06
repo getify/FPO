@@ -1,14 +1,14 @@
 # FPO.js
 
-FPO ("eff-poh") is an FP Library for JavaScript. The main aesthetic difference is that the [`FPO.*` core API methods](core-API.md) are all styled to use named-arguments (object parameter destructuring) instead of individual positional arguments. As with most FP libraries, all public FPO methods are curried.
+FPO ("eff-poh") is an FP Library for JavaScript. The main aesthetic difference is that the [`FPO.*` core API methods](docs/core-API.md) are all styled to use named-arguments (object parameter destructuring) instead of individual positional arguments. As with most FP libraries, all public FPO methods are curried.
 
 Not only do named-arguments eliminate having to remember a method signature's parameter order -- named arguments can be provided in any order! -- they also make skipping optional parameters (to apply defaults) simple.
 
 This elimination of ordering concern and/or skipping arguments particularly comes in handy when you're currying. You don't have to juggle the parameter order at all; just pass in whichever named argument(s) you want, in whatever sequence you need!
 
-The other benefit is that these API methods will automatically work with your program's named-argument style functions. If you need to interoperate between both styles of function parameters in your program, adapt either style to the other using the [`FPO.apply(..)`](core-API.md#fpoapply) and [`FPO.unapply(..)`](core-API.md#fpounapply) methods.
+The other benefit is that these API methods will automatically work with your program's named-argument style functions. If you need to interoperate between both styles of function parameters in your program, adapt either style to the other using the [`FPO.apply(..)`](docs/core-API.md#fpoapply) and [`FPO.unapply(..)`](docs/core-API.md#fpounapply) methods.
 
-For convenience and familiarity sake, FPO also exposes all its methods in the traditional positional argument form, under [`FPO.std.*`](std-API.md). These methods are very similar to their equivalents in Ramda, for example.
+For convenience and familiarity sake, FPO also exposes all its methods in the traditional positional argument form, under [`FPO.std.*`](docs/std-API.md). These methods are very similar to their equivalents in Ramda, for example.
 
 **Note:** If you're not fully confident in your FP skills, I've written a book on FP in JavaScript: [Functional-Light JavaScript](https://github.com/getify/functional-light-js). Go check it out!
 
@@ -58,8 +58,8 @@ Phew, that's a lot of argument juggling! FPO eliminates all that noisy distracti
 
 ## API
 
-* See [Core API](core-API.md) for documentation on all the methods in the `FPO.*` namespace.
-* See [Standard API](std-API.md) for documenation on the methods in the `FPO.std.*` namespace.
+* See [Core API](docs/core-API.md) for documentation on all the methods in the `FPO.*` namespace.
+* See [Standard API](docs/std-API.md) for documenation on the methods in the `FPO.std.*` namespace.
 
 	All core methods have a standard positional-parameter form available under the `FPO.std.*` namespace. In many respects, their conceptual behavior is the same, but in some cases there's some differences to be aware of.
 
@@ -67,7 +67,7 @@ Phew, that's a lot of argument juggling! FPO eliminates all that noisy distracti
 
 ## Adapting
 
-What if you have a traditional parameter-style function you want to use with one of the object-parameter style FPO API methods? Adapt it using the object-parameter-aware [`FPO.apply(..)`](core-API.md#fpoapply):
+What if you have a traditional parameter-style function you want to use with one of the object-parameter style FPO API methods? Adapt it using the object-parameter-aware [`FPO.apply(..)`](docs/core-API.md#fpoapply):
 
 ```js
 // traditional-parameter style function
@@ -79,7 +79,7 @@ FPO.reduce({
 });  // 19
 ```
 
-Adapting isn't limited to just interoperating with FPO methods. You can use [`FPO.apply(..)`](core-API.md#fpoapply) and [`FPO.unapply(..)`](core-API.md#fpounapply) to seamlessly adapt between functions of both styles in your own application code:
+Adapting isn't limited to just interoperating with FPO methods. You can use [`FPO.apply(..)`](docs/core-API.md#fpoapply) and [`FPO.unapply(..)`](docs/core-API.md#fpounapply) to seamlessly adapt between functions of both styles in your own application code:
 
 ```js
 // note: cb is expected to be an "error-first" style
@@ -104,7 +104,7 @@ request({
 
 ## Not Order, But Names
 
-The exchange we make for not needing to remember or juggle argument order is that we need to know/remember the parameter names. For example, [`FPO.reduce(..)`](core-API.md#fporeduce) expects named arguments of `fn`, `v`, and `arr`. If you don't use those names, it won't work correctly.
+The exchange we make for not needing to remember or juggle argument order is that we need to know/remember the parameter names. For example, [`FPO.reduce(..)`](docs/core-API.md#fporeduce) expects named arguments of `fn`, `v`, and `arr`. If you don't use those names, it won't work correctly.
 
 To aid in getting used to that tradeoff in usability, FPO uses straightforward conventions for parameter names; once learned, it should be mostly trivial to use any of the API methods.
 
@@ -125,13 +125,13 @@ The named argument naming conventions (in order of precedence):
 
 Some exceptions to these naming conventions:
 
-* [`FPO.setProp(..)`](core-API.md#fposetprop) expects: `prop` (object-property name), `o` (object), `v` (value).
-* [`FPO.partial(..)`](core-API.md#fpopartial) expects: `fn` (function), `args` (object containing the named-argument/value pairs to partially apply).
-* [`FPO.flatten(..)`](core-API.md#fpoflatten) expects: `v` (array), `n` (count of nesting levels to flatten out).
-* [`FPO.transduce(..)`](core-API.md#fpotransduce) expects: `fn` (transducer function), `co` (combination function), `v` (initial value), `arr` (array).
-* [`FPO.compose(..)`](core-API.md#fpocompose) and [`FPO.pipe(..)`](core.API.md#fpopipe) produce functions that expect a `{ v: .. }` object argument. These utilities further assume that each function in the composition expects the output of the previous function to be rewrapped in a `{ v: .. }`-style object argument.
+* [`FPO.setProp(..)`](docs/core-API.md#fposetprop) expects: `prop` (object-property name), `o` (object), `v` (value).
+* [`FPO.partial(..)`](docs/core-API.md#fpopartial) expects: `fn` (function), `args` (object containing the named-argument/value pairs to partially apply).
+* [`FPO.flatten(..)`](docs/core-API.md#fpoflatten) expects: `v` (array), `n` (count of nesting levels to flatten out).
+* [`FPO.transduce(..)`](docs/core-API.md#fpotransduce) expects: `fn` (transducer function), `co` (combination function), `v` (initial value), `arr` (array).
+* [`FPO.compose(..)`](docs/core-API.md#fpocompose) and [`FPO.pipe(..)`](core.API.md#fpopipe) produce functions that expect a `{ v: .. }` object argument. These utilities further assume that each function in the composition expects the output of the previous function to be rewrapped in a `{ v: .. }`-style object argument.
 
-	This also applies to transducers. [`FPO.transducers.filter(..)`](core-API.md#fpotransducersfilter) and [`FPO.transducers.map(..)`](core-API.md#fpotransducersmap), whether composed together or used standalone, are curried to expect the combination function to be passed to them as a `{ v: .. }`-style object argument.
+	This also applies to transducers. [`FPO.transducers.filter(..)`](docs/core-API.md#fpotransducersfilter) and [`FPO.transducers.map(..)`](docs/core-API.md#fpotransducersmap), whether composed together or used standalone, are curried to expect the combination function to be passed to them as a `{ v: .. }`-style object argument.
 
 ## Arity
 
@@ -139,9 +139,9 @@ Arity is typically defined as the number of declared parameters (expected argume
 
 For named-argument style functions, the situation is more nuanced. One interpretation of arity would be a raw count of named-arguments (how many properties present). Another interpretation would limit this counting to only the set of expected named-arguments.
 
-For currying, FPO assumes the straight numeric count interpretation. [`FPO.curry( {fn: foo, n: 3} )`](core-API.md#fpocurry) makes a curried function that accepts the first 3 properties, one at a time, regardless of what they're named.
+For currying, FPO assumes the straight numeric count interpretation. [`FPO.curry( {fn: foo, n: 3} )`](docs/core-API.md#fpocurry) makes a curried function that accepts the first 3 properties, one at a time, regardless of what they're named.
 
-For [`unary(..)`](core-API.md#fpounary), [`binary(..)`](core-API.md#fpobinary), and [`nAry(..)`](core-API.md#fponary), FPO requires a list of properties (`props`) to filter through for the underlying function. `FPO.binary({fn: foo, props:["x","y"]})` makes a function that only lets `x` and `y` named arguments through to `foo(..)`.
+For [`unary(..)`](docs/core-API.md#fpounary), [`binary(..)`](docs/core-API.md#fpobinary), and [`nAry(..)`](docs/core-API.md#fponary), FPO requires a list of properties (`props`) to filter through for the underlying function. `FPO.binary({fn: foo, props:["x","y"]})` makes a function that only lets `x` and `y` named arguments through to `foo(..)`.
 
 ## Currying
 
@@ -149,7 +149,7 @@ The strictest definition of currying is that each call only allows through one a
 
 However, for convenience, most FP libraries in JS use a looser definition of currying where multiple arguments can be passed in with each call (`foo(1,2)(3)`).
 
-FPO supports both approaches. [`FPO.curry(..)`](core-API.md#fpocurry) (and [`FPO.std.curry(..)`](std-API.md#fpostdcurry)) use the stricter one-at-a-time definition -- subsequent arguments in each call are ignored -- while [`FPO.curryMultiple(..)`](core-API.md#fpocurrymultiple) (and [`FPO.std.curryMultiple(..)`](std-API.md#fpostdcurrymultiple)) use the looser multiple-arguments definition.
+FPO supports both approaches. [`FPO.curry(..)`](docs/core-API.md#fpocurry) (and [`FPO.std.curry(..)`](docs/std-API.md#fpostdcurry)) use the stricter one-at-a-time definition -- subsequent arguments in each call are ignored -- while [`FPO.curryMultiple(..)`](docs/core-API.md#fpocurrymultiple) (and [`FPO.std.curryMultiple(..)`](docs/std-API.md#fpostdcurrymultiple)) use the looser multiple-arguments definition.
 
 All FPO methods are multiple-curried for convenience.
 
