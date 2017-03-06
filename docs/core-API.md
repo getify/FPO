@@ -934,7 +934,7 @@ Creates a shallow clone of an object, assigning the specified property value to 
 
 ([back to top](#core-api))
 
-Returns everything else in the value except the element as accessed at index 0; basically the inverse of [`FPO.head(..)`](#fpohead)).
+Returns everything else in the value except the element as accessed at index 0; basically the inverse of [`FPO.head(..)`](#fpohead).
 
 * **Arguments:**
 	- `v`: array, string, object
