@@ -9,11 +9,12 @@ These are the methods on the `FPO.*` namespace. For the `FPO.std.*` methods, con
 * [`FPO.constant(..)`](#fpoconstant)
 * [`FPO.curry(..)`](#fpocurry)
 * [`FPO.curryMultiple(..)`](#fpocurrymultiple)
-* [`FPO.filterIn(..)`](#fpofilterin) (aliases: `FPO.filter(..)`)
-* [`FPO.filterInObj(..)`](#fpofilterinobj) (aliases: `FPO.filterObj(..)`)
+* [`FPO.filterIn(..)`](#fpofilterin) (aliases: `FPO.filter(..)`, `FPO.keep(..)`)
+* [`FPO.filterInObj(..)`](#fpofilterinobj) (aliases: `FPO.filterObj(..)`, `FPO.keepObj(..)`)
 * [`FPO.filterOut(..)`](#fpofilterout) (aliases: `FPO.reject(..)`)
 * [`FPO.filterOutObj(..)`](#fpofilteroutobj) (aliases: `FPO.rejectObj(..)`)
 * [`FPO.flatMap(..)`](#fpoflatmap) (aliases: `FPO.chain(..)`)
+* [`FPO.flatMapObj(..)`](#fpoflatmapobj) (aliases: `FPO.chainObj(..)`)
 * [`FPO.flatten(..)`](#fpoflatten)
 * [`FPO.head(..)`](#fpohead)
 * [`FPO.identity(..)`](#fpoidentity)
@@ -264,7 +265,7 @@ Commonly known as `filter(..)`, produces a new list by calling a predicate funct
 	// [1,3,5]
 	```
 
-* **Aliases:** `FPO.filter(..)`
+* **Aliases:** `FPO.filter(..)`, `FPO.keep(..)`
 
 * **See Also:** [`FPO.filterInObj(..)`](#fpofilterinobj), [`FPO.filterOut(..)`](#fpofilterout)
 
@@ -293,7 +294,7 @@ Produces a new object by calling a predicate function with each property value i
 	// {a: 1, c: 3, e: 5}
 	```
 
-* **Aliases:** `FPO.filterObj(..)`
+* **Aliases:** `FPO.filterObj(..)`, `FPO.keepObj(..)`
 
 * **See Also:** [`FPO.filterIn(..)`](#fpofilterin), [`FPO.filterOutObj(..)`](#fpofilteroutobj)
 
@@ -361,7 +362,7 @@ The inverse of [`FPO.filterInObj(..)`](#fpofilterinobj), produces a new object b
 
 ([back to top](#core-api))
 
-Similar to [`FPO.map(..)`], produces a new list by calling a mapper function with each value in the original list. If the mapper function returns an array, this array is flattened (one level) into the overall array.
+Similar to [`FPO.map(..)`](#fpomap), produces a new list by calling a mapper function with each value in the original list. If the mapper function returns an array, this array is flattened (one level) into the overall array.
 
 * **Arguments:**
 	- `fn`: mapper function; called with `v` (value), `i` (index), and `arr` (array) named arguments
@@ -388,7 +389,50 @@ Similar to [`FPO.map(..)`], produces a new list by calling a mapper function wit
 
 * **Aliases:** `FPO.chain(..)`
 
-* **See Also:** [`FPO.map(..)`](#fpomap), [`FPO.flatten(..)`](#fpoflatten)
+* **See Also:** [`FPO.flatMapObj(..)`](#fpoflatmapobj), [`FPO.map(..)`](#fpomap), [`FPO.flatten(..)`](#fpoflatten)
+
+----
+
+### `FPO.flatMapObj(..)`
+
+([back to top](#core-api))
+
+Similar to [`FPO.mapObj(..)`](#fpomapobj), produces a new object by calling a mapper function with each property value in the original object. If the mapper function returns an object, this object is flattened (one level) into the overall object, by copying its properties.
+
+* **Arguments:**
+	- `fn`: mapper function; called with `v` (value), `i` (property name), and `o` (object) named arguments
+	- `o`: object to flat-map against
+
+* **Returns:** *object*
+
+* **Example:**
+
+	```js
+	function splitEvensInHalf({ v, i }) {
+		if (v % 2 == 0) {
+			return { [i]: v/2, [i+"_2"]: v/2 };
+		}
+		return v;
+	}
+
+	var nums = {a: 1, b: 2, c: 3, d: 4};
+
+	splitEvensInHalf( {v: 3, i: "c"} );
+	// 3
+
+	splitEvensInHalf( {v: 4, i: "d"} );
+	// {d: 2, d_2: 2}
+
+	FPO.mapObj( {fn: splitEvensInHalf, o: nums} );
+	// {a: 1, b: {b: 1, b_2: 1}, c: 3, d: {d: 2, d_2: 2}}
+
+	FPO.flatMapObj( {fn: splitEvensInHalf, o: nums} );
+	// {a: 1, b: 1, b_2: 1, c: 3, d: 2, d_2: 2};
+	```
+
+* **Aliases:** `FPO.chainObj(..)`
+
+* **See Also:** [`FPO.flatMap(..)`](#fpoflatmap), [`FPO.mapObj(..)`](#fpomapobj)
 
 ----
 
