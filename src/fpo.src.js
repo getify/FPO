@@ -1,8 +1,3 @@
-/*! fpo.js
-	v3.0.0 (c) Kyle Simpson
-	MIT License: http://getify.mit-license.org
-*/
-
 (function UMD(name,context,definition){
 	if (typeof define === "function" && define.amd) { define(definition); }
 	else if (typeof module !== "undefined" && module.exports) { module.exports = definition(); }

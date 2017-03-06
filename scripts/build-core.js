@@ -3,15 +3,29 @@
 var fs = require("fs"),
 	path = require("path"),
 	// ugly = require("uglify-js"),
+	packageJSON,
+	copyrightHeader,
+	version,
+	year = (new Date()).getFullYear(),
+
+	ROOT_DIR = path.join(__dirname,".."),
+	SRC_DIR = path.join(ROOT_DIR,"src"),
+	DIST_DIR = path.join(ROOT_DIR,"dist"),
+
+	LIB_SRC = path.join(SRC_DIR,"fpo.src.js"),
+	LIB_DIST = path.join(DIST_DIR,"fpo.js"),
 
 	result
 ;
 
 console.log("*** Building Core ***");
-console.log("Minifying to dist/fpo.js.");
+console.log(`Building: ${LIB_DIST}`);
 
 try {
-	// result = ugly.minify(path.join(__dirname,"lib","fpo.src.js"),{
+	// NOTE: since uglify doesn't yet support ES6, no minifying happening :(
+	result = fs.readFileSync(LIB_SRC,{ encoding: "utf8" });
+
+	// result = ugly.minify(path.join(SRC_DIR,"fpo.src.js"),{
 	// 	mangle: {
 	// 		keep_fnames: true
 	// 	},
@@ -23,17 +37,27 @@ try {
 	// 	}
 	// });
 
-
-	// NOTE: since uglify doesn't yet support ES6, no minifying happening,
-	// just pass through copying. :(
-	fs.writeFileSync(
-		path.join(__dirname,"..","dist","fpo.js"),
-
-		fs.readFileSync(path.join(__dirname,"..","src","fpo.src.js")),
-
-		// result.code + "\n",
-		{ encoding: "utf8" }
+	// read version number from package.json
+	packageJSON = JSON.parse(
+		fs.readFileSync(
+			path.join(ROOT_DIR,"package.json"),
+			{ encoding: "utf8" }
+		)
 	);
+	version = packageJSON.version;
+
+	// read copyright-header text, render with version and year
+	copyrightHeader = fs.readFileSync(
+		path.join(SRC_DIR,"copyright-header.txt"),
+		{ encoding: "utf8" }
+	).replace(/`/g,"");
+	copyrightHeader = Function("version","year",`return \`${copyrightHeader}\`;`)( version, year );
+
+	// append copyright-header text
+	result = copyrightHeader + result;
+
+	// write dist
+	fs.writeFileSync( LIB_DIST, result /* result.code + "\n" */, { encoding: "utf8" } );
 
 	console.log("Complete.");
 }
