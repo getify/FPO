@@ -22,6 +22,12 @@ console.log("*** Building Core ***");
 console.log(`Building: ${LIB_DIST}`);
 
 try {
+	// try to make the dist directory, if needed
+	try {
+		fs.mkdirSync(DIST_DIR,0o755);
+	}
+	catch (err) { }
+
 	// NOTE: since uglify doesn't yet support ES6, no minifying happening :(
 	result = fs.readFileSync(LIB_SRC,{ encoding: "utf8" });
 
