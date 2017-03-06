@@ -4,8 +4,8 @@
 	"description": "FP library for JavaScript. Supports named-argument style methods.",
 	"main": "./lib/fpo.js",
 	"scripts": {
-		"test": "node tests/node-tests.js",
-		"build-core": "node build-core.js",
+		"test": "node scripts/node-tests.js",
+		"build-core": "node scripts/build-core.js",
 		"build": "npm run build-core",
 		"prepublish": "npm run build-core"
 	},
