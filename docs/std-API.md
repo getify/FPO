@@ -1005,7 +1005,7 @@ Creates a shallow clone of an object, assigning the specified property value to 
 
 * **Aliases:** `FPO.std.assoc(..)`
 
-* **See Also:** [`FPO.std.pick(..)`](#fpostdpick), [`FPO.std.setProp(..)`](#fpostdsetprop)
+* **See Also:** [`FPO.prop(..)`](#fpoprop)
 
 ----
 
