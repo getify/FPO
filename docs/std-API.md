@@ -792,7 +792,7 @@ Returns a new object with only the specified properties from the original object
 	// { x:1, y:2, w:undefined }
 	```
 
-* **See Also:** [`FPO.std.pickAll(..)`](#fpostdpickall)
+* **See Also:** [`FPO.std.pick(..)`](#fpostdpick)
 
 ----
 
