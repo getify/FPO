@@ -739,7 +739,7 @@ Returns a new object with only the specified properties from the original object
 	// { x:1, y:2, w:undefined }
 	```
 
-* **See Also:** [`FPO.pickAll(..)`](#fpopickall)
+* **See Also:** [`FPO.pick(..)`](#fpopick)
 
 ----
 
@@ -926,7 +926,7 @@ Creates a shallow clone of an object, assigning the specified property value to 
 
 * **Aliases:** `FPO.assoc(..)`
 
-* **See Also:** [`FPO.pick(..)`](#fpopick), [`FPO.setProp(..)`](#fposetprop)
+* **See Also:** [`FPO.prop(..)`](#fpoprop)
 
 ----
 
