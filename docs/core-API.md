@@ -926,7 +926,7 @@ Creates a shallow clone of an object, assigning the specified property value to 
 
 * **Aliases:** `FPO.assoc(..)`
 
-* **See Also:** [`FPO.pick(..)`](#fpopick), [`FPO.setProp(..)`](#fposetprop)
+* **See Also:** [`FPO.prop(..)`](#fpoprop)
 
 ----
 
