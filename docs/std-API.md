@@ -57,7 +57,7 @@ These are the methods on the `FPO.std.*` namespace. For the `FPO.*` methods, con
 
 ### `FPO.std.apply(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Wraps a function to spread out the elements from an array argument as individual positional arguments.
 
@@ -88,7 +88,7 @@ Wraps a function to spread out the elements from an array argument as individual
 
 ### `FPO.std.binary(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Wraps a function to restrict its inputs to only arguments.
 
@@ -113,7 +113,7 @@ Wraps a function to restrict its inputs to only arguments.
 
 ### `FPO.std.complement(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Wraps a predicate function -- a function that produces `true` / `false` -- to negate its result.
 
@@ -134,7 +134,7 @@ Wraps a predicate function -- a function that produces `true` / `false` -- to ne
 
 ### `FPO.std.compose(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Produces a new function that's the composition of a list of functions. Functions are composed right-to-left (unlike [`FPO.std.pipe(..)`](#fpostdpipe)) from the array.
 
@@ -163,7 +163,7 @@ Produces a new function that's the composition of a list of functions. Functions
 
 ### `FPO.std.constant(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Wraps a value in a function that returns the value.
 
@@ -186,7 +186,7 @@ Wraps a value in a function that returns the value.
 
 ### `FPO.std.curry(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Curries a function so that you can pass one argument at a time, each time getting back another function to receive the next argument. Once all arguments are passed, the underlying function is called with the arguments.
 
@@ -217,7 +217,7 @@ Curries a function so that you can pass one argument at a time, each time gettin
 
 ### `FPO.std.curryMultiple(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Just like [`FPO.std.curry(..)`](#fpostdcurry), except each curried function allows multiple arguments instead of just one.
 
@@ -248,7 +248,7 @@ Just like [`FPO.std.curry(..)`](#fpostdcurry), except each curried function allo
 
 ### `FPO.std.filterIn(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Commonly known as `filter(..)`, produces a new list by calling a predicate function with each value in the original list. For each value, if the predicate function returns true (or truthy), the value is included in (aka, filtered into) the new list. Otherwise, the value is omitted.
 
@@ -277,7 +277,7 @@ Commonly known as `filter(..)`, produces a new list by calling a predicate funct
 
 ### `FPO.std.filterInObj(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Produces a new object by calling a predicate function with each property value in the original object. For each value, if the predicate function returns true (or truthy), the value is included in (aka, filtered into) the new object at the same property name. Otherwise, the value is omitted.
 
@@ -306,7 +306,7 @@ Produces a new object by calling a predicate function with each property value i
 
 ### `FPO.std.filterOut(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 The inverse of [`FPO.std.filterIn(..)`](#fpostdfilterin), produces a new list by calling a predicate function with each value in the original list. For each value, if the predicate function returns true (or truthy), the value is omitted from (aka, filtered out of) the new list. Otherwise, the value is included.
 
@@ -335,7 +335,7 @@ The inverse of [`FPO.std.filterIn(..)`](#fpostdfilterin), produces a new list by
 
 ### `FPO.std.filterOutObj(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 The inverse of [`FPO.std.filterInObj(..)`](#fpostdfilterinobj), produces a new object by calling a predicate function with each property value in the original object. For each value, if the predicate function returns true (or truthy), the value is omitted from (aka, filtered out of) the new object. Otherwise, the value is included at the same property name.
 
@@ -364,7 +364,7 @@ The inverse of [`FPO.std.filterInObj(..)`](#fpostdfilterinobj), produces a new o
 
 ### `FPO.std.flatMap(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Similar to [`FPO.std.map(..)`](#fpostdmap), produces a new list by calling a mapper function with each value in the original list. If the mapper function returns an array, this array is flattened (one level) into the overall array.
 
@@ -399,7 +399,7 @@ Similar to [`FPO.std.map(..)`](#fpostdmap), produces a new list by calling a map
 
 ### `FPO.std.flatMapObj(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Similar to [`FPO.std.mapObj(..)`](#fpostdmapobj), produces a new object by calling a mapper function with each property value in the original object. If the mapper function returns an object, this object is flattened (one level) into the overall object, by copying its properties.
 
@@ -442,7 +442,7 @@ Similar to [`FPO.std.mapObj(..)`](#fpostdmapobj), produces a new object by calli
 
 ### `FPO.std.flatten(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Flattens an array of nested arrays. Optionally, specify how many levels of nesting to flatten out.
 
@@ -473,7 +473,7 @@ Flattens an array of nested arrays. Optionally, specify how many levels of nesti
 
 ### `FPO.std.flip(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Wraps a function to flip (transpose) the first two arguments it receives.
 
@@ -499,7 +499,7 @@ Wraps a function to flip (transpose) the first two arguments it receives.
 
 ### `FPO.std.head(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Returns the element as accessed at index 0 of the value.
 
@@ -532,7 +532,7 @@ Returns the element as accessed at index 0 of the value.
 
 ### `FPO.std.identity(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Returns the value given to it. Useful as a default placeholder for certain opertaions (i.e., composition, reduction).
 
@@ -553,7 +553,7 @@ Returns the value given to it. Useful as a default placeholder for certain opert
 
 ### `FPO.std.map(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Produces a new list by calling a mapper function with each value in the original list. The value the mapper function returns is inserted in the new list at that same position. The new list will always be the same length as the original list.
 
@@ -580,7 +580,7 @@ Produces a new list by calling a mapper function with each value in the original
 
 ### `FPO.std.mapObj(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Produces a new object by calling a mapper function with each property value in the original object. The value the mapper function returns is inserted in the new object at that same property name. The new object will always have the same number of properties as the original object.
 
@@ -607,7 +607,7 @@ Produces a new object by calling a mapper function with each property value in t
 
 ### `FPO.std.memoize(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 For performance optimization reasons, wraps a function such that it remembers each set of arguments passed to it, associated with that underlying return value. If the wrapped function is called subsequent times with the same set of arguments, the cached return value is returned instead of being recomputed. Each wrapped function instance has its own separate cache, even if wrapping the same original function multiple times.
 
@@ -665,7 +665,7 @@ Unary functions (single argument; `n` of `1`) with a primitive argument are the 
 
 ### `FPO.std.nAry(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Wraps a function to restrict its inputs to only the count specified.
 
@@ -691,7 +691,7 @@ Wraps a function to restrict its inputs to only the count specified.
 
 ### `FPO.std.partial(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Wraps a function with a new function that already has some of the arguments pre-specified, and is waiting for the rest of them on the next call. Unlike [`FPO.std.curry(..)`](#fpostdcurry), you must specify all the remaining arguments on the next call of the partially-applied function.
 
@@ -720,7 +720,7 @@ Partial application happens from left-to-right. If you'd need to partially-apply
 
 ### `FPO.std.partialRight(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Wraps a function with a new function that already has some of the arguments pre-specified, and is waiting for the rest of them on the next call. Unlike [`FPO.std.curry(..)`](#fpostdcurry), you must specify all the remaining arguments on the next call of the partially-applied function.
 
@@ -744,11 +744,12 @@ Right-partial application happens from right-to-left. If you'd like to partially
 	```
 
 * **See Also:** [`FPO.std.partial(..)`](#fpostdpartial), [`FPO.std.curry(..)`](#fpostdcurry), [`FPO.std.curryMultiple(..)`](#fpostdcurrymultiple)
+
 ----
 
 ### `FPO.std.pick(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Returns a new object with only the specified properties from the original object. Includes only properties from the original object.
 
@@ -773,7 +774,7 @@ Returns a new object with only the specified properties from the original object
 
 ### `FPO.std.pickAll(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Returns a new object with only the specified properties from the original object. Includes all specified properties.
 
@@ -792,13 +793,13 @@ Returns a new object with only the specified properties from the original object
 	// { x:1, y:2, w:undefined }
 	```
 
-* **See Also:** [`FPO.std.pickAll(..)`](#fpostdpickall)
+* **See Also:** [`FPO.std.pick(..)`](#fpostdpick)
 
 ----
 
 ### `FPO.std.pipe(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Produces a new function that's the composition of a list of functions. Functions are composed left-to-right (unlike [`FPO.std.compose(..)`](#fpostdcompose)) from the array.
 
@@ -827,7 +828,7 @@ Produces a new function that's the composition of a list of functions. Functions
 
 ### `FPO.std.prop(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Extracts a property's value from an object.
 
@@ -851,7 +852,7 @@ Extracts a property's value from an object.
 
 ### `FPO.std.reduce(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Processes a list from left-to-right (unlike [`FPO.std.reduceRight(..)`](#fpostdreduceright)), successively combining (aka "reducing", "folding") two values into one, until the entire list has been reduced to a single value. An initial value for the reduction can optionally be provided.
 
@@ -884,7 +885,7 @@ Processes a list from left-to-right (unlike [`FPO.std.reduceRight(..)`](#fpostdr
 
 ### `FPO.std.reduceObj(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Processes an object's properties (in enumeration order), successively combining (aka "reducing", "folding") two values into one, until all the object's properties have been reduced to a single value. An initial value for the reduction can optionally be provided.
 
@@ -919,7 +920,7 @@ Processes an object's properties (in enumeration order), successively combining 
 
 ### `FPO.std.reduceRight(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Processes a list from right-to-left (unlike [`FPO.std.reduce(..)`](#fpostdreduce)), successively combining (aka "reducing", "folding") two values into one, until the entire list has been reduced to a single value.
 
@@ -954,7 +955,7 @@ An initial value for the reduction can optionally be provided. If the array is e
 
 ### `FPO.std.reverseArgs(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Wraps a function to reverse the order of all received arguments.
 
@@ -980,7 +981,7 @@ Wraps a function to reverse the order of all received arguments.
 
 ### `FPO.std.setProp(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Creates a shallow clone of an object, assigning the specified property value to the new object.
 
@@ -1005,13 +1006,13 @@ Creates a shallow clone of an object, assigning the specified property value to 
 
 * **Aliases:** `FPO.std.assoc(..)`
 
-* **See Also:** [`FPO.std.pick(..)`](#fpostdpick), [`FPO.std.setProp(..)`](#fpostdsetprop)
+* **See Also:** [`FPO.prop(..)`](#fpoprop)
 
 ----
 
 ### `FPO.std.tail(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Returns everything else in the value except the element as accessed at index 0; basically the inverse of [`FPO.std.head(..)`](#fpostdhead).
 
@@ -1044,7 +1045,7 @@ Returns everything else in the value except the element as accessed at index 0; 
 
 ### `FPO.std.take(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Returns the specified number of elements from the value, starting from the beginning.
 
@@ -1078,7 +1079,7 @@ Returns the specified number of elements from the value, starting from the begin
 
 ### `FPO.std.trampoline(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Wraps a continuation-returning recursive function in another function that will run it until it no longer returns another continuation function. Trampolines are an alternative to tail calls.
 
@@ -1105,7 +1106,7 @@ Wraps a continuation-returning recursive function in another function that will 
 
 ### `FPO.std.transducers.array(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 A reducer function. For transducing purposes, a combination function that takes an array and a value, and mutates the array by pushing the value onto the end of it. The mutated array is returned.
 
@@ -1136,7 +1137,7 @@ A reducer function. For transducing purposes, a combination function that takes 
 
 ### `FPO.std.transducers.booleanAnd(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 A reducer function. For transducing purposes, a combination function that takes two booleans and *AND*s them together. The result is the logical *AND* of the two values.
 
@@ -1165,7 +1166,7 @@ A reducer function. For transducing purposes, a combination function that takes 
 
 ### `FPO.std.transducers.booleanOr(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 A reducer function. For transducing purposes, a combination function that takes two booleans and *OR*s them together. The result is the logical *OR* of the two values.
 
@@ -1192,7 +1193,7 @@ A reducer function. For transducing purposes, a combination function that takes 
 
 ### `FPO.std.transducers.default(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 A reducer function. For transducing purposes, a combination function that's a default placeholder. It returns only the `acc` that's passed to it. The behavior here is almost the same as [`FPO.std.identity(..)`](#fpostdidentity), except that returns `acc` instead of `v`.
 
@@ -1216,7 +1217,7 @@ A reducer function. For transducing purposes, a combination function that's a de
 
 ### `FPO.std.transducers.filter(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 For transducing purposes, wraps a predicate function as a filter-transducer. Typically, this filter-transducer is then composed with other filter-transducers and/or map-transducers. The resulting transducer is then passed to [`FPO.std.transducers.transduce(..)`](#fpostdtransducerstransduce).
 
@@ -1260,7 +1261,7 @@ The filter-transducer is not a reducer itself; it's expecting a combination func
 
 ### `FPO.std.transducers.into(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Selects an appropriate combination function (reducer) based on the provided initial value. Then runs [`FPO.std.transducers.transduce(..)`](#fpostdtransducerstransduce) under the covers.
 
@@ -1304,7 +1305,7 @@ Detects initial values of `boolean`, `number`, `string`, and `array` types, and 
 
 ### `FPO.std.transducers.map(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 For transducing purposes, wraps a mapper function as a map-transducer. Typically, this map-transducer is then composed with other filter-transducers and/or map-transducers. The resulting transducer is then passed to [`FPO.std.transducers.transduce(..)`](#fpostdtransducerstransduce).
 
@@ -1345,7 +1346,7 @@ The map-transducer is not a reducer itself; it's expecting a combination functio
 
 ### `FPO.std.transducers.number(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 A reducer function. For transducing purposes, a combination function that adds together the two numbers passed into it. The result is the sum.
 
@@ -1369,7 +1370,7 @@ A reducer function. For transducing purposes, a combination function that adds t
 
 ### `FPO.std.transducers.string(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 A reducer function. For transducing purposes, a combination function that concats the two strings passed into it. The result is the concatenation.
 
@@ -1393,7 +1394,7 @@ A reducer function. For transducing purposes, a combination function that concat
 
 ### `FPO.std.transducers.transduce(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Produces a reducer from a specified transducer and combination function. Then runs a reduction on a list, using that reducer, starting with the specified initial value.
 
@@ -1431,7 +1432,7 @@ Produces a reducer from a specified transducer and combination function. Then ru
 
 ### `FPO.std.unapply(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Wraps a function to gather individual positional arguments into an array argument.
 
@@ -1459,7 +1460,7 @@ Wraps a function to gather individual positional arguments into an array argumen
 
 ### `FPO.std.unary(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Wraps a function to restrict its inputs to only one argument.
 
@@ -1484,7 +1485,7 @@ Wraps a function to restrict its inputs to only one argument.
 
 ### `FPO.std.uncurry(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Wraps a (strictly) curried function in a new function that accepts all the arguments at once, and provides them one at a time to the underlying curried function.
 
@@ -1511,7 +1512,7 @@ Wraps a (strictly) curried function in a new function that accepts all the argum
 
 ### `FPO.std.zip(..)`
 
-([back to top](#core-api))
+([back to top](#standard-api))
 
 Produces a new array where each element is an array containing the value from that position in each of the respective input arrays. Only processes up to the shorter of the two arrays.
 
