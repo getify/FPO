@@ -744,6 +744,7 @@ Right-partial application happens from right-to-left. If you'd like to partially
 	```
 
 * **See Also:** [`FPO.std.partial(..)`](#fpostdpartial), [`FPO.std.curry(..)`](#fpostdcurry), [`FPO.std.curryMultiple(..)`](#fpostdcurrymultiple)
+
 ----
 
 ### `FPO.std.pick(..)`
