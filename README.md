@@ -137,6 +137,7 @@ Some exceptions to these naming conventions:
 * [`FPO.compose(..)`](docs/core-API.md#fpocompose) and [`FPO.pipe(..)`](core.API.md#fpopipe) produce functions that expect a `{ v: .. }` object argument. These utilities further assume that each function in the composition expects the output of the previous function to be rewrapped in a `{ v: .. }`-style object argument.
 
 	This also applies to transducers. [`FPO.transducers.filter(..)`](docs/core-API.md#fpotransducersfilter) and [`FPO.transducers.map(..)`](docs/core-API.md#fpotransducersmap), whether composed together or used standalone, are curried to expect the combination function to be passed to them as a `{ v: .. }`-style object argument.
+* [`FPO.reassoc(..)`](docs/core-API.md#fporeassoc) expects: `props` (object with `sourceProp: targetProp` remapping key/value pairs), `v` (object)
 
 ## Arity
 

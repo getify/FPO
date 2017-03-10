@@ -27,6 +27,7 @@ These are the methods on the `FPO.*` namespace. For the `FPO.std.*` methods, con
 * [`FPO.pickAll(..)`](#fpopickall)
 * [`FPO.pipe(..)`](#fpopipe) (aliases: `FPO.flow(..)`, `FPO.sequence(..)`)
 * [`FPO.prop(..)`](#fpoprop)
+* [`FPO.reassoc(..)`](#fporeassoc)
 * [`FPO.reduce(..)`](#fporeduce) (aliases: `FPO.fold(..)`, `FPO.foldL(..)`)
 * [`FPO.reduceObj(..)`](#fporeduceobj) (aliases: `FPO.foldObj(..)`)
 * [`FPO.reduceRight(..)`](#fporeduceright) (aliases: `FPO.foldR(..)`)
@@ -790,6 +791,31 @@ Extracts a property's value from an object.
 	var obj = { x: 1, y: 2, z: 3 };
 
 	FPO.prop( {v: obj, prop: "y"} );  // 2
+	```
+
+* **See Also:** [`FPO.pick(..)`](#fpopick), [`FPO.setProp(..)`](#fposetprop)
+
+----
+
+### `FPO.reassoc(..)`
+
+([back to top](#core-api))
+
+Like a mixture between [`FPO.pick(..)`](#fpopick) and [`FPO.setProp(..)`](#fposetprop), creates a new object that has properties remapped from original names to new names. Any properties present on the original object that aren't remapped are copied with the same name.
+
+* **Arguments:**
+	- `props`: object whose key/value pairs are `sourceProp: targetProp` remappings
+	- `v`: object to remap properties from
+
+* **Returns:** *-any-*
+
+* **Example:**
+
+	```js
+	var obj = { x: 1, y: 2, z: 3 };
+
+	FPO.reassoc( {v: obj, props: {x: "A", z: "__z__"}} );
+	// { A: 1, __z__: 3, y: 2}
 	```
 
 * **See Also:** [`FPO.pick(..)`](#fpopick), [`FPO.setProp(..)`](#fposetprop)

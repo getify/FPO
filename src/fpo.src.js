@@ -24,6 +24,7 @@
 		pipe: curryMultiple( {fn: pipe, n: 1} ),
 		prop: curryMultiple( {fn: prop, n: 2} ),
 		setProp: curryMultiple( {fn: setProp, n: 3} ),
+		reassoc: curryMultiple( {fn: reassoc, n: 2} ),
 		filterIn: curryMultiple( {fn: filterIn, n: 2} ),
 		filterInObj: curryMultiple( {fn: filterInObj, n: 2} ),
 		filterOut: curryMultiple( {fn: filterOut, n: 2} ),
@@ -76,6 +77,7 @@
 		pipe: stdCurryMultiple( stdPipe, /*arity=*/1 ),
 		prop: stdCurryMultiple( unapply( {fn: prop, props: ["prop","v"]} ), /*arity=*/2 ),
 		setProp: stdCurryMultiple( unapply( {fn: setProp, props: ["prop","o","v"]} ), /*arity=*/3 ),
+		reassoc: stdCurryMultiple( unapply( {fn: reassoc, props: ["props","v"]} ), /*arity=*/2 ),
 		filterIn: stdCurryMultiple( unapply( {fn: _applyFnProp( filterIn, ["v","i","arr"] ), props: ["fn","arr"]} ), /*arity=*/2 ),
 		filterInObj: stdCurryMultiple( unapply( {fn: _applyFnProp( filterInObj, ["v","i","o"] ), props: ["fn","o"]} ), /*arity=*/2 ),
 		filterOut: stdCurryMultiple( unapply( {fn: _applyFnProp( filterOut, ["v","i","arr"] ), props: ["fn","arr"]} ), /*arity=*/2 ),
@@ -415,6 +417,27 @@
 	function setProp({ prop = "", o: obj = {}, v } = {}) {
 		obj = Object.assign( {}, obj );
 		obj[prop] = v;
+		return obj;
+	}
+
+	function reassoc({ props = {}, v } = {}) {
+		var obj = {};
+		var sourceProps = Object.keys( props );
+
+		// first, remap specified properties
+		for (let sourceProp of sourceProps) {
+			if (sourceProp in v) {
+				obj[props[sourceProp]] = v[sourceProp];
+			}
+		}
+
+		// then, copy (only) other properties
+		for (let prop of Object.keys( v )) {
+			if (!~sourceProps.indexOf( prop )) {
+				obj[prop] = v[prop];
+			}
+		}
+
 		return obj;
 	}
 

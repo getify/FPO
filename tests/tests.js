@@ -1,7 +1,7 @@
 "use strict";
 
 QUnit.test( "core: API methods", function t1(assert){
-	assert.expect( 47 );
+	assert.expect( 48 );
 
 	assert.ok( _isFunction( FPO.identity ), "identity()" );
 	assert.ok( _isFunction( FPO.constant ), "constant()" );
@@ -21,6 +21,7 @@ QUnit.test( "core: API methods", function t1(assert){
 	assert.ok( _isFunction( FPO.pipe ), "pipe()" );
 	assert.ok( _isFunction( FPO.prop ), "prop()" );
 	assert.ok( _isFunction( FPO.setProp ), "setProp()" );
+	assert.ok( _isFunction( FPO.reassoc ), "reassoc()" );
 	assert.ok( _isFunction( FPO.filterIn ), "filterIn()" );
 	assert.ok( _isFunction( FPO.filterInObj ), "filterInObj()" );
 	assert.ok( _isFunction( FPO.filterOut ), "filterOut()" );
@@ -53,7 +54,7 @@ QUnit.test( "core: API methods", function t1(assert){
 } );
 
 QUnit.test( "std: API methods", function t2(assert){
-	assert.expect( 50 );
+	assert.expect( 51 );
 
 	assert.ok( _isFunction( FPO.std.identity ), "identity()" );
 	assert.ok( _isFunction( FPO.std.constant ), "constant()" );
@@ -74,6 +75,7 @@ QUnit.test( "std: API methods", function t2(assert){
 	assert.ok( _isFunction( FPO.std.pipe ), "pipe()" );
 	assert.ok( _isFunction( FPO.std.prop ), "prop()" );
 	assert.ok( _isFunction( FPO.std.setProp ), "setProp()" );
+	assert.ok( _isFunction( FPO.std.reassoc ), "reassoc()" );
 	assert.ok( _isFunction( FPO.std.filterIn ), "filterIn()" );
 	assert.ok( _isFunction( FPO.std.filterInObj ), "filterInObj()" );
 	assert.ok( _isFunction( FPO.std.filterOut ), "filterOut()" );
@@ -920,6 +922,58 @@ QUnit.test( "std.setProp()", function t39(assert){
 	assert.deepEqual( qActual, qExpected, "prop and object undefined" );
 	assert.deepEqual( tActual, tExpected, "prop and object empty" );
 	assert.notStrictEqual( rActual, obj1, "object is cloned, not mutated" );
+} );
+
+QUnit.test( "reassoc()", function t39b(assert){
+	var obj = { x: 1, y: 2, z: 3, w: 4 };
+	var props1 = { x: "a", y: "b" };
+	var props2 = { A: "B" };
+
+	var rExpected = { a: 1, b: 2, z: 3, w: 4 };
+	var pExpected = { a: 1, b: 2, z: 3, w: 4 };
+	var qExpected = { x: 1, y: 2, z: 3, w: 4 };
+	var tExpected = { x: 1, y: 2, z: 3, w: 4 };
+	var sExpected = { x: 1, y: 2, z: 3, w: 4 };
+
+	var rActual = FPO.reassoc( {props: props1, v: obj} );
+	var pActual = FPO.reassoc()( {} )( {props: props1} )()( {v: obj} );
+	var qActual = FPO.reassoc( {props: props2, v: obj} );
+	var tActual = FPO.reassoc( {props: undefined, v: obj} );
+	var sActual = FPO.reassoc( {props: {}, v: obj} );
+
+	assert.expect( 6 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "props not present on source object" );
+	assert.deepEqual( tActual, tExpected, "props undefined" );
+	assert.deepEqual( sActual, sExpected, "props empty" );
+	assert.notStrictEqual( tActual, tExpected, "object is cloned, not mutated" );
+} );
+
+QUnit.test( "std.reassoc()", function t39c(assert){
+	var obj = { x: 1, y: 2, z: 3, w: 4 };
+	var props1 = { x: "a", y: "b" };
+	var props2 = { A: "B" };
+
+	var rExpected = { a: 1, b: 2, z: 3, w: 4 };
+	var pExpected = { a: 1, b: 2, z: 3, w: 4 };
+	var qExpected = { x: 1, y: 2, z: 3, w: 4 };
+	var tExpected = { x: 1, y: 2, z: 3, w: 4 };
+	var sExpected = { x: 1, y: 2, z: 3, w: 4 };
+
+	var rActual = FPO.std.reassoc( props1, obj );
+	var pActual = FPO.std.reassoc()( props1 )()( obj );
+	var qActual = FPO.std.reassoc( props2, obj );
+	var tActual = FPO.std.reassoc( undefined, obj );
+	var sActual = FPO.std.reassoc( {}, obj );
+
+	assert.expect( 6 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "props not present on source object" );
+	assert.deepEqual( tActual, tExpected, "props undefined" );
+	assert.deepEqual( sActual, sExpected, "props empty" );
+	assert.notStrictEqual( tActual, tExpected, "object is cloned, not mutated" );
 } );
 
 QUnit.test( "filterIn()", function t40(assert){

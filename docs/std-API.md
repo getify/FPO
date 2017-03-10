@@ -29,6 +29,7 @@ These are the methods on the `FPO.std.*` namespace. For the `FPO.*` methods, con
 * [`FPO.std.pickAll(..)`](#fpostdpickall)
 * [`FPO.std.pipe(..)`](#fpostdpipe) (aliases: `FPO.std.flow(..)`, `FPO.std.sequence(..)`)
 * [`FPO.std.prop(..)`](#fpostdprop)
+* [`FPO.std.reassoc(..)`](#fpostdreassoc)
 * [`FPO.std.reduce(..)`](#fpostdreduce) (aliases: `FPO.std.fold(..)`, `FPO.std.foldL(..)`)
 * [`FPO.std.reduceObj(..)`](#fpostdreduceobj) (aliases: `FPO.std.foldObj(..)`)
 * [`FPO.std.reduceRight(..)`](#fpostdreduceright) (aliases: `FPO.std.foldR(..)`)
@@ -844,6 +845,31 @@ Extracts a property's value from an object.
 	var obj = { x: 1, y: 2, z: 3 };
 
 	FPO.std.prop( "y", obj );  // 2
+	```
+
+* **See Also:** [`FPO.std.pick(..)`](#fpostdpick), [`FPO.std.setProp(..)`](#fpostdsetprop)
+
+----
+
+### `FPO.reassoc(..)`
+
+([back to top](#standard-api))
+
+Like a mixture between [`FPO.std.pick(..)`](#fpostdpick) and [`FPO.std.setProp(..)`](#fpostdsetprop), creates a new object that has properties remapped from original names to new names. Any properties present on the original object that aren't remapped are copied with the same name.
+
+* **Arguments:**
+	- `props`: object whose key/value pairs are `sourceProp: targetProp` remappings
+	- `v`: object to remap properties from
+
+* **Returns:** *-any-*
+
+* **Example:**
+
+	```js
+	var obj = { x: 1, y: 2, z: 3 };
+
+	FPO.std.reassoc( {x: "A", z: "__z__"}, obj );
+	// { A: 1, __z__: 3, y: 2}
 	```
 
 * **See Also:** [`FPO.std.pick(..)`](#fpostdpick), [`FPO.std.setProp(..)`](#fpostdsetprop)

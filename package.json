@@ -1,13 +1,14 @@
 {
 	"name": "fpo",
-	"version": "3.0.1",
+	"version": "3.1.0",
 	"description": "FP library for JavaScript. Supports named-argument style methods.",
 	"main": "./lib/fpo.js",
 	"scripts": {
 		"test": "node scripts/node-tests.js",
+		"test:all": "npm test && TEST_DIST=true npm test",
 		"build-core": "node scripts/build-core.js",
 		"build": "npm run build-core",
-		"prepublish": "npm run build-core && npm test && TEST_DIST=true npm test"
+		"prepublish": "npm run build-core && npm run test:all"
 	},
 	"devDependencies": {
 		"coveralls": "~2.12.0",
