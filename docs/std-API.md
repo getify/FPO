@@ -33,6 +33,7 @@ These are the methods on the `FPO.std.*` namespace. For the `FPO.*` methods, con
 * [`FPO.std.reduce(..)`](#fpostdreduce) (aliases: `FPO.std.fold(..)`, `FPO.std.foldL(..)`)
 * [`FPO.std.reduceObj(..)`](#fpostdreduceobj) (aliases: `FPO.std.foldObj(..)`)
 * [`FPO.std.reduceRight(..)`](#fpostdreduceright) (aliases: `FPO.std.foldR(..)`)
+* [`FPO.std.remap(..)`](#fpostdremap)
 * [`FPO.std.reverseArgs(..)`](#fpostdreverseargs)
 * [`FPO.std.setProp(..)`](#fpostdsetprop) (aliases: `FPO.std.assoc(..)`)
 * [`FPO.std.tail(..)`](#fpostdtail)
@@ -861,7 +862,7 @@ Like a mixture between [`FPO.std.pick(..)`](#fpostdpick) and [`FPO.std.setProp(.
 	- `props`: object whose key/value pairs are `sourceProp: targetProp` remappings
 	- `v`: object to remap properties from
 
-* **Returns:** *-any-*
+* **Returns:** *object*
 
 * **Example:**
 
@@ -976,6 +977,35 @@ An initial value for the reduction can optionally be provided. If the array is e
 * **Aliases:** `FPO.std.foldR(..)`
 
 * **See Also:** [`FPO.std.reduce(..)`](#fpostdreduce)
+
+----
+
+### `FPO.std.remap(..)`
+
+([back to top](#standard-api))
+
+Remaps the expected named arguments of a function. This is useful to adapt a function to be used if the arguments passed in will be different than what the function expects.
+
+A common usecase will be to adapt a function so it's suitable for use as a mapper/predicate/reducer function, or for composition.
+
+* **Arguments:**
+	- `fn`: function to remap
+	- `args`: object whose key/value pairs represent the `origArgName: newArgName` mappings
+
+* **Returns:** *function*
+
+* **Example:**
+
+	```js
+	function double({ x }) { return x * 2; }
+
+	var f = FPO.std.remap( double, {x: "v"} );
+
+	f( {v: 3} );
+	// 6
+	```
+
+* **See Also:** [`FPO.std.reassoc(..)`](#fpostdreassoc)
 
 ----
 

@@ -31,6 +31,7 @@ These are the methods on the `FPO.*` namespace. For the `FPO.std.*` methods, con
 * [`FPO.reduce(..)`](#fporeduce) (aliases: `FPO.fold(..)`, `FPO.foldL(..)`)
 * [`FPO.reduceObj(..)`](#fporeduceobj) (aliases: `FPO.foldObj(..)`)
 * [`FPO.reduceRight(..)`](#fporeduceright) (aliases: `FPO.foldR(..)`)
+* [`FPO.remap(..)`](#fporemap)
 * [`FPO.setProp(..)`](#fposetprop) (aliases: `FPO.assoc(..)`)
 * [`FPO.tail(..)`](#fpotail)
 * [`FPO.take(..)`](#fpotake)
@@ -807,7 +808,7 @@ Like a mixture between [`FPO.pick(..)`](#fpopick) and [`FPO.setProp(..)`](#fpose
 	- `props`: object whose key/value pairs are `sourceProp: targetProp` remappings
 	- `v`: object to remap properties from
 
-* **Returns:** *-any-*
+* **Returns:** *object*
 
 * **Example:**
 
@@ -922,6 +923,49 @@ An initial value for the reduction can optionally be provided. If the array is e
 * **Aliases:** `FPO.foldR(..)`
 
 * **See Also:** [`FPO.reduce(..)`](#fporeduce)
+
+----
+
+### `FPO.remap(..)`
+
+([back to top](#core-api))
+
+Remaps the expected named arguments of a function. This is useful to adapt a function to be used if the arguments passed in will be different than what the function expects.
+
+A common usecase will be to adapt a function so it's suitable for use as a mapper/predicate/reducer function, or for composition.
+
+* **Arguments:**
+	- `fn`: function to remap
+	- `args`: object whose key/value pairs represent the `origArgName: newArgName` mappings
+
+* **Returns:** *function*
+
+* **Example:**
+
+	```js
+	function double({ x }) { return x * 2; }
+	function increment({ y }) { return y + 1; }
+	function div3({ z }) { return z / 3; }
+
+	var f = FPO.remap( {fn: double, args: {x: "v"}} );
+	var g = FPO.remap( {fn: increment, args: {y: "v"}} );
+	var h = FPO.remap( {fn: div3, args: {z: "v"}} );
+
+	f( {v: 3} );
+	// 6
+
+	FPO.map( {fn: g, arr: [5,10,15,20,25]} );
+	// [6,11,16,21,26]
+
+	var m = FPO.compose( {fns: [h,g,f]} );
+	m( {v: 4} );
+	// 3
+
+	FPO.map( {fn: m, arr: [1,4,7,10,13]} );
+	// [1,3,5,7,9]
+	```
+
+* **See Also:** [`FPO.reassoc(..)`](#fporeassoc)
 
 ----
 

@@ -55,6 +55,7 @@
 		tail: curryMultiple( {fn: tail, n: 1} ),
 		take: curryMultiple( {fn: take, n: 1} ),
 		memoize: curryMultiple( {fn: memoize, n: 1} ),
+		remap: curryMultiple( {fn: remap, n: 2} ),
 	};
 
 	publicAPI.std = {
@@ -110,6 +111,7 @@
 		tail: stdCurryMultiple( unapply( {fn: tail, props: ["v"]} ), /*arity=*/1 ),
 		take: stdCurryMultiple( unapply( {fn: take, props: ["v","n"]} ), /*arity=*/1 ),
 		memoize: stdCurryMultiple( unapply( {fn: memoize, props: ["fn","n"]} ), /*arity=*/1 ),
+		remap: stdCurryMultiple( unapply( {fn: remap, props: ["fn","args"]} ), /*arity=*/2 ),
 	};
 
 	// method convenience aliases
@@ -826,6 +828,20 @@
 				cache[hash] :
 				(cache[hash] = fn( ...args ));
 		}
+	}
+
+	function remap({ fn, args = {}} = {}) {
+		var props = {};
+
+		// transpose `args` from `target: source` to
+		// `source: target` for `reassoc(..)` to use
+		for (let prop of Object.keys( args )) {
+			props[args[prop]] = prop;
+		}
+
+		return function remapped(argsObj){
+			return fn( reassoc( {v: argsObj, props} ) );
+		};
 	}
 
 

@@ -1,7 +1,7 @@
 "use strict";
 
 QUnit.test( "core: API methods", function t1(assert){
-	assert.expect( 48 );
+	assert.expect( 49 );
 
 	assert.ok( _isFunction( FPO.identity ), "identity()" );
 	assert.ok( _isFunction( FPO.constant ), "constant()" );
@@ -51,10 +51,11 @@ QUnit.test( "core: API methods", function t1(assert){
 	assert.ok( _isFunction( FPO.tail ), "tail()" );
 	assert.ok( _isFunction( FPO.take ), "take()" );
 	assert.ok( _isFunction( FPO.memoize ), "memoize()" );
+	assert.ok( _isFunction( FPO.remap ), "remap()" );
 } );
 
 QUnit.test( "std: API methods", function t2(assert){
-	assert.expect( 51 );
+	assert.expect( 52 );
 
 	assert.ok( _isFunction( FPO.std.identity ), "identity()" );
 	assert.ok( _isFunction( FPO.std.constant ), "constant()" );
@@ -107,6 +108,7 @@ QUnit.test( "std: API methods", function t2(assert){
 	assert.ok( _isFunction( FPO.std.tail ), "tail()" );
 	assert.ok( _isFunction( FPO.std.take ), "take()" );
 	assert.ok( _isFunction( FPO.std.memoize ), "memoize()" );
+	assert.ok( _isFunction( FPO.std.remap ), "remap()" );
 } );
 
 QUnit.test( "API method aliases", function t3(assert){
@@ -2710,6 +2712,59 @@ QUnit.test( "std.memoize()", function t87(assert){
 	assert.strictEqual( kActual, kExpected, "counter" );
 } );
 
+QUnit.test( "remap()", function t88(assert){
+	function foo(argsObj) { return argsObj; }
+
+	var args = { a: 1, b: 2, c: 3 };
+	var argsRemap = { B: "b", C: "c" };
+
+	var rExpected = { a: 1, B: 2, C: 3 };
+	var pExpected = { a: 1, B: 2, C: 3 };
+	var qExpected = { a: 1, b: 2, c: 3 };
+	var tExpected = { a: 1, b: 2, c: 3 };
+	var sExpected = { a: 1, b: 2, c: 3 };
+
+	var rActual = FPO.remap( {fn: foo, args: argsRemap} )( args );
+	var pActual = FPO.remap()( {} )( {fn: foo} )()( {args: argsRemap} )( args );
+	var qActual = FPO.remap( {fn: foo, args: {x: "y"}} )( args );
+	var tActual = FPO.remap( {fn: foo, args: undefined} )( args );
+	var sActual = FPO.remap( {fn: foo, args: {}} )( args );
+
+	assert.expect( 6 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "props not present on source object" );
+	assert.deepEqual( tActual, tExpected, "props undefined" );
+	assert.deepEqual( sActual, sExpected, "props empty" );
+	assert.notStrictEqual( args, qExpected, "object is cloned, not mutated" );
+} );
+
+QUnit.test( "std.remap()", function t89(assert){
+	function foo(argsObj) { return argsObj; }
+
+	var args = { a: 1, b: 2, c: 3 };
+	var argsRemap = { B: "b", C: "c" };
+
+	var rExpected = { a: 1, B: 2, C: 3 };
+	var pExpected = { a: 1, B: 2, C: 3 };
+	var qExpected = { a: 1, b: 2, c: 3 };
+	var tExpected = { a: 1, b: 2, c: 3 };
+	var sExpected = { a: 1, b: 2, c: 3 };
+
+	var rActual = FPO.std.remap( foo, argsRemap )( args );
+	var pActual = FPO.std.remap()( foo )()( argsRemap )( args );
+	var qActual = FPO.std.remap( foo, {x: "y"} )( args );
+	var tActual = FPO.std.remap( foo, undefined )( args );
+	var sActual = FPO.std.remap( foo, {} )( args );
+
+	assert.expect( 6 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "props not present on source object" );
+	assert.deepEqual( tActual, tExpected, "props undefined" );
+	assert.deepEqual( sActual, sExpected, "props empty" );
+	assert.notStrictEqual( args, qExpected, "object is cloned, not mutated" );
+} );
 
 
 
