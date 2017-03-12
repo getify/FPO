@@ -120,7 +120,7 @@ FPO.map( {fn: uppercase, arr: ["hello","world"]} );
 
 The problem here is that [`FPO.map(..)`](docs/core-API.md#fpomap) expects to call its mapper function with a `v` named argument, but `uppercase(..)` expects `str`.
 
-[`FPO.remap(..)`](docs/core-API.md#fporemap) -- despite the name similarity, no particular relationship to [`FPO.map(..)`](docs/core-API.md#fpomap), except that that it's our example -- lets you adapt a function to remap its expected named parameters:
+[`FPO.remap(..)`](docs/core-API.md#fporemap) -- despite the name similarity, no particular relationship to [`FPO.map(..)`](docs/core-API.md#fpomap), except that it's our example -- lets you adapt a function to remap its expected named parameters:
 
 ```js
 function uppercase({ str }) { return str.toUpperCase(); }
