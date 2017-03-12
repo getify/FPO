@@ -1,6 +1,6 @@
 "use strict";
 
-QUnit.test( "core: API methods", function t1(assert){
+QUnit.test( "core: API methods", function test(assert){
 	assert.expect( 49 );
 
 	assert.ok( _isFunction( FPO.identity ), "identity()" );
@@ -54,7 +54,7 @@ QUnit.test( "core: API methods", function t1(assert){
 	assert.ok( _isFunction( FPO.remap ), "remap()" );
 } );
 
-QUnit.test( "std: API methods", function t2(assert){
+QUnit.test( "std: API methods", function test(assert){
 	assert.expect( 52 );
 
 	assert.ok( _isFunction( FPO.std.identity ), "identity()" );
@@ -111,7 +111,7 @@ QUnit.test( "std: API methods", function t2(assert){
 	assert.ok( _isFunction( FPO.std.remap ), "remap()" );
 } );
 
-QUnit.test( "API method aliases", function t3(assert){
+QUnit.test( "API method aliases", function test(assert){
 	assert.expect( 39 );
 
 	assert.strictEqual( FPO.always, FPO.constant, "always -> constant" );
@@ -155,7 +155,7 @@ QUnit.test( "API method aliases", function t3(assert){
 	assert.strictEqual( FPO.std.transducers.boolean, FPO.std.transducers.booleanAnd, "std: transducers.boolean -> transducers.booleanAnd" );
 } );
 
-QUnit.test( "identity()", function t4(assert){
+QUnit.test( "identity()", function test(assert){
 	var rExpected = 2;
 	var pExpected = undefined;
 	var qExpected = 3;
@@ -170,7 +170,7 @@ QUnit.test( "identity()", function t4(assert){
 	assert.strictEqual( qActual, qExpected, "curried with value" );
 } );
 
-QUnit.test( "std.identity()", function t5(assert){
+QUnit.test( "std.identity()", function test(assert){
 	var rExpected = 2;
 	var pExpected = undefined;
 	var qExpected = 3;
@@ -185,7 +185,7 @@ QUnit.test( "std.identity()", function t5(assert){
 	assert.strictEqual( qActual, qExpected, "curried with value" );
 } );
 
-QUnit.test( "constant()", function t6(assert){
+QUnit.test( "constant()", function test(assert){
 	var rExpected = 2;
 	var pExpected = undefined;
 	var qExpected = 3;
@@ -200,7 +200,7 @@ QUnit.test( "constant()", function t6(assert){
 	assert.strictEqual( qActual, qExpected, "curried with value" );
 } );
 
-QUnit.test( "std.constant()", function t7(assert){
+QUnit.test( "std.constant()", function test(assert){
 	var rExpected = 2;
 	var pExpected = undefined;
 	var qExpected = 3;
@@ -215,7 +215,7 @@ QUnit.test( "std.constant()", function t7(assert){
 	assert.strictEqual( qActual, qExpected, "curried with value" );
 } );
 
-QUnit.test( "pick()", function t8(assert){
+QUnit.test( "pick()", function test(assert){
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
 
 	var rExpected = { x: 1, z: 3 };
@@ -235,7 +235,7 @@ QUnit.test( "pick()", function t8(assert){
 	assert.deepEqual( tActual, tExpected, "undefined props" );
 } );
 
-QUnit.test( "std.pick()", function t9(assert){
+QUnit.test( "std.pick()", function test(assert){
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
 
 	var rExpected = { x: 1, z: 3 };
@@ -255,7 +255,7 @@ QUnit.test( "std.pick()", function t9(assert){
 	assert.deepEqual( tActual, tExpected, "undefined props" );
 } );
 
-QUnit.test( "pickAll()", function t10(assert){
+QUnit.test( "pickAll()", function test(assert){
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
 
 	var rExpected = { x: 1, z: 3, f: undefined };
@@ -275,7 +275,7 @@ QUnit.test( "pickAll()", function t10(assert){
 	assert.deepEqual( tActual, tExpected, "undefined props" );
 } );
 
-QUnit.test( "std.pickAll()", function t11(assert){
+QUnit.test( "std.pickAll()", function test(assert){
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
 	var rExpected = { x: 1, z: 3, f: undefined };
 	var pExpected = { y: 2 };
@@ -294,7 +294,7 @@ QUnit.test( "std.pickAll()", function t11(assert){
 	assert.deepEqual( tActual, tExpected, "undefined props" );
 } );
 
-QUnit.test( "nAry()", function t12(assert){
+QUnit.test( "nAry()", function test(assert){
 	function foo(argsObj) { return argsObj; }
 
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
@@ -316,7 +316,7 @@ QUnit.test( "nAry()", function t12(assert){
 	assert.deepEqual( tActual, tExpected, "undefined props (nullary)" );
 } );
 
-QUnit.test( "std.nAry()", function t13(assert){
+QUnit.test( "std.nAry()", function test(assert){
 	function foo(...args) { return args; }
 
 	var args = [1,2,3,4];
@@ -338,7 +338,7 @@ QUnit.test( "std.nAry()", function t13(assert){
 	assert.deepEqual( tActual, tExpected, "undefined arity (nullary)" );
 } );
 
-QUnit.test( "unary()", function t14(assert){
+QUnit.test( "unary()", function test(assert){
 	function foo(argsObj) { return argsObj; }
 
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
@@ -357,7 +357,7 @@ QUnit.test( "unary()", function t14(assert){
 	assert.deepEqual( qActual, qExpected, "undefined prop" );
 } );
 
-QUnit.test( "std.unary()", function t15(assert){
+QUnit.test( "std.unary()", function test(assert){
 	function foo(...args) { return args; }
 
 	var args = [1,2,3,4];
@@ -373,7 +373,7 @@ QUnit.test( "std.unary()", function t15(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "binary()", function t16(assert){
+QUnit.test( "binary()", function test(assert){
 	function foo(argsObj) { return argsObj; }
 
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
@@ -395,7 +395,7 @@ QUnit.test( "binary()", function t16(assert){
 	assert.deepEqual( tActual, tExpected, "undefined props" );
 } );
 
-QUnit.test( "std.binary()", function t17(assert){
+QUnit.test( "std.binary()", function test(assert){
 	function foo(...args) { return args; }
 
 	var args = [1,2,3,4];
@@ -411,7 +411,7 @@ QUnit.test( "std.binary()", function t17(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "curry()", function t18(assert){
+QUnit.test( "curry()", function test(assert){
 	function foo(argsObj) { return argsObj; }
 
 	var X = { x: 1 };
@@ -436,7 +436,7 @@ QUnit.test( "curry()", function t18(assert){
 	assert.deepEqual( tActual, tExpected, "zero arity" );
 } );
 
-QUnit.test( "std.curry()", function t19(assert){
+QUnit.test( "std.curry()", function test(assert){
 	function foo(...args) { return args; }
 
 	var a1 = [1];
@@ -461,7 +461,7 @@ QUnit.test( "std.curry()", function t19(assert){
 	assert.deepEqual( tActual, tExpected, "zero arity" );
 } );
 
-QUnit.test( "curryMultiple()", function t20(assert){
+QUnit.test( "curryMultiple()", function test(assert){
 	function foo(argsObj) { return argsObj; }
 
 	var X = { x: 1 };
@@ -486,7 +486,7 @@ QUnit.test( "curryMultiple()", function t20(assert){
 	assert.deepEqual( tActual, tExpected, "zero arity" );
 } );
 
-QUnit.test( "std.curryMultiple()", function t21(assert){
+QUnit.test( "std.curryMultiple()", function test(assert){
 	function foo(...args) { return args; }
 
 	var a1 = [1];
@@ -511,7 +511,7 @@ QUnit.test( "std.curryMultiple()", function t21(assert){
 	assert.deepEqual( tActual, tExpected, "zero arity" );
 } );
 
-QUnit.test( "uncurry()", function t22(assert){
+QUnit.test( "uncurry()", function test(assert){
 	function foo(argsObj) { return argsObj; }
 
 	var XYZ = { x: 1, y: 2, z: 3 };
@@ -530,7 +530,7 @@ QUnit.test( "uncurry()", function t22(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "std.uncurry()", function t23(assert){
+QUnit.test( "std.uncurry()", function test(assert){
 	function foo(...args) { return args; }
 
 	var a123 = [1,2,3];
@@ -549,7 +549,7 @@ QUnit.test( "std.uncurry()", function t23(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "partial()", function t24(assert){
+QUnit.test( "partial()", function test(assert){
 	function foo(argsObj) { return argsObj; }
 
 	var X = { x: 1 };
@@ -574,7 +574,7 @@ QUnit.test( "partial()", function t24(assert){
 	assert.deepEqual( tActual, tExpected, "empty partial args" );
 } );
 
-QUnit.test( "std.partial()", function t25(assert){
+QUnit.test( "std.partial()", function test(assert){
 	function foo(...args) { return args; }
 
 	var a1 = [1];
@@ -599,7 +599,7 @@ QUnit.test( "std.partial()", function t25(assert){
 	assert.deepEqual( tActual, tExpected, "empty partial args" );
 } );
 
-QUnit.test( "std.partialRight()", function t25b(assert){
+QUnit.test( "std.partialRight()", function test(assert){
 	function foo(...args) { return args; }
 
 	var a1 = [1];
@@ -624,7 +624,7 @@ QUnit.test( "std.partialRight()", function t25b(assert){
 	assert.deepEqual( tActual, tExpected, "empty partial args" );
 } );
 
-QUnit.test( "complement()", function t26(assert){
+QUnit.test( "complement()", function test(assert){
 	function xPlusYEven(argsObj) { return (argsObj.x + argsObj.y) % 2 == 0; }
 
 	var XY12 = { x: 1, y: 2 };
@@ -641,7 +641,7 @@ QUnit.test( "complement()", function t26(assert){
 	assert.strictEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "std.complement()", function t27(assert){
+QUnit.test( "std.complement()", function test(assert){
 	function argPlusArgEven(...args) { return (args[0] + args[1]) % 2 == 0; }
 
 	var a12 = [1,2];
@@ -658,7 +658,7 @@ QUnit.test( "std.complement()", function t27(assert){
 	assert.strictEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "apply()", function t28(assert){
+QUnit.test( "apply()", function test(assert){
 	function foo(x,y,z) { return {x,y,z}; }
 
 	var obj = { y: 2, z: 3, x: 1 };
@@ -681,7 +681,7 @@ QUnit.test( "apply()", function t28(assert){
 	assert.deepEqual( tActual, tExpected, "empty props" );
 } );
 
-QUnit.test( "std.apply(..)", function t29(assert){
+QUnit.test( "std.apply(..)", function test(assert){
 	function foo(...args) { return args; }
 
 	var arr = [1,2,3];
@@ -697,7 +697,7 @@ QUnit.test( "std.apply(..)", function t29(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "unapply()", function t30(assert){
+QUnit.test( "unapply()", function test(assert){
 	function foo({x,y,z}) { return {x,y,z}; }
 
 	var args = [1,2,3];
@@ -720,7 +720,7 @@ QUnit.test( "unapply()", function t30(assert){
 	assert.deepEqual( tActual, tExpected, "empty props" );
 } );
 
-QUnit.test( "std.unapply()", function t31(assert){
+QUnit.test( "std.unapply()", function test(assert){
 	function foo(args) { return args; }
 
 	var arr = [1,2,3];
@@ -736,7 +736,7 @@ QUnit.test( "std.unapply()", function t31(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "compose()", function t32(assert){
+QUnit.test( "compose()", function test(assert){
 	function foo({v}) { return `foo,${v}`; }
 	function bar({v}) { return `bar,${v}`; }
 	function baz({v}) { return `baz,${v}`; }
@@ -760,7 +760,7 @@ QUnit.test( "compose()", function t32(assert){
 	assert.strictEqual( tActual, tExpected, "functions list empty" );
 } );
 
-QUnit.test( "std.compose()", function t33(assert){
+QUnit.test( "std.compose()", function test(assert){
 	function foo(v) { return `foo,${v}`; }
 	function bar(v) { return `bar,${v}`; }
 	function baz(v) { return `baz,${v}`; }
@@ -784,7 +784,7 @@ QUnit.test( "std.compose()", function t33(assert){
 	assert.strictEqual( tActual, tExpected, "functions list empty" );
 } );
 
-QUnit.test( "pipe()", function t34(assert){
+QUnit.test( "pipe()", function test(assert){
 	function foo({v}) { return `foo,${v}`; }
 	function bar({v}) { return `bar,${v}`; }
 	function baz({v}) { return `baz,${v}`; }
@@ -808,7 +808,7 @@ QUnit.test( "pipe()", function t34(assert){
 	assert.strictEqual( tActual, tExpected, "functions list empty" );
 } );
 
-QUnit.test( "std.pipe()", function t35(assert){
+QUnit.test( "std.pipe()", function test(assert){
 	function foo(v) { return `foo,${v}`; }
 	function bar(v) { return `bar,${v}`; }
 	function baz(v) { return `baz,${v}`; }
@@ -832,7 +832,7 @@ QUnit.test( "std.pipe()", function t35(assert){
 	assert.strictEqual( tActual, tExpected, "functions list empty" );
 } );
 
-QUnit.test( "prop()", function t36(assert){
+QUnit.test( "prop()", function test(assert){
 	var obj1 = { x: 1, y: 2, z: 3, w: 4 };
 	var obj2 = { x: 1, y: 2 };
 
@@ -860,7 +860,7 @@ QUnit.test( "prop()", function t36(assert){
 	assert.strictEqual( uActual, uExpected, "prop and object empty" );
 } );
 
-QUnit.test( "std.prop()", function t37(assert){
+QUnit.test( "std.prop()", function test(assert){
 	var obj1 = { x: 1, y: 2, z: 3, w: 4 };
 	var obj2 = { x: 1, y: 2 };
 
@@ -881,7 +881,7 @@ QUnit.test( "std.prop()", function t37(assert){
 	assert.strictEqual( tActual, tExpected, "prop and object empty" );
 } );
 
-QUnit.test( "setProp()", function t38(assert){
+QUnit.test( "setProp()", function test(assert){
 	var obj1 = { x: 1, y: 2, z: 3, w: 4 };
 	var obj2 = { x: 1, y: 2 };
 	var v10 = { v: 10 };
@@ -904,7 +904,7 @@ QUnit.test( "setProp()", function t38(assert){
 	assert.notStrictEqual( rActual, obj1, "object is cloned, not mutated" );
 } );
 
-QUnit.test( "std.setProp()", function t39(assert){
+QUnit.test( "std.setProp()", function test(assert){
 	var obj1 = { x: 1, y: 2, z: 3, w: 4 };
 	var obj2 = { x: 1, y: 2 };
 
@@ -926,7 +926,7 @@ QUnit.test( "std.setProp()", function t39(assert){
 	assert.notStrictEqual( rActual, obj1, "object is cloned, not mutated" );
 } );
 
-QUnit.test( "reassoc()", function t39b(assert){
+QUnit.test( "reassoc()", function test(assert){
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
 	var props1 = { x: "a", y: "b" };
 	var props2 = { A: "B" };
@@ -952,7 +952,7 @@ QUnit.test( "reassoc()", function t39b(assert){
 	assert.notStrictEqual( tActual, tExpected, "object is cloned, not mutated" );
 } );
 
-QUnit.test( "std.reassoc()", function t39c(assert){
+QUnit.test( "std.reassoc()", function test(assert){
 	var obj = { x: 1, y: 2, z: 3, w: 4 };
 	var props1 = { x: "a", y: "b" };
 	var props2 = { A: "B" };
@@ -978,7 +978,7 @@ QUnit.test( "std.reassoc()", function t39c(assert){
 	assert.notStrictEqual( tActual, tExpected, "object is cloned, not mutated" );
 } );
 
-QUnit.test( "filterIn()", function t40(assert){
+QUnit.test( "filterIn()", function test(assert){
 	function checkParams({ v, i, arr }) {
 		if (
 			arr === list &&
@@ -1017,7 +1017,7 @@ QUnit.test( "filterIn()", function t40(assert){
 	assert.deepEqual( uActual, uExpected, "predicate params check" );
 } );
 
-QUnit.test( "std.filterIn()", function t41(assert){
+QUnit.test( "std.filterIn()", function test(assert){
 	function checkParams(v,i,arr) {
 		if (
 			arr === list &&
@@ -1056,7 +1056,7 @@ QUnit.test( "std.filterIn()", function t41(assert){
 	assert.deepEqual( uActual, uExpected, "predicate params check" );
 } );
 
-QUnit.test( "filterInObj()", function t41b(assert){
+QUnit.test( "filterInObj()", function test(assert){
 	function checkParams({ v, i, o }) {
 		if (
 			o === obj &&
@@ -1095,7 +1095,7 @@ QUnit.test( "filterInObj()", function t41b(assert){
 	assert.deepEqual( uActual, uExpected, "predicate params check" );
 } );
 
-QUnit.test( "std.filterInObj()", function t41c(assert){
+QUnit.test( "std.filterInObj()", function test(assert){
 	function checkParams(v,i,o) {
 		if (
 			o === obj &&
@@ -1134,7 +1134,7 @@ QUnit.test( "std.filterInObj()", function t41c(assert){
 	assert.deepEqual( uActual, uExpected, "predicate params check" );
 } );
 
-QUnit.test( "filterOut()", function t42(assert){
+QUnit.test( "filterOut()", function test(assert){
 	function checkParams({ v, i, arr }) {
 		if (
 			arr === list &&
@@ -1173,7 +1173,7 @@ QUnit.test( "filterOut()", function t42(assert){
 	assert.deepEqual( uActual, uExpected, "predicate params check" );
 } );
 
-QUnit.test( "std.filterOut()", function t43(assert){
+QUnit.test( "std.filterOut()", function test(assert){
 	function checkParams(v,i,arr) {
 		if (
 			arr === list &&
@@ -1212,7 +1212,7 @@ QUnit.test( "std.filterOut()", function t43(assert){
 	assert.deepEqual( uActual, uExpected, "predicate params check" );
 } );
 
-QUnit.test( "filterOutObj()", function t43b(assert){
+QUnit.test( "filterOutObj()", function test(assert){
 	function checkParams({ v, i, o }) {
 		if (
 			o === obj &&
@@ -1251,7 +1251,7 @@ QUnit.test( "filterOutObj()", function t43b(assert){
 	assert.deepEqual( uActual, uExpected, "predicate params check" );
 } );
 
-QUnit.test( "std.filterOutObj()", function t43c(assert){
+QUnit.test( "std.filterOutObj()", function test(assert){
 	function checkParams(v,i,o) {
 		if (
 			o === obj &&
@@ -1290,7 +1290,7 @@ QUnit.test( "std.filterOutObj()", function t43c(assert){
 	assert.deepEqual( uActual, uExpected, "predicate params check" );
 } );
 
-QUnit.test( "map()", function t44(assert){
+QUnit.test( "map()", function test(assert){
 	function checkParams({ v, i, arr }) {
 		if (
 			arr === list &&
@@ -1325,7 +1325,7 @@ QUnit.test( "map()", function t44(assert){
 	assert.deepEqual( sActual, sExpected, "mapper params check" );
 } );
 
-QUnit.test( "std.map()", function t45(assert){
+QUnit.test( "std.map()", function test(assert){
 	function checkParams(v,i,arr) {
 		if (
 			arr === list &&
@@ -1360,7 +1360,7 @@ QUnit.test( "std.map()", function t45(assert){
 	assert.deepEqual( sActual, sExpected, "mapper params check" );
 } );
 
-QUnit.test( "mapObj()", function t45b(assert){
+QUnit.test( "mapObj()", function test(assert){
 	function checkParams({ v, i, o }) {
 		if (
 			o === obj &&
@@ -1395,7 +1395,7 @@ QUnit.test( "mapObj()", function t45b(assert){
 	assert.deepEqual( sActual, sExpected, "mapper params check" );
 } );
 
-QUnit.test( "std.mapObj()", function t45c(assert){
+QUnit.test( "std.mapObj()", function test(assert){
 	function checkParams(v,i,o) {
 		if (
 			o === obj &&
@@ -1430,7 +1430,7 @@ QUnit.test( "std.mapObj()", function t45c(assert){
 	assert.deepEqual( sActual, sExpected, "mapper params check" );
 } );
 
-QUnit.test( "flatMap()", function t46(assert){
+QUnit.test( "flatMap()", function test(assert){
 	function checkParams({ v, i, arr }) {
 		if (
 			arr === list &&
@@ -1470,7 +1470,7 @@ QUnit.test( "flatMap()", function t46(assert){
 	assert.deepEqual( sActual, sExpected, "mapper params check" );
 } );
 
-QUnit.test( "std.flatMap()", function t47(assert){
+QUnit.test( "std.flatMap()", function test(assert){
 	function checkParams(v,i,arr) {
 		if (
 			arr === list &&
@@ -1510,7 +1510,7 @@ QUnit.test( "std.flatMap()", function t47(assert){
 	assert.deepEqual( sActual, sExpected, "mapper params check" );
 } );
 
-QUnit.test( "flatMapObj()", function t47b(assert){
+QUnit.test( "flatMapObj()", function test(assert){
 	function checkParams({ v, i, o }) {
 		if (
 			o === obj &&
@@ -1550,7 +1550,7 @@ QUnit.test( "flatMapObj()", function t47b(assert){
 	assert.deepEqual( sActual, sExpected, "mapper params check" );
 } );
 
-QUnit.test( "std.flatMapObj()", function t47c(assert){
+QUnit.test( "std.flatMapObj()", function test(assert){
 	function checkParams(v,i,o) {
 		if (
 			o === obj &&
@@ -1590,7 +1590,7 @@ QUnit.test( "std.flatMapObj()", function t47c(assert){
 	assert.deepEqual( sActual, sExpected, "mapper params check" );
 } );
 
-QUnit.test( "reduce()", function t48(assert){
+QUnit.test( "reduce()", function test(assert){
 	function checkParams({ acc, v, i, arr }) {
 		if (
 			arr === list &&
@@ -1629,7 +1629,7 @@ QUnit.test( "reduce()", function t48(assert){
 	assert.strictEqual( uActual, uExpected, "reducer params check" );
 } );
 
-QUnit.test( "std.reduce()", function t49(assert){
+QUnit.test( "std.reduce()", function test(assert){
 	function checkParams(acc,v,i,arr) {
 		if (
 			arr === list &&
@@ -1668,7 +1668,7 @@ QUnit.test( "std.reduce()", function t49(assert){
 	assert.strictEqual( uActual, uExpected, "reducer params check" );
 } );
 
-QUnit.test( "reduceObj()", function t49b(assert){
+QUnit.test( "reduceObj()", function test(assert){
 	function checkParams({ acc, v, i, o }) {
 		if (
 			o === obj &&
@@ -1707,7 +1707,7 @@ QUnit.test( "reduceObj()", function t49b(assert){
 	assert.strictEqual( uActual, uExpected, "reducer params check" );
 } );
 
-QUnit.test( "std.reduceObj()", function t49c(assert){
+QUnit.test( "std.reduceObj()", function test(assert){
 	function checkParams(acc,v,i,o) {
 		if (
 			o === obj &&
@@ -1746,7 +1746,7 @@ QUnit.test( "std.reduceObj()", function t49c(assert){
 	assert.strictEqual( uActual, uExpected, "reducer params check" );
 } );
 
-QUnit.test( "reduceRight()", function t50(assert){
+QUnit.test( "reduceRight()", function test(assert){
 	function checkParams({ acc, v, i, arr }) {
 		if (
 			arr === list &&
@@ -1785,7 +1785,7 @@ QUnit.test( "reduceRight()", function t50(assert){
 	assert.strictEqual( uActual, uExpected, "reducer params check" );
 } );
 
-QUnit.test( "std.reduceRight()", function t51(assert){
+QUnit.test( "std.reduceRight()", function test(assert){
 	function checkParams(acc,v,i,arr) {
 		if (
 			arr === list &&
@@ -1824,7 +1824,7 @@ QUnit.test( "std.reduceRight()", function t51(assert){
 	assert.strictEqual( uActual, uExpected, "reducer params check" );
 } );
 
-QUnit.test( "flatten()", function t52(assert){
+QUnit.test( "flatten()", function test(assert){
 	var list = [1,2,[3,[4,5]]];
 
 	var rExpected = [1,2,3,4,5];
@@ -1862,7 +1862,7 @@ QUnit.test( "flatten()", function t52(assert){
 	assert.deepEqual( mActual, mExpected, "array empty" );
 } );
 
-QUnit.test( "std.flatten()", function t53(assert){
+QUnit.test( "std.flatten()", function test(assert){
 	var list = [1,2,[3,[4,5]]];
 
 	var rExpected = [1,2,3,4,5];
@@ -1900,7 +1900,7 @@ QUnit.test( "std.flatten()", function t53(assert){
 	assert.deepEqual( mActual, mExpected, "array empty" );
 } );
 
-QUnit.test( "zip()", function t54(assert){
+QUnit.test( "zip()", function test(assert){
 	var list1 = [1,4,7];
 	var list2 = [2,5,8];
 	var list3 = [3,6];
@@ -1931,7 +1931,7 @@ QUnit.test( "zip()", function t54(assert){
 	assert.deepEqual( hActual, hExpected, "both lists empty" );
 } );
 
-QUnit.test( "std.zip()", function t55(assert){
+QUnit.test( "std.zip()", function test(assert){
 	var list1 = [1,4,7];
 	var list2 = [2,5,8];
 	var list3 = [3,6];
@@ -1962,7 +1962,7 @@ QUnit.test( "std.zip()", function t55(assert){
 	assert.deepEqual( hActual, hExpected, "both lists empty" );
 } );
 
-QUnit.test( "trampoline()", function t56(assert){
+QUnit.test( "trampoline()", function test(assert){
 	function sum(total,x) {
 		if (x <= 1) return total + x;
 		return () => sum( total + x, x - 1 );
@@ -1981,7 +1981,7 @@ QUnit.test( "trampoline()", function t56(assert){
 	assert.strictEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "std.trampoline()", function t57(assert){
+QUnit.test( "std.trampoline()", function test(assert){
 	function sum(total,x) {
 		if (x <= 1) return total + x;
 		return () => sum( total + x, x - 1 );
@@ -2000,7 +2000,7 @@ QUnit.test( "std.trampoline()", function t57(assert){
 	assert.strictEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "transducers.map()", function t58(assert){
+QUnit.test( "transducers.map()", function test(assert){
 	function decrement({v: num}) { return num - 1; }
 	function sum({acc: total, v: num}) { return total + num; }
 
@@ -2017,7 +2017,7 @@ QUnit.test( "transducers.map()", function t58(assert){
 	assert.strictEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "std.transducers.map()", function t59(assert){
+QUnit.test( "std.transducers.map()", function test(assert){
 	function decrement(num) { return num - 1; }
 	function sum(total,num) { return total + num; }
 
@@ -2034,7 +2034,7 @@ QUnit.test( "std.transducers.map()", function t59(assert){
 	assert.strictEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "transducers.filter()", function t60(assert){
+QUnit.test( "transducers.filter()", function test(assert){
 	function isSmallEnough({v: num}) { return num <= 10; }
 	function passThru({v}) { return v; }
 	function alwaysFalse() { return false; }
@@ -2055,7 +2055,7 @@ QUnit.test( "transducers.filter()", function t60(assert){
 	assert.strictEqual( qActual, qExpected, "with failing predicate" );
 } );
 
-QUnit.test( "std.transducers.filter()", function t61(assert){
+QUnit.test( "std.transducers.filter()", function test(assert){
 	function isSmallEnough(num) { return num <= 10; }
 	function passThru(acc,v) { return v; }
 	function alwaysFalse() { return false; }
@@ -2076,7 +2076,7 @@ QUnit.test( "std.transducers.filter()", function t61(assert){
 	assert.strictEqual( qActual, qExpected, "with failing predicate" );
 } );
 
-QUnit.test( "transducers.string", function t62(assert){
+QUnit.test( "transducers.string", function test(assert){
 	var str1 = "hello";
 	var str2 = "world";
 
@@ -2091,7 +2091,7 @@ QUnit.test( "transducers.string", function t62(assert){
 	assert.strictEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "std.transducers.string", function t63(assert){
+QUnit.test( "std.transducers.string", function test(assert){
 	var str1 = "hello";
 	var str2 = "world";
 
@@ -2106,7 +2106,7 @@ QUnit.test( "std.transducers.string", function t63(assert){
 	assert.strictEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "transducers.array", function t64(assert){
+QUnit.test( "transducers.array", function test(assert){
 	var arr1 = [];
 	var arr2 = [];
 	var str = "hello";
@@ -2122,7 +2122,7 @@ QUnit.test( "transducers.array", function t64(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "std.transducers.array", function t65(assert){
+QUnit.test( "std.transducers.array", function test(assert){
 	var arr1 = [];
 	var arr2 = [];
 	var str = "hello";
@@ -2138,7 +2138,7 @@ QUnit.test( "std.transducers.array", function t65(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "transducers.number", function t66(assert){
+QUnit.test( "transducers.number", function test(assert){
 	var num1 = 4;
 	var num2 = 3;
 
@@ -2153,7 +2153,7 @@ QUnit.test( "transducers.number", function t66(assert){
 	assert.strictEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "std.transducers.number", function t67(assert){
+QUnit.test( "std.transducers.number", function test(assert){
 	var num1 = 4;
 	var num2 = 3;
 
@@ -2168,7 +2168,7 @@ QUnit.test( "std.transducers.number", function t67(assert){
 	assert.strictEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "transducers.booleanAnd", function t68(assert){
+QUnit.test( "transducers.booleanAnd", function test(assert){
 	var bool1 = true;
 	var bool2 = true;
 	var bool3 = false;
@@ -2190,7 +2190,7 @@ QUnit.test( "transducers.booleanAnd", function t68(assert){
 	assert.strictEqual( tActual, tExpected, "both false" );
 } );
 
-QUnit.test( "std.transducers.booleanAnd", function t69(assert){
+QUnit.test( "std.transducers.booleanAnd", function test(assert){
 	var bool1 = true;
 	var bool2 = true;
 	var bool3 = false;
@@ -2212,7 +2212,7 @@ QUnit.test( "std.transducers.booleanAnd", function t69(assert){
 	assert.strictEqual( tActual, tExpected, "both false" );
 } );
 
-QUnit.test( "transducers.booleanOr", function t70(assert){
+QUnit.test( "transducers.booleanOr", function test(assert){
 	var bool1 = true;
 	var bool2 = true;
 	var bool3 = false;
@@ -2234,7 +2234,7 @@ QUnit.test( "transducers.booleanOr", function t70(assert){
 	assert.strictEqual( tActual, tExpected, "both false" );
 } );
 
-QUnit.test( "std.transducers.booleanOr", function t71(assert){
+QUnit.test( "std.transducers.booleanOr", function test(assert){
 	var bool1 = true;
 	var bool2 = true;
 	var bool3 = false;
@@ -2256,7 +2256,7 @@ QUnit.test( "std.transducers.booleanOr", function t71(assert){
 	assert.strictEqual( tActual, tExpected, "both false" );
 } );
 
-QUnit.test( "transducers.default", function t72(assert){
+QUnit.test( "transducers.default", function test(assert){
 	var arr = [1,2];
 
 	var rExpected = [1,2];
@@ -2270,7 +2270,7 @@ QUnit.test( "transducers.default", function t72(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "std.transducers.default", function t73(assert){
+QUnit.test( "std.transducers.default", function test(assert){
 	var arr = [1,2];
 
 	var rExpected = [1,2];
@@ -2284,7 +2284,7 @@ QUnit.test( "std.transducers.default", function t73(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "transducers.transduce()", function t74(assert){
+QUnit.test( "transducers.transduce()", function test(assert){
 	function isSmallEnough({v: num}) { return num <= 10; }
 	function isBigEnough({v: num}) { return num >= 5; }
 	function decrement({v: num}) { return num - 1; }
@@ -2316,7 +2316,7 @@ QUnit.test( "transducers.transduce()", function t74(assert){
 	assert.deepEqual( tActual, tExpected, "non-composed transducer" );
 } );
 
-QUnit.test( "std.transducers.transduce()", function t75(assert){
+QUnit.test( "std.transducers.transduce()", function test(assert){
 	function isSmallEnough(num) { return num <= 10; }
 	function isBigEnough(num) { return num >= 5; }
 	function decrement(num) { return num - 1; }
@@ -2348,7 +2348,7 @@ QUnit.test( "std.transducers.transduce()", function t75(assert){
 	assert.deepEqual( tActual, tExpected, "non-composed transducer" );
 } );
 
-QUnit.test( "transducers.into()", function t76(assert){
+QUnit.test( "transducers.into()", function test(assert){
 	function isSmallEnough({v: num}) { return num <= 10; }
 	function isBigEnough({v: num}) { return num >= 5; }
 	function decrement({v: num}) { return num - 1; }
@@ -2388,7 +2388,7 @@ QUnit.test( "transducers.into()", function t76(assert){
 	assert.deepEqual( hActual, hExpected, "non-composed transducer" );
 } );
 
-QUnit.test( "std.transducers.into()", function t77(assert){
+QUnit.test( "std.transducers.into()", function test(assert){
 	function isSmallEnough(num) { return num <= 10; }
 	function isBigEnough(num) { return num >= 5; }
 	function decrement(num) { return num - 1; }
@@ -2428,7 +2428,7 @@ QUnit.test( "std.transducers.into()", function t77(assert){
 	assert.deepEqual( hActual, hExpected, "non-composed transducer" );
 } );
 
-QUnit.test( "std.flip()", function t78(assert){
+QUnit.test( "std.flip()", function test(assert){
 	function foo(...args) { return args; }
 
 	var args = [1,2,3,4];
@@ -2444,7 +2444,7 @@ QUnit.test( "std.flip()", function t78(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "std.reverseArgs()", function t79(assert){
+QUnit.test( "std.reverseArgs()", function test(assert){
 	function foo(...args) { return args; }
 
 	var args = [1,2,3,4];
@@ -2460,7 +2460,7 @@ QUnit.test( "std.reverseArgs()", function t79(assert){
 	assert.deepEqual( pActual, pExpected, "curried" );
 } );
 
-QUnit.test( "head()", function t80(assert){
+QUnit.test( "head()", function test(assert){
 	var arr = [1,2,3,4];
 	var str = "abc";
 	var obj = { 0: 5 };
@@ -2488,7 +2488,7 @@ QUnit.test( "head()", function t80(assert){
 	assert.strictEqual( uActual, uExpected, "null" );
 } );
 
-QUnit.test( "std.head()", function t81(assert){
+QUnit.test( "std.head()", function test(assert){
 	var arr = [1,2,3,4];
 	var str = "abc";
 	var obj = { 0: 5 };
@@ -2516,7 +2516,7 @@ QUnit.test( "std.head()", function t81(assert){
 	assert.strictEqual( uActual, uExpected, "null" );
 } );
 
-QUnit.test( "tail()", function t82(assert){
+QUnit.test( "tail()", function test(assert){
 	var arr = [1,2,3,4];
 	var str = "abc";
 	var obj = {0: 5, 1: 6};
@@ -2544,7 +2544,7 @@ QUnit.test( "tail()", function t82(assert){
 	assert.strictEqual( uActual, uExpected, "null" );
 } );
 
-QUnit.test( "std.tail()", function t83(assert){
+QUnit.test( "std.tail()", function test(assert){
 	var arr = [1,2,3,4];
 	var str = "abc";
 	var obj = {0: 5, 1: 6};
@@ -2572,7 +2572,7 @@ QUnit.test( "std.tail()", function t83(assert){
 	assert.strictEqual( uActual, uExpected, "null" );
 } );
 
-QUnit.test( "take()", function t84(assert){
+QUnit.test( "take()", function test(assert){
 	var arr = [1,2,3,4];
 	var str = "abc";
 
@@ -2599,7 +2599,7 @@ QUnit.test( "take()", function t84(assert){
 	assert.deepEqual( uActual, uExpected, "null" );
 } );
 
-QUnit.test( "std.take()", function t85(assert){
+QUnit.test( "std.take()", function test(assert){
 	var arr = [1,2,3,4];
 	var str = "abc";
 
@@ -2626,7 +2626,7 @@ QUnit.test( "std.take()", function t85(assert){
 	assert.deepEqual( uActual, uExpected, "null" );
 } );
 
-QUnit.test( "memoize()", function t86(assert){
+QUnit.test( "memoize()", function test(assert){
 	function increment(x) { counter++; return x + 1; }
 	function mult(x,y) { counter++; return x * y; }
 	function add({ x, y }) { counter++; return x + y; }
@@ -2669,7 +2669,7 @@ QUnit.test( "memoize()", function t86(assert){
 	assert.strictEqual( kActual, kExpected, "counter" );
 } );
 
-QUnit.test( "std.memoize()", function t87(assert){
+QUnit.test( "std.memoize()", function test(assert){
 	function increment(x) { counter++; return x + 1; }
 	function mult(x,y) { counter++; return x * y; }
 	function add({ x, y }) { counter++; return x + y; }
@@ -2712,7 +2712,7 @@ QUnit.test( "std.memoize()", function t87(assert){
 	assert.strictEqual( kActual, kExpected, "counter" );
 } );
 
-QUnit.test( "remap()", function t88(assert){
+QUnit.test( "remap()", function test(assert){
 	function foo(argsObj) { return argsObj; }
 
 	var args = { a: 1, b: 2, c: 3 };
@@ -2739,7 +2739,7 @@ QUnit.test( "remap()", function t88(assert){
 	assert.notStrictEqual( args, qExpected, "object is cloned, not mutated" );
 } );
 
-QUnit.test( "std.remap()", function t89(assert){
+QUnit.test( "std.remap()", function test(assert){
 	function foo(argsObj) { return argsObj; }
 
 	var args = { a: 1, b: 2, c: 3 };
