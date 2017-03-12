@@ -107,6 +107,33 @@ request({
 });
 ```
 
+### Remapping Functions
+
+What if you have a function that expects a certian named parameter, but it will be passed a differently named argument? For example:
+
+```js
+function uppercase({ str }) { return str.toUpperCase(); }
+
+FPO.map( {fn: uppercase, arr: ["hello","world"]} );
+// TypeError (`str` is undefined)
+```
+
+The problem here is that [`FPO.map(..)`](docs/core-API.md#fpomap) expects to call its mapper function with a `v` named argument, but `uppercase(..)` expects `str`.
+
+[`FPO.remap(..)`](docs/core-API.md#fporemap) -- despite the name similarity, no particular relationship to [`FPO.map(..)`](docs/core-API.md#fpomap), except that that it's our example -- lets you adapt a function to remap its expected named parameters:
+
+```js
+function uppercase({ str }) { return str.toUpperCase(); }
+
+FPO.map( {
+	fn: FPO.remap( {fn: uppercase, args: {str: "v"}} ),
+	arr: ["hello","world"]
+} );
+// ["HELLO","WORLD"]
+```
+
+**Note:** The [`FPO.remap(..)`](docs/core-API.md#fporemap) helper also passes through any non-remapped arguments as-is.
+
 ## Not Order, But Names
 
 The exchange we make for not needing to remember or juggle argument order is that we need to know/remember the parameter names. For example, [`FPO.reduce(..)`](docs/core-API.md#fporeduce) expects named arguments of `fn`, `v`, and `arr`. If you don't use those names, it won't work correctly.
