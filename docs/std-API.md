@@ -852,7 +852,7 @@ Extracts a property's value from an object.
 
 ----
 
-### `FPO.reassoc(..)`
+### `FPO.std.reassoc(..)`
 
 ([back to top](#standard-api))
 
