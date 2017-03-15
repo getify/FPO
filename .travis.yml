@@ -4,4 +4,4 @@ node_js:
   - 6
   - 7
 env:
-  - TEST_DIST=true
+  - TEST_PACKAGE=true

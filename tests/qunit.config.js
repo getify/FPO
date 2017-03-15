@@ -87,18 +87,17 @@ function prettyPrint(v) {
 }
 
 function printEnvNotification() {
+	console.log("");
+	console.log("**********************************");
 	if (process.env.TEST_DIST) {
-		console.log("");
-		console.log("**********************************");
 		console.log("********** TESTING DIST **********");
-		console.log("**********************************");
-		console.log("");
+	}
+	else if (process.env.TEST_PACKAGE) {
+		console.log("******** TESTING PACKAGE *********");
 	}
 	else {
-		console.log("");
-		console.log("**********************************");
 		console.log("********** TESTING SRC ***********");
-		console.log("**********************************");
-		console.log("");
 	}
+	console.log("**********************************");
+	console.log("");
 }

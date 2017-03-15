@@ -1,11 +1,13 @@
 {
 	"name": "fpo",
-	"version": "4.0.0",
+	"version": "4.0.1",
 	"description": "FP library for JavaScript. Supports named-argument style methods.",
 	"main": "./dist/fpo.js",
 	"scripts": {
 		"test": "node scripts/node-tests.js",
-		"test:all": "npm test && TEST_DIST=true npm test",
+		"test:dist": "TEST_DIST=true npm test",
+		"test:package": "TEST_PACKAGE=true npm test",
+		"test:all": "npm test && npm run test:dist && npm run test:package",
 		"build-core": "node scripts/build-core.js",
 		"build": "npm run build-core",
 		"prepublish": "npm run build-core && npm run test:all"
