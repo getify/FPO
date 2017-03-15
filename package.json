@@ -2,7 +2,7 @@
 	"name": "fpo",
 	"version": "3.2.1",
 	"description": "FP library for JavaScript. Supports named-argument style methods.",
-	"main": "./lib/fpo.js",
+	"main": "./dist/fpo.js",
 	"scripts": {
 		"test": "node scripts/node-tests.js",
 		"test:all": "npm test && TEST_DIST=true npm test",
