@@ -1,4 +1,3 @@
 .gitignore
 .coveralls.yml
-node_modules
 coverage/

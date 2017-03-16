@@ -1,6 +1,6 @@
 {
 	"name": "fpo",
-	"version": "5.1.0",
+	"version": "5.2.0",
 	"description": "FP library for JavaScript. Supports named-argument style methods.",
 	"main": "./dist/fpo.js",
 	"scripts": {
@@ -12,16 +12,15 @@
 		"coverage:report": "istanbul cover scripts/node-tests.js --report lcovonly && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
 		"build-core": "node scripts/build-core.js",
 		"build": "npm run build-core",
-		"prepublish": "npm run build-core && npm run test:all && npm run coverage:report"
+		"prepare": "npm run build",
+		"prepublish": "npm run test:all",
+		"publish": "npm run coverage:report"
 	},
 	"devDependencies": {
 		"coveralls": "~2.12.0",
 		"qunitjs": "~2.1.1"
 	},
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/getify/fpo.git"
-	},
+	"repository": "getify/fpo",
 	"keywords": [
 		"fp",
 		"functional programming"
@@ -30,7 +29,7 @@
 		"url": "https://github.com/getify/fpo/issues",
 		"email": "getify@gmail.com"
 	},
-	"homepage": "http://github.com/getify/fpo",
+	"homepage": "https://github.com/getify/fpo",
 	"author": "Kyle Simpson <getify@gmail.com>",
 	"license": "MIT"
 }
