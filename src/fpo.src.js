@@ -49,7 +49,7 @@
 			number: curryMultiple( {fn: numericAdd, n: 2} ),
 			booleanAnd: curryMultiple( {fn: booleanAnd, n: 2} ),
 			booleanOr: curryMultiple( {fn: booleanOr, n: 2} ),
-			default: curryMultiple( {fn: ({ acc } = {}) => acc, n: 1} ),
+			default: curryMultiple( {fn: ({ acc }) => acc, n: 1} ),
 		},
 		head: curryMultiple( {fn: head, n: 1} ),
 		tail: curryMultiple( {fn: tail, n: 1} ),
@@ -143,17 +143,17 @@
 
 	// ***************************************
 
-	function identity({ v } = {}) {
+	function identity({ v }) {
 		return v;
 	}
 
-	function constant({ v } = {}) {
+	function constant({ v }) {
 		return function value(){
 			return v;
 		};
 	}
 
-	function pick({ v: obj, props = [] } = {}) {
+	function pick({ v: obj, props = [] }) {
 		var newObj = {};
 
 		for (let prop of props) {
@@ -165,7 +165,7 @@
 		return newObj;
 	}
 
-	function pickAll({ v: obj, props = [] } = {}) {
+	function pickAll({ v: obj, props = [] }) {
 		var newObj = {};
 
 		for (let prop of props) {
@@ -175,7 +175,7 @@
 		return newObj;
 	}
 
-	function nAry({ fn, props = [] } = {}) {
+	function nAry({ fn, props = [] }) {
 		return function limited(argsObj = {}){
 			return fn( pick( {v: argsObj, props} ) );
 		};
@@ -189,7 +189,7 @@
 		};
 	}
 
-	function unary({ fn, prop: propName1 = "" } = {}) {
+	function unary({ fn, prop: propName1 = "" }) {
 		return nAry( {fn, props: [propName1]} );
 	}
 
@@ -197,7 +197,7 @@
 		return stdNAry( fn, 1 );
 	}
 
-	function binary({ fn, props: [ propName1 = "", propName2 = "" ] = [] } = {}) {
+	function binary({ fn, props: [ propName1 = "", propName2 = "" ] = [] }) {
 		return nAry( {fn, props: [propName1,propName2]} );
 	}
 
@@ -205,7 +205,7 @@
 		return stdNAry( fn, 2 );
 	}
 
-	function curry({ fn, n: arity = 1 } = {}) {
+	function curry({ fn, n: arity = 1 }) {
 		arity = Number( arity );
 
 		return (function nextCurried(prevArgsObj){
@@ -244,7 +244,7 @@
 		})( [] );
 	}
 
-	function curryMultiple({ fn, n: arity = 1 } = {}) {
+	function curryMultiple({ fn, n: arity = 1 }) {
 		arity = Number( arity );
 
 		return (function nextCurried(prevArgsObj){
@@ -282,7 +282,7 @@
 		})( [] );
 	}
 
-	function uncurry({ fn } = {}) {
+	function uncurry({ fn }) {
 		return function uncurried(argsObj = {}){
 			var ret = fn;
 
@@ -310,7 +310,7 @@
 		};
 	}
 
-	function partial({ fn, args: partialArgsObj = {} } = {}) {
+	function partial({ fn, args: partialArgsObj = {} }) {
 		return function partiallyApplied(restArgsObj = {}){
 			return fn( Object.assign( {}, partialArgsObj, restArgsObj ) );
 		};
@@ -328,7 +328,7 @@
 		};
 	}
 
-	function complement({ fn: predicateFn } = {}) {
+	function complement({ fn: predicateFn }) {
 		return function complemented(...args){
 			return !predicateFn( ...args );
 		};
@@ -340,7 +340,7 @@
 			.replace( /^(?:(?:function.*\(([^]*?)\))|(?:([^\(\)]+?)\s*=>)|(?:\(([^]*?)\)\s*=>))[^]+$/, "$1$2$3" )
 			.split( /\s*,\s*/ )
 			.map( v => v.replace( /[=\s].*$/, "" ) )
-	} = {}) {
+	}) {
 		return function appliedFn(argsObj) {
 			return fn( ...propNamesInOrder.map( function getPropVal(k) { return argsObj[k]; } ) );
 		};
@@ -352,7 +352,7 @@
 		};
 	}
 
-	function unapply({ fn, props: propNamesInOrder = [] } = {}) {
+	function unapply({ fn, props: propNamesInOrder = [] }) {
 		return function unappliedFn(...args) {
 			var argsObj = {};
 			var i1 = 0;
@@ -372,7 +372,7 @@
 		};
 	}
 
-	function compose({ fns = [] } = {}) {
+	function compose({ fns = [] }) {
 		return function composed( {v: result} ){
 			for (let i = fns.length - 1; i >= 0; i--) {
 				result = fns[i]( {v: result} );
@@ -392,7 +392,7 @@
 		};
 	}
 
-	function pipe({ fns = [] } = {}) {
+	function pipe({ fns = [] }) {
 		return function piped( {v: result} ){
 			for (let fn of fns) {
 				result = fn( {v: result} );
@@ -412,17 +412,17 @@
 		};
 	}
 
-	function prop({ prop = "", v: obj = {} } = {}) {
+	function prop({ prop = "", v: obj = {} }) {
 		return obj[prop];
 	}
 
-	function setProp({ prop = "", o: obj = {}, v } = {}) {
+	function setProp({ prop = "", o: obj = {}, v }) {
 		obj = Object.assign( {}, obj );
 		obj[prop] = v;
 		return obj;
 	}
 
-	function reassoc({ props = {}, v } = {}) {
+	function reassoc({ props = {}, v }) {
 		var obj = {};
 		var sourceProps = Object.keys( props );
 
@@ -443,7 +443,7 @@
 		return obj;
 	}
 
-	function filterIn({ fn: predicateFn, arr = [] } = {}) {
+	function filterIn({ fn: predicateFn, arr = [] }) {
 		var newArr = [];
 
 		for (let [i,v] of arr.entries()) {
@@ -455,7 +455,7 @@
 		return newArr;
 	}
 
-	function filterInObj({ fn: predicateFn, o = {} } = {}) {
+	function filterInObj({ fn: predicateFn, o = {} }) {
 		var newObj = {};
 
 		for (let i of Object.keys( o )) {
@@ -467,15 +467,15 @@
 		return newObj;
 	}
 
-	function filterOut({ fn: predicateFn, arr = [] } = {}) {
+	function filterOut({ fn: predicateFn, arr = [] }) {
 		return filterIn( {fn: complement( {fn: predicateFn} ), arr} );
 	}
 
-	function filterOutObj({ fn: predicateFn, o = {} } = {}) {
+	function filterOutObj({ fn: predicateFn, o = {} }) {
 		return filterInObj( {fn: complement( {fn: predicateFn} ), o} );
 	}
 
-	function map({ fn: mapperFn, arr = [] } = {}) {
+	function map({ fn: mapperFn, arr = [] }) {
 		var newArr = [];
 
 		for (let [i,v] of arr.entries()) {
@@ -485,7 +485,7 @@
 		return newArr;
 	}
 
-	function mapObj({ fn: mapperFn, o = {} } = {}) {
+	function mapObj({ fn: mapperFn, o = {} }) {
 		var newObj = {};
 
 		for (let i of Object.keys( o )) {
@@ -495,7 +495,7 @@
 		return newObj;
 	}
 
-	function flatMap({ fn: mapperFn, arr = [] } = {}) {
+	function flatMap({ fn: mapperFn, arr = [] }) {
 		var newArr = [];
 
 		for (let [i,v] of arr.entries()) {
@@ -505,7 +505,7 @@
 		return newArr;
 	}
 
-	function flatMapObj({ fn: mapperFn, o = {} } = {}) {
+	function flatMapObj({ fn: mapperFn, o = {} }) {
 		var newObj = {};
 
 		for (let i of Object.keys(o)) {
@@ -521,7 +521,7 @@
 		return newObj;
 	}
 
-	function reduce({ fn: reducerFn, v: initialValue, arr = [] } = {}) {
+	function reduce({ fn: reducerFn, v: initialValue, arr = [] }) {
 		var origArr = arr;
 		var i = 0;
 
@@ -538,7 +538,7 @@
 		return initialValue;
 	}
 
-	function reduceObj({ fn: reducerFn, v: initialValue, o = {} } = {}) {
+	function reduceObj({ fn: reducerFn, v: initialValue, o = {} }) {
 		var keys = Object.keys( o );
 
 		if (initialValue === undefined && keys.length > 0) {
@@ -553,7 +553,7 @@
 		return initialValue;
 	}
 
-	function reduceRight({ fn: reducerFn, v: initialValue, arr = [] } = {}) {
+	function reduceRight({ fn: reducerFn, v: initialValue, arr = [] }) {
 		var origArr = arr;
 		var idx = arr.length - 1;
 
@@ -570,7 +570,7 @@
 		return initialValue;
 	}
 
-	function flatten({ v: arr = [], n: depth = Infinity } = {}) {
+	function flatten({ v: arr = [], n: depth = Infinity }) {
 		depth = Number( depth );
 		var list = [];
 
@@ -588,7 +588,7 @@
 		return list;
 	}
 
-	function zip({ arr1 = [], arr2 = [] } = {}) {
+	function zip({ arr1 = [], arr2 = [] }) {
 		var zipped = [];
 		var i1 = 0;
 		var i2 = 0;
@@ -600,7 +600,7 @@
 		return zipped;
 	}
 
-	function trampoline({ fn } = {}) {
+	function trampoline({ fn }) {
 		return function trampolined(...args) {
 			var result = fn( ...args );
 
@@ -612,7 +612,7 @@
 		};
 	}
 
-	function transduce({ fn: transducer, co: combinationFn, v: initialValue, arr = [] } = {}) {
+	function transduce({ fn: transducer, co: combinationFn, v: initialValue, arr = [] }) {
 		var reducer = transducer( {v: combinationFn} );
 
 		return reduce( {fn: reducer, v: initialValue, arr} );
@@ -624,7 +624,7 @@
 		return publicAPI.std.reduce( reducer, initialValue, arr );
 	}
 
-	function into({ fn: transducer, v: initialValue, arr } = {}) {
+	function into({ fn: transducer, v: initialValue, arr = [] }) {
 		var combinationFn =
 			typeof initialValue == "string" ? strConcat :
 			typeof initialValue == "number" ? numericAdd :
@@ -646,7 +646,7 @@
 		return stdTransduce( transducer, combinationFn, initialValue, arr );
 	}
 
-	function transducerMap(argsObj = {}) {
+	function transducerMap(argsObj) {
 		var { fn: mapperFn, v: combinationFn } = argsObj;
 
 		// still waiting on the combination function?
@@ -659,7 +659,7 @@
 			};
 		}
 
-		return function reducer({ acc, v } = {}){
+		return function reducer({ acc, v }){
 			return combinationFn( {acc, v: mapperFn( {v} )} );
 		};
 	}
@@ -670,7 +670,7 @@
 		};
 	}
 
-	function transducerFilter(argsObj = {}) {
+	function transducerFilter(argsObj) {
 		var { fn: predicateFn, v: combinationFn } = argsObj;
 
 		// still waiting on the combination function?
@@ -702,7 +702,7 @@
 		};
 	}
 
-	function strConcat({ acc, v } = {}) {
+	function strConcat({ acc, v }) {
 		return String( acc ) + v;
 	}
 
@@ -710,7 +710,7 @@
 		return String( acc ) + v;
 	}
 
-	function arrayPush({ acc, v } = {}) {
+	function arrayPush({ acc, v }) {
 		acc.push( v );
 		return acc;
 	}
@@ -720,7 +720,7 @@
 		return acc;
 	}
 
-	function numericAdd({ acc, v } = {}) {
+	function numericAdd({ acc, v }) {
 		return (+acc) + (+v);
 	}
 
@@ -728,7 +728,7 @@
 		return (+acc) + (+v);
 	}
 
-	function booleanAnd({ acc, v } = {}) {
+	function booleanAnd({ acc, v }) {
 		return !!acc && !!v;
 	}
 
@@ -736,7 +736,7 @@
 		return !!acc && !!v;
 	}
 
-	function booleanOr({ acc, v } = {}) {
+	function booleanOr({ acc, v }) {
 		return !!acc || !!v;
 	}
 
@@ -756,14 +756,14 @@
 		};
 	}
 
-	function head({ v = [] } = {}) {
+	function head({ v = [] }) {
 		if (v && (typeof v == "object" || typeof v == "string")) {
 			return v[0];
 		}
 		return v;
 	}
 
-	function tail({ v = [] } = {}) {
+	function tail({ v = [] }) {
 		if (v && (typeof v == "object" || typeof v == "string")) {
 			if (typeof v.slice == "function") {
 				return v.slice( 1 );
@@ -776,7 +776,7 @@
 		return v;
 	}
 
-	function take({ v = [], n = 1} = {}) {
+	function take({ v = [], n = 1}) {
 		if (
 			v &&
 			(typeof v == "object" || typeof v == "string") &&
@@ -788,7 +788,7 @@
 	}
 
 	// adapted from: https://github.com/caiogondim/fast-memoize.js
-	function memoize({ fn, n = fn.length } = {}) {
+	function memoize({ fn, n = fn.length }) {
 		var cache = {};
 
 		return Number( n ) > 1 ? memoizedMultipleArgs : memoizedSingleArg;
@@ -830,7 +830,7 @@
 		}
 	}
 
-	function remap({ fn, args = {}} = {}) {
+	function remap({ fn, args = {}}) {
 		var props = {};
 
 		// transpose `args` from `target: source` to
