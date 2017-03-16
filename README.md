@@ -4,6 +4,7 @@
 [![npm Module](https://badge.fury.io/js/fpo.svg)](https://www.npmjs.org/package/fpo)
 [![Dependencies](https://david-dm.org/getify/fpo.svg)](https://david-dm.org/getify/fpo)
 [![devDependencies](https://david-dm.org/getify/fpo/dev-status.svg)](https://david-dm.org/getify/fpo)
+[![Coverage Status](https://coveralls.io/repos/github/getify/fpo/badge.svg?branch=master)](https://coveralls.io/github/getify/fpo?branch=master)
 
 FPO (/ˈefpō/) is an FP Library for JavaScript. The main aesthetic difference is that the [`FPO.*` core API methods](docs/core-API.md) are all styled to use named-arguments (object parameter destructuring) instead of individual positional arguments. As with most FP libraries, all public FPO methods are curried.
 
