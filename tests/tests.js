@@ -2369,6 +2369,7 @@ QUnit.test( "transducers.into()", function test(assert){
 	var sExpected = true;
 	var uExpected = false;
 	var hExpected = [2,6,1,4,10,9,3,5];
+	var jExpected = {};
 
 	var rActual = FPO.transducers.into( {fn: composedTransducer, v: "", arr: nums} );
 	var pActual = FPO.transducers.into()( {} )( {fn: composedTransducer} )({ v: "", arr: nums} );
@@ -2377,8 +2378,9 @@ QUnit.test( "transducers.into()", function test(assert){
 	var sActual = FPO.transducers.into( {fn: composedTransducer, v: true, arr: bools} );
 	var uActual = FPO.transducers.into( {fn: composedTransducer, v: false, arr: bools} );
 	var hActual = FPO.transducers.into( {fn: mapTransducer, v: [], arr: nums} );
+	var jActual = FPO.transducers.into( {fn: mapTransducer, v: {}, arr: nums} );
 
-	assert.expect( 7 );
+	assert.expect( 8 );
 	assert.strictEqual( rActual, rExpected, "regular call, string" );
 	assert.strictEqual( pActual, pExpected, "curried, string" );
 	assert.deepEqual( qActual, qExpected, "array" );
@@ -2386,6 +2388,7 @@ QUnit.test( "transducers.into()", function test(assert){
 	assert.strictEqual( sActual, sExpected, "boolean true" );
 	assert.strictEqual( uActual, uExpected, "boolean false" );
 	assert.deepEqual( hActual, hExpected, "non-composed transducer" );
+	assert.deepEqual( jActual, jExpected, "default transducer" );
 } );
 
 QUnit.test( "std.transducers.into()", function test(assert){
@@ -2409,6 +2412,7 @@ QUnit.test( "std.transducers.into()", function test(assert){
 	var sExpected = true;
 	var uExpected = false;
 	var hExpected = [2,6,1,4,10,9,3,5];
+	var jExpected = {};
 
 	var rActual = FPO.std.transducers.into( composedTransducer, "", nums );
 	var pActual = FPO.std.transducers.into()( composedTransducer )( "", nums );
@@ -2417,8 +2421,9 @@ QUnit.test( "std.transducers.into()", function test(assert){
 	var sActual = FPO.std.transducers.into( composedTransducer, true, bools );
 	var uActual = FPO.std.transducers.into( composedTransducer, false, bools );
 	var hActual = FPO.std.transducers.into( mapTransducer, [], nums );
+	var jActual = FPO.std.transducers.into( mapTransducer, {}, nums );
 
-	assert.expect( 7 );
+	assert.expect( 8 );
 	assert.strictEqual( rActual, rExpected, "regular call, string" );
 	assert.strictEqual( pActual, pExpected, "curried, string" );
 	assert.deepEqual( qActual, qExpected, "array" );
@@ -2426,6 +2431,7 @@ QUnit.test( "std.transducers.into()", function test(assert){
 	assert.strictEqual( sActual, sExpected, "boolean true" );
 	assert.strictEqual( uActual, uExpected, "boolean false" );
 	assert.deepEqual( hActual, hExpected, "non-composed transducer" );
+	assert.deepEqual( jActual, jExpected, "default transducer" );
 } );
 
 QUnit.test( "std.flip()", function test(assert){
@@ -2641,32 +2647,38 @@ QUnit.test( "memoize()", function test(assert){
 	var pExpected = 3;
 	var qExpected = 4;
 	var tExpected = 4;
-	var sExpected = 6;
-	var uExpected = 6;
-	var hExpected = 5;
-	var jExpected = 5;
-	var kExpected = 4;
+	var sExpected = NaN;
+	var uExpected = NaN;
+	var hExpected = 6;
+	var jExpected = 6;
+	var kExpected = 5;
+	var mExpected = 5;
+	var gExpected = 5;
 
 	var rActual = fn1( 2 );
 	var pActual = fn1( 2 );
 	var qActual = fn2( 2, 2 );
 	var tActual = fn2( 2, 2 );
-	var sActual = fn3( 2, 3 );
-	var uActual = fn3( 2, 4 );
-	var hActual = fn4( {x: 2, y: 3} );
-	var jActual = fn4( {x: 2, y: 3} );
-	var kActual = counter;
+	var sActual = fn2( 2 );
+	var uActual = fn2( 2 );
+	var hActual = fn3( 2, 3 );
+	var jActual = fn3( 2, 4 );
+	var kActual = fn4( {x: 2, y: 3} );
+	var mActual = fn4( {x: 2, y: 3} );
+	var gActual = counter;
 
-	assert.expect( 9 );
+	assert.expect( 11 );
 	assert.strictEqual( rActual, rExpected, "regular call" );
 	assert.strictEqual( pActual, pExpected, "regular call, repeated" );
 	assert.strictEqual( qActual, qExpected, "curried" );
 	assert.strictEqual( tActual, tExpected, "curried, repeated" );
-	assert.strictEqual( sActual, sExpected, "only one arg memoized" );
-	assert.strictEqual( uActual, uExpected, "only one arg memoized, repeated" );
-	assert.strictEqual( hActual, hExpected, "object" );
-	assert.strictEqual( jActual, jExpected, "object, repeated" );
-	assert.strictEqual( kActual, kExpected, "counter" );
+	assert.ok( Object.is( sActual, sExpected ), "single primitive arg for binary function");
+	assert.ok( Object.is( uActual, uExpected ), "single primitive arg for binary function, repeated");
+	assert.strictEqual( hActual, hExpected, "only one arg memoized" );
+	assert.strictEqual( jActual, jExpected, "only one arg memoized, repeated" );
+	assert.strictEqual( kActual, kExpected, "object" );
+	assert.strictEqual( mActual, mExpected, "object, repeated" );
+	assert.strictEqual( gActual, gExpected, "counter" );
 } );
 
 QUnit.test( "std.memoize()", function test(assert){

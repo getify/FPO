@@ -1,6 +1,6 @@
 {
 	"name": "fpo",
-	"version": "4.0.1",
+	"version": "4.0.2",
 	"description": "FP library for JavaScript. Supports named-argument style methods.",
 	"main": "./dist/fpo.js",
 	"scripts": {
