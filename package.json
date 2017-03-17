@@ -13,7 +13,7 @@
 		"build-core": "node scripts/build-core.js",
 		"build": "npm run build-core",
 		"prepare": "npm run build",
-		"prepublish": "npm run test:all",
+		"prepublish": "npm run build && npm run test:all",
 		"publish": "npm run coverage:report"
 	},
 	"devDependencies": {
