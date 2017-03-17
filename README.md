@@ -6,7 +6,15 @@
 [![devDependencies](https://david-dm.org/getify/fpo/dev-status.svg)](https://david-dm.org/getify/fpo)
 [![Coverage Status](https://coveralls.io/repos/github/getify/fpo/badge.svg?branch=master)](https://coveralls.io/github/getify/fpo?branch=master)
 
-FPO (/ˈefpō/) is an FP Library for JavaScript. The main aesthetic difference is that the [`FPO.*` core API methods](docs/core-API.md) are all styled to use named-arguments (object parameter destructuring) instead of individual positional arguments. As with most FP libraries, all public FPO methods are curried.
+FPO (/ˈefpō/) is an FP Library for JavaScript. The main aesthetic difference is that the [`FPO.*` core API methods](docs/core-API.md) are all styled to use named-arguments (object parameter destructuring) instead of individual positional arguments.
+
+```js
+// positional arguments
+foo( 1, 2, 3 );
+
+// named arguments
+foo({ z: 3, x: 1, y: 2 });
+```
 
 Not only do named-arguments eliminate having to remember a method signature's parameter order -- named arguments can be provided in any order! -- they also make skipping optional parameters (to apply defaults) simple.
 
@@ -42,7 +50,7 @@ FPO.reduce({
 
 Instead of needing to provide an `undefined` placeholder in the second argument position to skip specifying an initial value, named-argument style allows us to just omit that argument. We also specified `arr` first and `fn` second just to show order doesn't matter anymore!
 
-Currying with named-arguments (in any sequence!) is a breeze:
+As with most FP libraries, all public FPO methods are curried. Currying with named-arguments (in any sequence!) is a breeze:
 
 ```js
 var f = FPO.reduce({ arr: [3,7,9] });
