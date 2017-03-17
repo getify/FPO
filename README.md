@@ -107,18 +107,24 @@ function onResponse({ resp, err }) {
 	}
 }
 
-// create an object-parameter style adapter for `ajax(..)`:
+// adapt `ajax(..)` to accept named arguments
 var request = FPO.apply( {fn: ajax} );
 
+// now we can provide arguments in any order!
 request({
-	url: "http://some.url",
-	cb: FPO.unapply( {fn: onResponse, props:["err","resp"]} )
+	cb:
+		// adapt the object-parameter style `onResponse(..)`
+		// to work as a standard positional-argument function, as
+		// expected by `ajax(..)`
+		FPO.unapply( {fn: onResponse, props:["err","resp"]} ),
+
+	url: "http://some.url"
 });
 ```
 
-### Remapping Functions
+### Remapping Function Parameters/Arguments
 
-What if you have a function that expects a certian named parameter, but it will be passed a differently named argument? For example:
+What if you have a function that expects a certain named parameter, but it needs to accept a differently named argument? For example:
 
 ```js
 function uppercase({ str }) { return str.toUpperCase(); }
@@ -141,7 +147,7 @@ FPO.map( {
 // ["HELLO","WORLD"]
 ```
 
-**Note:** The [`FPO.remap(..)`](docs/core-API.md#fporemap) helper also passes through any non-remapped arguments as-is.
+**Note:** The [`FPO.remap(..)`](docs/core-API.md#fporemap) utility passes through any non-remapped arguments as-is.
 
 ## Not Order, But Names
 
