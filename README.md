@@ -189,44 +189,84 @@ All FPO methods are multiple-curried for convenience.
 
 ## Builds
 
-The distribution library file (`dist/fpo.js`) can be built (~~minified~~) with an included utility. **Note:** Minification is currently disabled.
+[![Build Status](https://travis-ci.org/getify/fpo.svg?branch=master)](https://travis-ci.org/getify/fpo)
+[![npm Module](https://badge.fury.io/js/fpo.svg)](https://www.npmjs.org/package/fpo)
 
-With `npm`, run:
+The distribution library file (`dist/fpo.js`) comes pre-built with the npm package distribution, so you shouldn't need to rebuild it under normal circumstances.
+
+However, if you download this repository via Git:
+
+1. The included build utility (`scripts/build-core.js`) builds (and ~~minifies~~) `dist/fpo.js` from source. **Note:** Minification is currently disabled. **The build utility expects Node.js version 6+.**
+
+2. To install the build and test dependencies, run `npm install` from the project root directory.
+
+3. Because of how npm lifecyle events (currently: npm v4) work, `npm install` will have the side effect of automatically running the build and test utilities for you. So, no further action should be needed on your part. Starting with npm v5, the build utility will still be run automatically on `npm install`, but the test utility will not.
+
+To run the build utility with npm:
 
 ```
 npm run build
 ```
 
-Or, manually:
+To run the build utility directly without npm:
 
 ```
 node scripts/build-core.js
 ```
 
-**The build utility expects Node.js version 6+.**
-
 ## Tests
 
-To run the tests, you must first [build the core library](#builds).
+A comprehensive test suite is included in this repository, as well as the npm package distribution. The default test behavior runs the test suite using `src/fpo.src.js`.
 
-With `npm`, run:
+1. You can run the tests in a browser by opening up `tests/index.html` (**requires ES6+ browser environment**).
+
+2. The included Node.js test utility (`scripts/node-tests.js`) runs the test suite. **This test utility expects Node.js version 6+.**
+
+3. Ensure the Node.js test utility dependencies are installed by running `npm install` from the project root directory.
+
+4. Because of how npm lifecyle events (currently: npm v4) work, `npm install` will have the side effect of automatically running the build and test utilities for you. So, no further action should be needed on your part. Starting with npm v5, the build utility will still be run automatically on `npm install`, but the test utility will not.
+
+To run the test utility with npm:
 
 ```
 npm test
 ```
 
-Or, manually:
+Other npm test scripts:
+
+* `npm run test:dist` will run the test suite against `dist/fpo.js`.
+
+* `npm run test:package` will run the test suite as if the package had just been installed via npm. This ensures `package.json`:`main` properly references `dist/fpo.js` for inclusion.
+
+* `npm run test:all` will run all three modes of the test suite. This is what's automatically run when you first `npm install` the build and test dependencies.
+
+
+To run the test utility directly without npm:
 
 ```
 node scripts/node-tests.js
 ```
 
-**The unit test utility expects Node.js version 6+.**
+### Test Coverage
 
-You can also run the tests in your browser by opening up `tests/index.html` (requires ES6+ environment).
+[![Coverage Status](https://coveralls.io/repos/github/getify/fpo/badge.svg?branch=master)](https://coveralls.io/github/getify/fpo?branch=master)
+
+If you have [Istanbul](https://github.com/gotwarlost/istanbul) already installed on your system (requires v1.0+), you can use it to check the test coverage:
+
+```
+npm run coverage
+```
+
+Then open up `coverage/lcov-report/index.html` in a browser to view the report.
+
+To run Istanbul directly without npm:
+
+```
+istanbul cover scripts/node-tests.js
+```
+
+**Note:** The npm script `coverage:report` is only intended for use by project maintainers. It sends coverage reports to [Coveralls](https://coveralls.io/).
 
 ## License
 
-All code and documentation are (c) 2017 Kyle Simpson, and released under the [MIT license](LICENSE.txt).
-
-http://getify.mit-license.org/
+All code and documentation are (c) 2017 Kyle Simpson and released under the [MIT License](http://getify.mit-license.org/). A copy of the MIT License [is also included](LICENSE.txt).
