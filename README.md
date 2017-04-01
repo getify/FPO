@@ -254,7 +254,6 @@ Other npm test scripts:
 
 * `npm run test:all` will run all three modes of the test suite. This is what's automatically run when you first `npm install` the build and test dependencies.
 
-
 To run the test utility directly without npm:
 
 ```
