@@ -234,7 +234,7 @@ Just like [`FPO.curry(..)`](#fpocurry), except each curried function allows mult
 	```js
 	function foo({ x,y,z }) { return x + y + z; }
 
-	var f = FPO.curry( {fn: foo, n: 3} );
+	var f = FPO.curryMultiple( {fn: foo, n: 3} );
 
 	f( {y: "b" } )()( {} )()( {x: "a", z: "!"} );
 	// "ab!"
