@@ -1,7 +1,7 @@
 "use strict";
 
 QUnit.test( "core: API methods", function test(assert){
-	assert.expect( 49 );
+	assert.expect( 50 );
 
 	assert.ok( _isFunction( FPO.identity ), "identity()" );
 	assert.ok( _isFunction( FPO.constant ), "constant()" );
@@ -30,6 +30,7 @@ QUnit.test( "core: API methods", function test(assert){
 	assert.ok( _isFunction( FPO.mapObj ), "mapObj()" );
 	assert.ok( _isFunction( FPO.flatMap ), "flatMap()" );
 	assert.ok( _isFunction( FPO.flatMapObj ), "flatMapObj()" );
+	assert.ok( _isFunction( FPO.ap ), "ap()" );
 	assert.ok( _isFunction( FPO.reduce ), "reduce()" );
 	assert.ok( _isFunction( FPO.reduceObj ), "reduceObj()" );
 	assert.ok( _isFunction( FPO.reduceRight ), "reduceRight()" );
@@ -55,7 +56,7 @@ QUnit.test( "core: API methods", function test(assert){
 } );
 
 QUnit.test( "std: API methods", function test(assert){
-	assert.expect( 52 );
+	assert.expect( 53 );
 
 	assert.ok( _isFunction( FPO.std.identity ), "identity()" );
 	assert.ok( _isFunction( FPO.std.constant ), "constant()" );
@@ -85,6 +86,7 @@ QUnit.test( "std: API methods", function test(assert){
 	assert.ok( _isFunction( FPO.std.mapObj ), "mapObj()" );
 	assert.ok( _isFunction( FPO.std.flatMap ), "flatMap()" );
 	assert.ok( _isFunction( FPO.std.flatMapObj ), "flatMapObj()" );
+	assert.ok( _isFunction( FPO.std.ap ), "ap()" );
 	assert.ok( _isFunction( FPO.std.reduce ), "reduce()" );
 	assert.ok( _isFunction( FPO.std.reduceObj ), "reduceObj()" );
 	assert.ok( _isFunction( FPO.std.reduceRight ), "reduceRight()" );
@@ -1596,6 +1598,96 @@ QUnit.test( "std.flatMapObj()", function test(assert){
 	assert.deepEqual( qActual, qExpected, "object undefined" );
 	assert.deepEqual( tActual, tExpected, "object empty" );
 	assert.deepEqual( sActual, sExpected, "mapper params check" );
+} );
+
+QUnit.test( "ap()", function test(assert){
+	function checkParams({ v, i, arr }) {
+		if (
+			arr === list &&
+			typeof v == "number" && typeof i == "number" && _isArray( arr ) &&
+			v === (i + 1) && arr[i] === v
+		) {
+			return true;
+		}
+		return false;
+	}
+	function div2({ v }) { return v / 2; }
+	function mul10({ v }) { return v * 10; }
+
+	var list = [1,2];
+
+	var rExpected = [10,20];
+	var pExpected = [10,20];
+	var qExpected = [10,20,0.5,1];
+	var tExpected = [1,2];
+	var sExpected = [1,2];
+	var uExpected = [];
+	var hExpected = [];
+	var jExpected = [true,true,true,true];
+
+	var rActual = FPO.ap( {fns: [mul10], arr: list} );
+	var pActual = FPO.ap()( {} )( {fns: [mul10]} )()( {arr: list} );
+	var qActual = FPO.ap( {fns: [mul10,div2], arr: list} );
+	var tActual = FPO.ap( {fns: undefined, arr: list} );
+	var sActual = FPO.ap( {fns: [], arr: list} );
+	var uActual = FPO.ap( {fns: [mul10], arr: undefined} );
+	var hActual = FPO.ap( {fns: [mul10], arr: []} );
+	var jActual = FPO.ap( {fns: [checkParams,checkParams], arr: list} );
+
+	assert.expect( 8 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "two functions" );
+	assert.deepEqual( tActual, tExpected, "undefined functions" );
+	assert.deepEqual( sActual, sExpected, "empty functions" );
+	assert.deepEqual( uActual, uExpected, "array undefined" );
+	assert.deepEqual( hActual, hExpected, "array empty" );
+	assert.deepEqual( jActual, jExpected, "functions params check" );
+} );
+
+QUnit.test( "std.ap()", function test(assert){
+	function checkParams(v,i,arr) {
+		if (
+			arr === list &&
+			typeof v == "number" && typeof i == "number" && _isArray( arr ) &&
+			v === (i + 1) && arr[i] === v
+		) {
+			return true;
+		}
+		return false;
+	}
+	function div2(v) { return v / 2; }
+	function mul10(v) { return v * 10; }
+
+	var list = [1,2];
+
+	var rExpected = [10,20];
+	var pExpected = [10,20];
+	var qExpected = [10,20,0.5,1];
+	var tExpected = [1,2];
+	var sExpected = [1,2];
+	var uExpected = [];
+	var hExpected = [];
+	var jExpected = [true,true,true,true];
+
+	var rActual = FPO.std.ap( [mul10], list );
+	var pActual = FPO.std.ap()( [mul10] )()( list );
+	var qActual = FPO.std.ap( [mul10,div2], list );
+	var tActual = FPO.std.ap( undefined, list );
+	var sActual = FPO.std.ap( [], list );
+	var uActual = FPO.std.ap( [mul10], undefined );
+	var hActual = FPO.std.ap( [mul10], [] );
+	var jActual = FPO.std.ap( [checkParams,checkParams], list );
+
+	assert.expect( 8 );
+	assert.deepEqual( rActual, rExpected, "regular call" );
+	assert.deepEqual( pActual, pExpected, "curried" );
+	assert.deepEqual( qActual, qExpected, "two functions" );
+	assert.deepEqual( tActual, tExpected, "undefined functions" );
+	assert.deepEqual( sActual, sExpected, "empty functions" );
+	assert.deepEqual( uActual, uExpected, "array undefined" );
+	assert.deepEqual( hActual, hExpected, "array empty" );
+	assert.deepEqual( jActual, jExpected, "functions params check" );
 } );
 
 QUnit.test( "reduce()", function test(assert){

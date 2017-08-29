@@ -238,7 +238,7 @@ A comprehensive test suite is included in this repository, as well as the npm pa
 
 3. Ensure the Node.js test utility dependencies are installed by running `npm install` from the project root directory.
 
-4. Because of how npm lifecyle events (currently: npm v4) work, `npm install` will have the side effect of automatically running the build and test utilities for you. So, no further action should be needed on your part. Starting with npm v5, the build utility will still be run automatically on `npm install`, but the test utility will not.
+4. Because of how npm lifecycle events (currently: npm v4) work, `npm install` will have the side effect of automatically running the build and test utilities for you. So, no further action should be needed on your part. Starting with npm v5, the build utility will still be run automatically on `npm install`, but the test utility will not.
 
 To run the test utility with npm:
 

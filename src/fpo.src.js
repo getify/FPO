@@ -33,6 +33,7 @@
 		mapObj: curryMultiple( {fn: mapObj, n: 2} ),
 		flatMap: curryMultiple( {fn: flatMap, n: 2} ),
 		flatMapObj: curryMultiple( {fn: flatMapObj, n: 2} ),
+		ap: curryMultiple( {fn: ap, n: 2} ),
 		reduce: curryMultiple( {fn: reduce, n: 2} ),
 		reduceObj: curryMultiple( {fn: reduceObj, n: 2} ),
 		reduceRight: curryMultiple( {fn: reduceRight, n: 2} ),
@@ -87,6 +88,7 @@
 		mapObj: stdCurryMultiple( unapply( {fn: _applyFnProp( mapObj, ["v","i","o"] ), props: ["fn","o"]} ), /*arity=*/2 ),
 		flatMap: stdCurryMultiple( unapply( {fn: _applyFnProp( flatMap, ["v","i","arr"] ), props: ["fn","arr"]}), /*arity=*/2 ),
 		flatMapObj: stdCurryMultiple( unapply( {fn: _applyFnProp( flatMapObj, ["v","i","o"] ), props: ["fn","o"]}), /*arity=*/2 ),
+		ap: stdCurryMultiple( stdAp, /*arity=*/2 ),
 		reduce: stdCurryMultiple( unapply( {fn: _applyFnProp( reduce, ["acc","v","i","arr"] ), props: ["fn","v","arr"]} ), /*arity=*/3 ),
 		reduceObj: stdCurryMultiple( unapply( {fn: _applyFnProp( reduceObj, ["acc","v","i","o"] ), props: ["fn","v","o"]} ), /*arity=*/3 ),
 		reduceRight: stdCurryMultiple( unapply( {fn: _applyFnProp( reduceRight, ["acc","v","i","arr"] ), props: ["fn","v","arr"]} ), /*arity=*/3 ),
@@ -519,6 +521,42 @@
 		}
 
 		return newObj;
+	}
+
+	function ap({ fns = [], arr = [] }) {
+		var newArr = [];
+
+		if (fns.length == 0) {
+			fns = [identity];
+		}
+
+		if (fns.length == 1) {
+			return map( {fn: fns[0], arr} );
+		}
+
+		for (let fn of fns) {
+			newArr = newArr.concat( map( {fn, arr} ) );
+		}
+
+		return newArr;
+	}
+
+	function stdAp(fns = [], arr = []) {
+		var newArr = [];
+
+		if (fns.length == 0) {
+			fns = [publicAPI.std.identity];
+		}
+
+		if (fns.length == 1) {
+			return publicAPI.std.map( fns[0], arr );
+		}
+
+		for (let fn of fns) {
+			newArr = newArr.concat( publicAPI.std.map( fn, arr ) );
+		}
+
+		return newArr;
 	}
 
 	function reduce({ fn: reducerFn, v: initialValue, arr = [] }) {

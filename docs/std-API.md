@@ -2,11 +2,12 @@
 
 These are the methods on the `FPO.std.*` namespace. For the `FPO.*` methods, consult the [Core API documentation](core-API.md).
 
+* [`FPO.std.ap(..)`](#fpostdap)
 * [`FPO.std.apply(..)`](#fpostdapply) (aliases: `FPO.std.spread(..)`)
 * [`FPO.std.binary(..)`](#fpostdbinary)
 * [`FPO.std.complement(..)`](#fpostdcomplement)
 * [`FPO.std.compose(..)`](#fpostdcompose) (aliases: `FPO.std.flowRight(..)`)
-* [`FPO.std.constant(..)`](#fpostdconstant)
+* [`FPO.std.constant(..)`](#fpostdconstant) (aliases: `FPO.std.always(..)`)
 * [`FPO.std.curry(..)`](#fpostdcurry)
 * [`FPO.std.curryMultiple(..)`](#fpostdcurrymultiple)
 * [`FPO.std.filterIn(..)`](#fpostdfilterin) (aliases: `FPO.std.filter(..)`, `FPO.std.keep(..)`)
@@ -54,6 +55,34 @@ These are the methods on the `FPO.std.*` namespace. For the `FPO.*` methods, con
 * [`FPO.std.unary(..)`](#fpostdunary)
 * [`FPO.std.uncurry(..)`](#fpostduncurry)
 * [`FPO.std.zip(..)`](#fpostdzip)
+
+### `FPO.std.ap(..)`
+
+([back to top](#standard-api))
+
+Produces a new list that is a concatenation of sub-lists, each produced by calling [`FPO.std.map(..)`](#fpostdmap) with each mapper function and the main list.
+
+**Note:** From an equational reasoning perspective, `ap( x, y )` is equivalent to: `flatMap( curry(flip(map))(y), x )`.
+
+* **Arguments:**
+	- `fns`: array of functions to use as mapper functions (see [`FPO.std.map(..)`](#fpostdmap)); each is called with `v` (value), `i` (index), and `arr` (array) arguments
+	- `arr`: array to map against
+
+* **Returns:** *array*
+
+* **Example:**
+
+	```js
+	function increment(v) { return v + 1; }
+	function double(v) { return v * 2; }
+
+	var nums = [1,2,3,4,5];
+
+	FPO.std.ap( [increment,double], nums );
+	// [2,3,4,5,6,2,4,6,8,10]
+	```
+
+* **See Also:** [`FPO.std.map(..)`](#fpostdmap)
 
 ----
 
@@ -181,6 +210,8 @@ Wraps a value in a function that returns the value.
 
 	f();  // 42
 	```
+
+* **Aliases:** `FPO.std.always(..)`
 
 * **See Also:** [`FPO.std.identity(..)`](#fpostdidentity)
 

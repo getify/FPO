@@ -2,11 +2,12 @@
 
 These are the methods on the `FPO.*` namespace. For the `FPO.std.*` methods, consult the [Standard API documentation](std-API.md).
 
+* [`FPO.ap(..)`](#fpoap)
 * [`FPO.apply(..)`](#fpoapply) (aliases: `FPO.spread(..)`)
 * [`FPO.binary(..)`](#fpobinary)
 * [`FPO.complement(..)`](#fpocomplement)
 * [`FPO.compose(..)`](#fpocompose) (aliases: `FPO.flowRight(..)`)
-* [`FPO.constant(..)`](#fpoconstant)
+* [`FPO.constant(..)`](#fpoconstant) (aliases: `FPO.always(..)`)
 * [`FPO.curry(..)`](#fpocurry)
 * [`FPO.curryMultiple(..)`](#fpocurrymultiple)
 * [`FPO.filterIn(..)`](#fpofilterin) (aliases: `FPO.filter(..)`, `FPO.keep(..)`)
@@ -51,6 +52,36 @@ These are the methods on the `FPO.*` namespace. For the `FPO.std.*` methods, con
 * [`FPO.unary(..)`](#fpounary)
 * [`FPO.uncurry(..)`](#fpouncurry)
 * [`FPO.zip(..)`](#fpozip)
+
+----
+
+### `FPO.ap(..)`
+
+([back to top](#core-api))
+
+Produces a new list that is a concatenation of sub-lists, each produced by calling [`FPO.map(..)`](#fpomap) with each mapper function and the main list.
+
+**Note:** From an equational reasoning perspective, `ap( x, y )` is equivalent to: `flatMap( curry(flip(map))(y), x )`.
+
+* **Arguments:**
+	- `fns`: array of functions to use as mapper functions (see [`FPO.map(..)`](#fpomap)); each is called with `v` (value), `i` (index), and `arr` (array) named arguments
+	- `arr`: array to map against
+
+* **Returns:** *array*
+
+* **Example:**
+
+	```js
+	function increment({ v }) { return v + 1; }
+	function double({ v }) { return v * 2; }
+
+	var nums = [1,2,3,4,5];
+
+	FPO.ap( {fns: [increment,double], arr: nums} );
+	// [2,3,4,5,6,2,4,6,8,10]
+	```
+
+* **See Also:** [`FPO.map(..)`](#fpomap)
 
 ----
 
@@ -181,6 +212,8 @@ Wraps a value in a function that returns the value.
 
 	f();  // 42
 	```
+
+* **Aliases:** `FPO.always(..)`
 
 * **See Also:** [`FPO.identity(..)`](#fpoidentity)
 
