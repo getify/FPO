@@ -214,7 +214,7 @@ However, if you download this repository via Git:
 
 2. To install the build and test dependencies, run `npm install` from the project root directory.
 
-3. Because of how npm lifecyle events (currently: npm v4) work, `npm install` will have the side effect of automatically running the build and test utilities for you. So, no further action should be needed on your part. Starting with npm v5, the build utility will still be run automatically on `npm install`, but the test utility will not.
+3. Because of how npm lifecycle events (currently: npm v4) work, `npm install` will have the side effect of automatically running the build and test utilities for you. So, no further action should be needed on your part. Starting with npm v5, the build utility will still be run automatically on `npm install`, but the test utility will not.
 
 To run the build utility with npm:
 
