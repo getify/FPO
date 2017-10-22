@@ -1,6 +1,6 @@
 {
 	"name": "fpo",
-	"version": "6.1.2",
+	"version": "6.1.3",
 	"description": "FP library for JavaScript. Supports named-argument style methods.",
 	"main": "./dist/fpo.js",
 	"scripts": {
@@ -9,7 +9,7 @@
 		"test:package": "TEST_PACKAGE=true npm test",
 		"test:all": "npm test && npm run test:dist && npm run test:package",
 		"coverage": "istanbul cover scripts/node-tests.js",
-		"coverage:report": "istanbul cover scripts/node-tests.js --report lcovonly && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+		"coverage:report": "npm run coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
 		"build-core": "node scripts/build-core.js",
 		"build": "npm run build-core",
 		"prepare": "npm run build",
