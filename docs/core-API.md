@@ -1151,8 +1151,7 @@ A reducer function. For transducing purposes, a combination function that takes 
 	// [1,2,3,4] <-- was mutated as a side-effect!
 	```
 
-* **See Also:** [`FPO.transducers.booleanAnd(..)`](#fpotransducersbooleanand),
-* [`FPO.transducers.booleanOr(..)`](#fpotransducersbooleanor), [`FPO.transducers.default(..)`](#fpotransducersdefault), [`FPO.transducers.number(..)`](#fpotransducersnumber), [`FPO.transducers.string(..)`](#fpotransducersstring)
+* **See Also:** [`FPO.transducers.booleanAnd(..)`](#fpotransducersbooleanand), [`FPO.transducers.booleanOr(..)`](#fpotransducersbooleanor), [`FPO.transducers.default(..)`](#fpotransducersdefault), [`FPO.transducers.number(..)`](#fpotransducersnumber), [`FPO.transducers.string(..)`](#fpotransducersstring)
 
 ----
 
@@ -1180,8 +1179,7 @@ A reducer function. For transducing purposes, a combination function that takes 
 
 * **Aliases:** `FPO.transducers.boolean(..)`
 
-* **See Also:** [`FPO.transducers.array(..)`](#fpotransducersarray),
-* [`FPO.transducers.booleanOr(..)`](#fpotransducersbooleanor), [`FPO.transducers.default(..)`](#fpotransducersdefault), [`FPO.transducers.number(..)`](#fpotransducersnumber), [`FPO.transducers.string(..)`](#fpotransducersstring)
+* **See Also:** [`FPO.transducers.array(..)`](#fpotransducersarray), [`FPO.transducers.booleanOr(..)`](#fpotransducersbooleanor), [`FPO.transducers.default(..)`](#fpotransducersdefault), [`FPO.transducers.number(..)`](#fpotransducersnumber), [`FPO.transducers.string(..)`](#fpotransducersstring)
 
 ----
 
@@ -1207,8 +1205,7 @@ A reducer function. For transducing purposes, a combination function that takes 
 	// false
 	```
 
-* **See Also:** [`FPO.transducers.array(..)`](#fpotransducersarray),
-* [`FPO.transducers.booleanAnd(..)`](#fpotransducersbooleanand), [`FPO.transducers.default(..)`](#fpotransducersdefault), [`FPO.transducers.number(..)`](#fpotransducersnumber), [`FPO.transducers.string(..)`](#fpotransducersstring)
+* **See Also:** [`FPO.transducers.array(..)`](#fpotransducersarray), [`FPO.transducers.booleanAnd(..)`](#fpotransducersbooleanand), [`FPO.transducers.default(..)`](#fpotransducersdefault), [`FPO.transducers.number(..)`](#fpotransducersnumber), [`FPO.transducers.string(..)`](#fpotransducersstring)
 
 ----
 
@@ -1231,8 +1228,7 @@ A reducer function. For transducing purposes, a combination function that's a de
 	// 3
 	```
 
-* **See Also:** [`FPO.transducers.array(..)`](#fpotransducersarray),
-* [`FPO.transducers.booleanAnd(..)`](#fpotransducersbooleanand), [`FPO.transducers.booleanOr(..)`](#fpotransducersbooleanOr), [`FPO.transducers.number(..)`](#fpotransducersnumber), [`FPO.transducers.string(..)`](#fpotransducersstring), [`FPO.identity(..)`](#fpoidentity)
+* **See Also:** [`FPO.transducers.array(..)`](#fpotransducersarray), [`FPO.transducers.booleanAnd(..)`](#fpotransducersbooleanand), [`FPO.transducers.booleanOr(..)`](#fpotransducersbooleanOr), [`FPO.transducers.number(..)`](#fpotransducersnumber), [`FPO.transducers.string(..)`](#fpotransducersstring), [`FPO.identity(..)`](#fpoidentity)
 
 ----
 
@@ -1388,8 +1384,7 @@ A reducer function. For transducing purposes, a combination function that adds t
 	// 7
 	```
 
-* **See Also:** [`FPO.transducers.array(..)`](#fpotransducersarray),
-* [`FPO.transducers.booleanAnd(..)`](#fpotransducersbooleanand), [`FPO.transducers.booleanOr(..)`](#fpotransducersbooleanOr), [`FPO.transducers.default(..)`](#fpotransducersdefault), [`FPO.transducers.string(..)`](#fpotransducersstring)
+* **See Also:** [`FPO.transducers.array(..)`](#fpotransducersarray), [`FPO.transducers.booleanAnd(..)`](#fpotransducersbooleanand), [`FPO.transducers.booleanOr(..)`](#fpotransducersbooleanOr), [`FPO.transducers.default(..)`](#fpotransducersdefault), [`FPO.transducers.string(..)`](#fpotransducersstring)
 
 ----
 
@@ -1412,8 +1407,7 @@ A reducer function. For transducing purposes, a combination function that concat
 	// "helloworld"
 	```
 
-* **See Also:** [`FPO.transducers.array(..)`](#fpotransducersarray),
-* [`FPO.transducers.booleanAnd(..)`](#fpotransducersbooleanand), [`FPO.transducers.booleanOr(..)`](#fpotransducersbooleanOr), [`FPO.transducers.default(..)`](#fpotransducersdefault), [`FPO.transducers.number(..)`](#fpotransducersnumber)
+* **See Also:** [`FPO.transducers.array(..)`](#fpotransducersarray), [`FPO.transducers.booleanAnd(..)`](#fpotransducersbooleanand), [`FPO.transducers.booleanOr(..)`](#fpotransducersbooleanOr), [`FPO.transducers.default(..)`](#fpotransducersdefault), [`FPO.transducers.number(..)`](#fpotransducersnumber)
 
 ----
 

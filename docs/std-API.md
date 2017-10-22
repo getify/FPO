@@ -1217,8 +1217,7 @@ A reducer function. For transducing purposes, a combination function that takes 
 	// [1,2,3,4] <-- was mutated as a side-effect!
 	```
 
-* **See Also:** [`FPO.std.transducers.booleanAnd(..)`](#fpostdtransducersbooleanand),
-* [`FPO.std.transducers.booleanOr(..)`](#fpostdtransducersbooleanor), [`FPO.std.transducers.default(..)`](#fpostdtransducersdefault), [`FPO.std.transducers.number(..)`](#fpostdtransducersnumber), [`FPO.std.transducers.string(..)`](#fpostdtransducersstring)
+* **See Also:** [`FPO.std.transducers.booleanAnd(..)`](#fpostdtransducersbooleanand), [`FPO.std.transducers.booleanOr(..)`](#fpostdtransducersbooleanor), [`FPO.std.transducers.default(..)`](#fpostdtransducersdefault), [`FPO.std.transducers.number(..)`](#fpostdtransducersnumber), [`FPO.std.transducers.string(..)`](#fpostdtransducersstring)
 
 ----
 
@@ -1246,8 +1245,7 @@ A reducer function. For transducing purposes, a combination function that takes 
 
 * **Aliases:** `FPO.std.transducers.boolean(..)`
 
-* **See Also:** [`FPO.std.transducers.array(..)`](#fpostdtransducersarray),
-* [`FPO.std.transducers.booleanOr(..)`](#fpostdtransducersbooleanor), [`FPO.std.transducers.default(..)`](#fpostdtransducersdefault), [`FPO.std.transducers.number(..)`](#fpostdtransducersnumber), [`FPO.std.transducers.string(..)`](#fpostdtransducersstring)
+* **See Also:** [`FPO.std.transducers.array(..)`](#fpostdtransducersarray), [`FPO.std.transducers.booleanOr(..)`](#fpostdtransducersbooleanor), [`FPO.std.transducers.default(..)`](#fpostdtransducersdefault), [`FPO.std.transducers.number(..)`](#fpostdtransducersnumber), [`FPO.std.transducers.string(..)`](#fpostdtransducersstring)
 
 ----
 
@@ -1273,8 +1271,7 @@ A reducer function. For transducing purposes, a combination function that takes 
 	// false
 	```
 
-* **See Also:** [`FPO.std.transducers.array(..)`](#fpostdtransducersarray),
-* [`FPO.std.transducers.booleanAnd(..)`](#fpostdtransducersbooleanand), [`FPO.std.transducers.default(..)`](#fpostdtransducersdefault), [`FPO.std.transducers.number(..)`](#fpostdtransducersnumber), [`FPO.std.transducers.string(..)`](#fpostdtransducersstring)
+* **See Also:** [`FPO.std.transducers.array(..)`](#fpostdtransducersarray), [`FPO.std.transducers.booleanAnd(..)`](#fpostdtransducersbooleanand), [`FPO.std.transducers.default(..)`](#fpostdtransducersdefault), [`FPO.std.transducers.number(..)`](#fpostdtransducersnumber), [`FPO.std.transducers.string(..)`](#fpostdtransducersstring)
 
 ----
 
@@ -1297,8 +1294,7 @@ A reducer function. For transducing purposes, a combination function that's a de
 	// 3
 	```
 
-* **See Also:** [`FPO.std.transducers.array(..)`](#fpostdtransducersarray),
-* [`FPO.std.transducers.booleanAnd(..)`](#fpostdtransducersbooleanand), [`FPO.std.transducers.booleanOr(..)`](#fpostdtransducersbooleanOr), [`FPO.std.transducers.number(..)`](#fpostdtransducersnumber), [`FPO.std.transducers.string(..)`](#fpostdtransducersstring), [`FPO.std.identity(..)`](#fpostdidentity)
+* **See Also:** [`FPO.std.transducers.array(..)`](#fpostdtransducersarray), [`FPO.std.transducers.booleanAnd(..)`](#fpostdtransducersbooleanand), [`FPO.std.transducers.booleanOr(..)`](#fpostdtransducersbooleanOr), [`FPO.std.transducers.number(..)`](#fpostdtransducersnumber), [`FPO.std.transducers.string(..)`](#fpostdtransducersstring), [`FPO.std.identity(..)`](#fpostdidentity)
 
 ----
 
@@ -1450,8 +1446,7 @@ A reducer function. For transducing purposes, a combination function that adds t
 	// 7
 	```
 
-* **See Also:** [`FPO.std.transducers.array(..)`](#fpostdtransducersarray),
-* [`FPO.std.transducers.booleanAnd(..)`](#fpostdtransducersbooleanand), [`FPO.std.transducers.booleanOr(..)`](#fpostdtransducersbooleanOr), [`FPO.std.transducers.default(..)`](#fpostdtransducersdefault), [`FPO.std.transducers.string(..)`](#fpostdtransducersstring)
+* **See Also:** [`FPO.std.transducers.array(..)`](#fpostdtransducersarray), [`FPO.std.transducers.booleanAnd(..)`](#fpostdtransducersbooleanand), [`FPO.std.transducers.booleanOr(..)`](#fpostdtransducersbooleanOr), [`FPO.std.transducers.default(..)`](#fpostdtransducersdefault), [`FPO.std.transducers.string(..)`](#fpostdtransducersstring)
 
 ----
 
@@ -1474,8 +1469,7 @@ A reducer function. For transducing purposes, a combination function that concat
 	// "helloworld"
 	```
 
-* **See Also:** [`FPO.std.transducers.array(..)`](#fpostdtransducersarray),
-* [`FPO.std.transducers.booleanAnd(..)`](#fpostdtransducersbooleanand), [`FPO.std.transducers.booleanOr(..)`](#fpostdtransducersbooleanOr), [`FPO.std.transducers.default(..)`](#fpostdtransducersdefault), [`FPO.std.transducers.number(..)`](#fpostdtransducersnumber)
+* **See Also:** [`FPO.std.transducers.array(..)`](#fpostdtransducersarray), [`FPO.std.transducers.booleanAnd(..)`](#fpostdtransducersbooleanand), [`FPO.std.transducers.booleanOr(..)`](#fpostdtransducersbooleanOr), [`FPO.std.transducers.default(..)`](#fpostdtransducersdefault), [`FPO.std.transducers.number(..)`](#fpostdtransducersnumber)
 
 ----
 
