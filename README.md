@@ -36,15 +36,15 @@ This library uses ES6+ features. If you need to support ES<=5 environments, tran
 // the classic/traditional method style
 // (on the `FPO.std.*` namespace)
 FPO.std.reduce(
-	(acc,v) => acc + v,
-	undefined,
-	[3,7,9]
+    (acc,v) => acc + v,
+    undefined,
+    [3,7,9]
 );  // 19
 
 // FPO named-argument method style
 FPO.reduce({
-	arr: [3,7,9],
-	fn: ({acc,v}) => acc + v
+    arr: [3,7,9],
+    fn: ({acc,v}) => acc + v
 }); // 19
 ```
 
@@ -75,9 +75,9 @@ Phew, that's a lot of argument juggling! FPO eliminates all that noisy distracti
 * See [Core API](docs/core-API.md) for documentation on all the methods in the `FPO.*` namespace.
 * See [Standard API](docs/std-API.md) for documenation on the methods in the `FPO.std.*` namespace.
 
-	All core methods have a standard positional-parameter form available under the `FPO.std.*` namespace. In many respects, their conceptual behavior is the same, but in some cases there's some differences to be aware of.
+    All core methods have a standard positional-parameter form available under the `FPO.std.*` namespace. In many respects, their conceptual behavior is the same, but in some cases there's some differences to be aware of.
 
-	There are also a few methods on the `FPO.std.*` namespace that have no equivalent in the core API as they are unnecessary or don't make sense.
+    There are also a few methods on the `FPO.std.*` namespace that have no equivalent in the core API as they are unnecessary or don't make sense.
 
 ## Adapting
 
@@ -88,8 +88,8 @@ What if you have a traditional parameter-style function you want to use with one
 function add(acc,v) { return acc + v; }
 
 FPO.reduce({
-	arr: [3,7,9],
-	fn: FPO.apply( {fn: add} )
+    arr: [3,7,9],
+    fn: FPO.apply( {fn: add} )
 });  // 19
 ```
 
@@ -102,9 +102,9 @@ function ajax(url,cb) { .. }
 
 // our object-parameter style function
 function onResponse({ resp, err }) {
-	if (!err) {
-		console.log( resp );
-	}
+    if (!err) {
+        console.log( resp );
+    }
 }
 
 // adapt `ajax(..)` to accept named arguments
@@ -112,13 +112,13 @@ var request = FPO.apply( {fn: ajax} );
 
 // now we can provide arguments in any order!
 request({
-	cb:
-		// adapt the object-parameter style `onResponse(..)`
-		// to work as a standard positional-argument function, as
-		// expected by `ajax(..)`
-		FPO.unapply( {fn: onResponse, props:["err","resp"]} ),
+    cb:
+        // adapt the object-parameter style `onResponse(..)`
+        // to work as a standard positional-argument function, as
+        // expected by `ajax(..)`
+        FPO.unapply( {fn: onResponse, props:["err","resp"]} ),
 
-	url: "http://some.url"
+    url: "http://some.url"
 });
 ```
 
@@ -141,8 +141,8 @@ The problem here is that [`FPO.map(..)`](docs/core-API.md#fpomap) expects to cal
 function uppercase({ str }) { return str.toUpperCase(); }
 
 FPO.map( {
-	fn: FPO.remap( {fn: uppercase, args: {str: "v"}} ),
-	arr: ["hello","world"]
+    fn: FPO.remap( {fn: uppercase, args: {str: "v"}} ),
+    arr: ["hello","world"]
 } );
 // ["HELLO","WORLD"]
 ```
@@ -178,7 +178,7 @@ Some exceptions to these naming conventions:
 * [`FPO.transduce(..)`](docs/core-API.md#fpotransduce) expects: `fn` (transducer function), `co` (combination function), `v` (initial value), `arr` (array).
 * [`FPO.compose(..)`](docs/core-API.md#fpocompose) and [`FPO.pipe(..)`](core.API.md#fpopipe) produce functions that expect a `{ v: .. }` object argument. These utilities further assume that each function in the composition expects the output of the previous function to be rewrapped in a `{ v: .. }`-style object argument.
 
-	This also applies to transducers. [`FPO.transducers.filter(..)`](docs/core-API.md#fpotransducersfilter) and [`FPO.transducers.map(..)`](docs/core-API.md#fpotransducersmap), whether composed together or used standalone, are curried to expect the combination function to be passed to them as a `{ v: .. }`-style object argument.
+    This also applies to transducers. [`FPO.transducers.filter(..)`](docs/core-API.md#fpotransducersfilter) and [`FPO.transducers.map(..)`](docs/core-API.md#fpotransducersmap), whether composed together or used standalone, are curried to expect the combination function to be passed to them as a `{ v: .. }`-style object argument.
 * [`FPO.reassoc(..)`](docs/core-API.md#fporeassoc) expects: `props` (object with `sourceProp: targetProp` remapping key/value pairs), `v` (object)
 
 ## Arity
