@@ -1,9 +1,9 @@
-# FPO.js
+# FPO
 
 [![Build Status](https://travis-ci.org/getify/fpo.svg?branch=master)](https://travis-ci.org/getify/fpo)
 [![npm Module](https://badge.fury.io/js/fpo.svg)](https://www.npmjs.org/package/fpo)
 [![Dependencies](https://david-dm.org/getify/fpo.svg)](https://david-dm.org/getify/fpo)
-[![devDependencies](https://david-dm.org/getify/fpo/dev-status.svg)](https://david-dm.org/getify/fpo)
+[![devDependencies](https://david-dm.org/getify/fpo/dev-status.svg)](https://david-dm.org/getify/fpo?type=dev)
 [![Coverage Status](https://coveralls.io/repos/github/getify/fpo/badge.svg?branch=master)](https://coveralls.io/github/getify/fpo?branch=master)
 
 FPO (/ˈefpō/) is an FP Library for JavaScript. The main aesthetic difference is that the [`FPO.*` core API methods](docs/core-API.md) are all styled to use named-arguments (object parameter destructuring) instead of individual positional arguments.
@@ -210,7 +210,7 @@ The distribution library file (`dist/fpo.js`) comes pre-built with the npm packa
 
 However, if you download this repository via Git:
 
-1. The included build utility (`scripts/build-core.js`) builds (and ~~minifies~~) `dist/fpo.js` from source. **Note:** Minification is currently disabled. **The build utility expects Node.js version 6+.**
+1. The included build utility (`scripts/build-core.js`) builds (and minifies) `dist/fpo.js` from source. **The build utility expects Node.js version 6+.**
 
 2. To install the build and test dependencies, run `npm install` from the project root directory.
 
@@ -282,4 +282,4 @@ istanbul cover scripts/node-tests.js
 
 ## License
 
-All code and documentation are (c) 2017 Kyle Simpson and released under the [MIT License](http://getify.mit-license.org/). A copy of the MIT License [is also included](LICENSE.txt).
+All code and documentation are (c) 2019 Kyle Simpson and released under the [MIT License](http://getify.mit-license.org/). A copy of the MIT License [is also included](LICENSE.txt).
