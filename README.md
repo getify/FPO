@@ -1,6 +1,6 @@
 # FPO
 
-[![Build Status](https://travis-ci.org/getify/fpo.svg?branch=master)](https://travis-ci.org/getify/fpo)
+[![Build Status](https://travis-ci.org/getify/FPO.svg?branch=master)](https://travis-ci.org/getify/FPO)
 [![npm Module](https://badge.fury.io/js/fpo.svg)](https://www.npmjs.org/package/fpo)
 [![Dependencies](https://david-dm.org/getify/fpo.svg)](https://david-dm.org/getify/fpo)
 [![devDependencies](https://david-dm.org/getify/fpo/dev-status.svg)](https://david-dm.org/getify/fpo?type=dev)
