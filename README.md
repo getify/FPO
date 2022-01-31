@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/getify/FPO.svg?branch=master)](https://travis-ci.org/getify/FPO)
 [![npm Module](https://badge.fury.io/js/fpo.svg)](https://www.npmjs.org/package/fpo)
-[![Dependencies](https://david-dm.org/getify/fpo.svg)](https://david-dm.org/getify/fpo)
-[![devDependencies](https://david-dm.org/getify/fpo/dev-status.svg)](https://david-dm.org/getify/fpo?type=dev)
 [![Coverage Status](https://coveralls.io/repos/github/getify/fpo/badge.svg?branch=master)](https://coveralls.io/github/getify/fpo?branch=master)
+[![Modules](https://img.shields.io/badge/modules-UMD%2BCJS-a1356a)](https://nodejs.org/api/packages.html#dual-commonjses-module-packages)
+[![License](https://img.shields.io/badge/license-MIT-a1356a)](LICENSE.txt)
 
 FPO (/ˈefpō/) is an FP Library for JavaScript. The main aesthetic difference is that the [`FPO.*` core API methods](docs/core-API.md) are all styled to use named-arguments (object parameter destructuring) instead of individual positional arguments.
 
@@ -281,5 +281,7 @@ istanbul cover scripts/node-tests.js
 **Note:** The npm script `coverage:report` is only intended for use by project maintainers. It sends coverage reports to [Coveralls](https://coveralls.io/).
 
 ## License
+
+[![License](https://img.shields.io/badge/license-MIT-a1356a)](LICENSE.txt)
 
 All code and documentation are (c) 2019 Kyle Simpson and released under the [MIT License](http://getify.mit-license.org/). A copy of the MIT License [is also included](LICENSE.txt).
