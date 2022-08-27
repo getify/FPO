@@ -1,6 +1,6 @@
 {
 	"name": "fpo",
-	"version": "6.1.10",
+	"version": "6.1.11",
 	"description": "FP library for JavaScript. Supports named-argument style methods.",
 	"main": "./dist/fpo.js",
 	"scripts": {
@@ -17,9 +17,9 @@
 		"publish": "npm run coverage:report"
 	},
 	"devDependencies": {
-		"coveralls": "~3.0.0",
-		"qunit": "~2.9.1",
-		"terser": "~3.14.1"
+		"coveralls": "~3.1.1",
+		"qunit": "~2.19.1",
+		"terser": "~5.15.0"
 	},
 	"repository": "getify/fpo",
 	"keywords": [
